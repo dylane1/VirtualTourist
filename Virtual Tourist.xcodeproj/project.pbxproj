@@ -286,6 +286,7 @@
 				A36C958A1D64D69200DED8DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
