@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A303878D1D6B8AF100018751 /* CustomPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30387881D6B893F00018751 /* CustomPresentation.framework */; };
 		A36C957A1D64D69200DED8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36C95791D64D69200DED8DB /* AppDelegate.swift */; };
 		A36C957C1D64D69200DED8DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36C957B1D64D69200DED8DB /* ViewController.swift */; };
 		A36C957F1D64D69200DED8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C957D1D64D69200DED8DB /* Main.storyboard */; };
@@ -14,7 +15,25 @@
 		A36C95841D64D69200DED8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C95821D64D69200DED8DB /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A30387871D6B893F00018751 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A36C95CA1D6521B100DED8DB;
+			remoteInfo = CustomPresentation;
+		};
+		A30387891D6B893F00018751 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A36C95D41D6521B100DED8DB;
+			remoteInfo = CustomPresentationTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CustomPresentation.xcodeproj; path = Frameworks/External/CustomPresentation/CustomPresentation.xcodeproj; sourceTree = SOURCE_ROOT; };
 		A36C95761D64D69200DED8DB /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36C95791D64D69200DED8DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A36C957B1D64D69200DED8DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,12 +48,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A303878D1D6B8AF100018751 /* CustomPresentation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A30387801D6B87A300018751 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A30387811D6B87B200018751 /* External */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A30387811D6B87B200018751 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				A303878B1D6B894700018751 /* CustomPresentation */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		A30387831D6B893F00018751 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A30387881D6B893F00018751 /* CustomPresentation.framework */,
+				A303878A1D6B893F00018751 /* CustomPresentationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A303878B1D6B894700018751 /* CustomPresentation */ = {
+			isa = PBXGroup;
+			children = (
+				A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */,
+			);
+			name = CustomPresentation;
+			sourceTree = "<group>";
+		};
 		A36C956D1D64D69200DED8DB = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +107,7 @@
 		A36C95781D64D69200DED8DB /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				A30387801D6B87A300018751 /* Frameworks */,
 				A36C95791D64D69200DED8DB /* AppDelegate.swift */,
 				A36C957B1D64D69200DED8DB /* ViewController.swift */,
 				A36C957D1D64D69200DED8DB /* Main.storyboard */,
@@ -111,12 +165,35 @@
 			mainGroup = A36C956D1D64D69200DED8DB;
 			productRefGroup = A36C95771D64D69200DED8DB /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A30387831D6B893F00018751 /* Products */;
+					ProjectRef = A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A36C95751D64D69200DED8DB /* Virtual Tourist */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A30387881D6B893F00018751 /* CustomPresentation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CustomPresentation.framework;
+			remoteRef = A30387871D6B893F00018751 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A303878A1D6B893F00018751 /* CustomPresentationTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CustomPresentationTests.xctest;
+			remoteRef = A30387891D6B893F00018751 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A36C95741D64D69200DED8DB /* Resources */ = {

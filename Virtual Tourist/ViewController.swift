@@ -7,9 +7,11 @@
 //
 
 import UIKit
+//import CustomPresentation
 
 class ViewController: UIViewController {
-
+    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
