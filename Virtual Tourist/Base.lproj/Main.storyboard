@@ -24,18 +24,36 @@
             </objects>
             <point key="canvasLocation" x="330" y="453"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="MapContainerView" customModule="Virtual_Tourist" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VrA-ms-31D">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                            </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Jd4-b1-cW0">
+                                <rect key="frame" x="150" y="262" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="VrA-ms-31D" secondAttribute="bottom" id="Cqm-cq-elm"/>
+                            <constraint firstItem="VrA-ms-31D" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MXf-S6-dx5"/>
+                            <constraint firstAttribute="trailing" secondItem="VrA-ms-31D" secondAttribute="trailing" id="bNS-wU-F2E"/>
+                            <constraint firstItem="VrA-ms-31D" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="g9U-RY-IXA"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="activityIndicator" destination="Jd4-b1-cW0" id="35d-aq-Ga7"/>
+                            <outlet property="mapView" destination="VrA-ms-31D" id="BJG-3d-Lib"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="s3e-Ez-pd3"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>

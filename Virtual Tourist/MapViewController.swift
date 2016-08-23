@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  Virtual Tourist
 //
 //  Created by Dylan Edwards on 8/17/16.
@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import CustomPresentation
+//import CustomPresentation
 
-class ViewController: UIViewController {
-    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
+class MapViewController: UIViewController {
+//    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
