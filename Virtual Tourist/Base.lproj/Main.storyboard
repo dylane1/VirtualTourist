@@ -8,7 +8,7 @@
         <!--Initial Nav Controller-->
         <scene sceneID="6q0-lb-cc8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SOk-nY-An8" userLabel="Initial Nav Controller" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SOk-nY-An8" userLabel="Initial Nav Controller" customClass="NavigationController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0PU-FE-Zo6">

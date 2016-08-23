@@ -35,8 +35,9 @@ struct Theme {
     static let activityIndicatorCircle1         = UIColor.timberGreen()
     
     /// Tab Bar / Navigation Bar
-    static let barTintColor             = UIColor.spanishGreen()
+    static let barTintColor             = UIColor.romance()
     static let tabBarItemUnselected     = UIColor.timberGreen()
+    static let navBarTitleColor         = UIColor.spanishGreen()
     
     /// Login
     static let loginScreenBGColor       = UIColor.spanishGreen()

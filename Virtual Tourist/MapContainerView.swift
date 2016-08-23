@@ -38,7 +38,7 @@ class MapContainerView: UIView {
     private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
         activityIndicator.color = Theme.activityIndicatorCircle1
-        activityIndicator.hidesWhenStopped = false
+        activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
     }
     
@@ -149,11 +149,11 @@ extension MapContainerView: MKMapViewDelegate {
 //        return nil
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let annotation = view.annotation// as! StudentLocationAnnotation
-//        openLinkClosure?(annotation.mediaURL)
-        openPhotoAlbum()
-    }
+//    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        let annotation = view.annotation// as! StudentLocationAnnotation
+////        openLinkClosure?(annotation.mediaURL)
+//        openPhotoAlbum()
+//    }
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         if !animatedPinsIn {

@@ -25,6 +25,8 @@ class MapViewController: UIViewController, SegueHandlerType {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
+        
+        configureNavigationController()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +34,13 @@ class MapViewController: UIViewController, SegueHandlerType {
         // Dispose of any resources that can be recreated.
     }
 
-
+    //MARK: - Configuration
+    
+    private func configureNavigationController() {
+        navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
+        
+        let navController = navigationController! as! NavigationController
+        navController.setNavigationBarAttributes(isAppTitle: true)
+    }
 }
 
