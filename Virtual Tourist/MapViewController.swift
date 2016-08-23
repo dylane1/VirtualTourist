@@ -9,12 +9,22 @@
 import UIKit
 //import CustomPresentation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, SegueHandlerType {
 //    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
+    /**
+     Admittedly this is silly for a single segue, but I want to standardize the
+     segue presentation process for all apps using SegueHandlerType protocol
+     */
+    enum SegueIdentifier: String {
+        case LoginComplete
+    }
+    
+    private var mapContainerView: MapContainerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        mapContainerView = view as! MapContainerView
     }
 
     override func didReceiveMemoryWarning() {

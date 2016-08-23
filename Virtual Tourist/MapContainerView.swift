@@ -37,8 +37,8 @@ class MapContainerView: UIView {
     //MARK: - Configuration
     private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
-        activityIndicator.color = Theme.activityIndicatorCircle0
-        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = Theme.activityIndicatorCircle1
+        activityIndicator.hidesWhenStopped = false
         activityIndicator.startAnimating()
     }
     
