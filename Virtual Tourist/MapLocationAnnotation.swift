@@ -9,7 +9,7 @@
 import MapKit
 import Foundation
 
-final class StudentLocationAnnotation: NSObject, MKAnnotation, ReusableView {
+final class MapLocationAnnotation: NSObject, MKAnnotation, ReusableView {
     internal let title: String?
     internal let mediaURL: String
     internal let locationName: String

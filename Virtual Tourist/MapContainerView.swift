@@ -68,33 +68,6 @@ class MapContainerView: UIView {
 //        }
     }
     
-    /**
-     Show a map image on top of map view while it loads so the user doesn't
-     see a blank map area
-     */
-//    private func configureMapImage() {
-//        preloadedMapImage.alpha = 0.0
-//        
-//        if !mapRendered {
-//            /// Need to determine map size & load correct image accordingly
-//            switch Constants.screenHeight {
-//            case Constants.DeviceScreenHeight.iPhone4s:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone4s)
-//            case Constants.DeviceScreenHeight.iPhone5:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone5)
-//            case Constants.DeviceScreenHeight.iPhone6:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6)
-//            default:
-//                /// iPhone6Plus
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6Plus)
-//            }
-//            preloadedMapImage.alpha = 1.0
-//        }
-//        
-//        activityIndicator.color = UIColor.ceSoir()
-//        activityIndicator.startAnimating()
-//    }
-    
     //MARK: - 
     internal func hangleLongPress(gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
@@ -181,27 +154,30 @@ extension MapContainerView: MKMapViewDelegate {
         placeAnnotations()
     }
 
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+    }
     
-//    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-//        
-////        if let annotation = annotation as? StudentLocationAnnotation {
-//            var pinView: MKAnnotationView
-//            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKAnnotationView.reuseIdentifier) as MKAnnotationView! {
-//                
-//                dequeuedView.annotation = annotation
-//                pinView = dequeuedView
-//            } else {
-//                pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKAnnotationView.reuseIdentifier)
-//                pinView.canShowCallout = true
-//                pinView.calloutOffset = CGPoint(x: -5, y: 5)
-////                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
-//                pinView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
-//            }
-//        print(pinView.annotation?.coordinate)
-//        return pinView
-////        }
-////        return nil
-//    }
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        
+//        if let annotation = annotation as? StudentLocationAnnotation {
+            var pinView: MKAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKAnnotationView.reuseIdentifier) as MKAnnotationView! {
+                
+                dequeuedView.annotation = annotation
+                pinView = dequeuedView
+            } else {
+                pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKAnnotationView.reuseIdentifier)
+                pinView.canShowCallout = true
+                pinView.calloutOffset = CGPoint(x: -5, y: 5)
+//                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
+                pinView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+            }
+        print(pinView.annotation?.coordinate)
+        return pinView
+//        }
+//        return nil
+    }
     
 //    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 //        let annotation = view.annotation// as! StudentLocationAnnotation
