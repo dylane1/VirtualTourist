@@ -32,6 +32,8 @@ class MapContainerView: UIView {
         mapView.delegate = self
 //        configureMapImage()
         configureActivityIndicator()
+        configureLongPressGestureRecognizer()
+        
     }
     
     //MARK: - Configuration
@@ -40,6 +42,15 @@ class MapContainerView: UIView {
         activityIndicator.color = Theme.activityIndicatorCircle1
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
+    }
+    
+    private func configureLongPressGestureRecognizer() {
+        let gestureRecognizer = UILongPressGestureRecognizer()
+        gestureRecognizer.addTarget(self, action: #selector(hangleLongPress(_:)))
+        
+        gestureRecognizer.minimumPressDuration = 0.5
+        
+        mapView.addGestureRecognizer(gestureRecognizer)
     }
     
     internal func configure(withOpenAlbumClosure closure: () -> Void) {
@@ -84,8 +95,50 @@ class MapContainerView: UIView {
 //        activityIndicator.startAnimating()
 //    }
     
+    //MARK: - 
+    internal func hangleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .Began:
+            addAnnotation(gestureRecognizer)
+            break
+        default:
+            ///Ended
+            break
+        }
+    }
+    
     
     //MARK: - Map View
+    private func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
+        let location = gestureRecognizer.locationInView(mapView)
+        let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+        
+//        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude), completionHandler: { (placemarks, error) -> Void in
+//            if error != nil {
+//                print("Reverse geocoder failed with error" + error!.localizedDescription)
+//                return
+//            }
+//            
+//            if placemarks.count > 0 {
+//                let pm = placemarks[0] as! CLPlacemark
+//                
+//                // not all places have thoroughfare & subThoroughfare so validate those values
+//                annotation.title = pm.thoroughfare + ", " + pm.subThoroughfare
+//                annotation.subtitle = pm.subLocality
+//                self.map.addAnnotation(annotation)
+//                println(pm)
+//            }
+//            else {
+//                annotation.title = "Unknown Place"
+//                self.map.addAnnotation(annotation)
+//                println("Problem with the data received from geocoder")
+//            }
+//            places.append(["name":annotation.title,"latitude":"\(newCoordinates.latitude)","longitude":"\(newCoordinates.longitude)"])
+//        })
+    }
     
     private func placeAnnotations() {
         
@@ -105,18 +158,18 @@ class MapContainerView: UIView {
 //        }
 //    }
     
-    private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
-        for annotation in views {
-            let endFrame = annotation.frame
-            annotation.frame = CGRectOffset(endFrame, 0, -500)
-            let duration = 0.3
-            
-            UIView.animateWithDuration(duration, animations: {
-                annotation.frame = endFrame
-            })
-        }
-        animatedPinsIn = true
-    }
+//    private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
+//        for annotation in views {
+//            let endFrame = annotation.frame
+//            annotation.frame = CGRectOffset(endFrame, 0, -500)
+//            let duration = 0.3
+//            
+//            UIView.animateWithDuration(duration, animations: {
+//                annotation.frame = endFrame
+//            })
+//        }
+//        animatedPinsIn = true
+//    }
 }
 
 extension MapContainerView: MKMapViewDelegate {
@@ -129,25 +182,26 @@ extension MapContainerView: MKMapViewDelegate {
     }
 
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        
-//        if let annotation = annotation as? StudentLocationAnnotation {
-            var pinView: MKAnnotationView
-            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKAnnotationView.reuseIdentifier) as MKAnnotationView! {
-                
-                dequeuedView.annotation = annotation
-                pinView = dequeuedView
-            } else {
-                pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKAnnotationView.reuseIdentifier)
-                pinView.canShowCallout = false
+//    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+//        
+////        if let annotation = annotation as? StudentLocationAnnotation {
+//            var pinView: MKAnnotationView
+//            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKAnnotationView.reuseIdentifier) as MKAnnotationView! {
+//                
+//                dequeuedView.annotation = annotation
+//                pinView = dequeuedView
+//            } else {
+//                pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKAnnotationView.reuseIdentifier)
+//                pinView.canShowCallout = true
 //                pinView.calloutOffset = CGPoint(x: -5, y: 5)
-//                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
+////                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
 //                pinView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
-            }
-        return pinView
-//        }
-//        return nil
-    }
+//            }
+//        print(pinView.annotation?.coordinate)
+//        return pinView
+////        }
+////        return nil
+//    }
     
 //    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 //        let annotation = view.annotation// as! StudentLocationAnnotation
@@ -155,10 +209,10 @@ extension MapContainerView: MKMapViewDelegate {
 //        openPhotoAlbum()
 //    }
     
-    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
-        if !animatedPinsIn {
-            animateAnnotationsWithAnnotationArray(views)
-        }
-        
-    }
+//    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+//        if !animatedPinsIn {
+//            animateAnnotationsWithAnnotationArray(views)
+//        }
+//        
+//    }
 }
