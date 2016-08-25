@@ -9,22 +9,13 @@
 import MapKit
 import Foundation
 
-final class MapLocationAnnotation: NSObject, MKAnnotation, ReusableView {
-    internal let title: String?
-    internal let mediaURL: String
-    internal let locationName: String
-    internal let coordinate: CLLocationCoordinate2D
+final class MapLocationAnnotation: NSObject, MKAnnotation {
+    internal var title: String? = ""
+    
+    /// coordiante must me 'dynamic' in order to update the location on the map
+    internal dynamic var coordinate = CLLocationCoordinate2D()
     
     internal var subtitle: String? {
-        return mediaURL
-    }
-    
-    init(title: String, mediaURL: String, locationName: String, coordinate: CLLocationCoordinate2D) {
-        self.title          = title
-        self.mediaURL       = mediaURL
-        self.locationName   = locationName
-        self.coordinate     = coordinate
-        
-        super.init()
+        return "foo fooo fooooo"
     }
 }

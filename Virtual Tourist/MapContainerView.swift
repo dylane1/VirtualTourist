@@ -14,14 +14,30 @@ class MapContainerView: UIView {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
+    //TODO: 
+    /**
+     1. Look for previously saved screenshot & load it, if one exists.
+     2. Clear set alpha to 0 when map tiles load.
+     3. Take a snapshot of map before exiting (going to photo album, or leaving app)
+     4. Save it to core data (replacing old)
+     
+     Considerations: 
+     
+     - What do do if user is in landscape mode? App will not open in landscape,
+       unless it's an iPhone 6 plus. (probably just don't save?)
+         - Can an user leave & return to an app in landscape mode if the app isn't closed?
+    */
     /// Use a preloaded image until map is renedered so user doesn't see empty map area
-//    @IBOutlet weak var preloadedMapImage: UIImageView!
+    @IBOutlet weak var preloadedMapImage: UIImageView!
+    
+    
     private var mapRendered = false
     
 //    private lazy var studentInfoProvider = StudentInformationProvider.sharedInstance
     
-//    private var annotations = [StudentLocationAnnotation]()
-//    
+    private var draggableAnnotation: MapLocationAnnotation?
+    private var annotations = [MapLocationAnnotation]()
+//
     private var openPhotoAlbum: (() -> Void)!
 //
     private var animatedPinsIn = false
@@ -33,7 +49,7 @@ class MapContainerView: UIView {
 //        configureMapImage()
         configureActivityIndicator()
         configureLongPressGestureRecognizer()
-        
+        configurePanGestureRecognizer()
     }
     
     //MARK: - Configuration
@@ -44,50 +60,113 @@ class MapContainerView: UIView {
         activityIndicator.startAnimating()
     }
     
+    /**
+     Show a map image on top of map view while it loads so the user doesn't
+     see a blank map area
+     */
+    private func configureMapImage() {
+        preloadedMapImage.alpha = 0.0
+        
+        if !mapRendered {
+            //TODO: Load image from core data
+            
+            
+//            /// Need to determine map size & load correct image accordingly
+//            switch Constants.screenHeight {
+//            case Constants.DeviceScreenHeight.iPhone4s:
+//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone4s)
+//            case Constants.DeviceScreenHeight.iPhone5:
+//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone5)
+//            case Constants.DeviceScreenHeight.iPhone6:
+//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6)
+//            default:
+//                /// iPhone6Plus
+//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6Plus)
+//            }
+            preloadedMapImage.alpha = 1.0
+        }
+        
+//        activityIndicator.color = UIColor.ceSoir()
+//        activityIndicator.startAnimating()
+    }
+    
     private func configureLongPressGestureRecognizer() {
         let gestureRecognizer = UILongPressGestureRecognizer()
         gestureRecognizer.addTarget(self, action: #selector(hangleLongPress(_:)))
         
         gestureRecognizer.minimumPressDuration = 0.5
-        
+        gestureRecognizer.allowableMovement     = 1000 // just set to huge number for now
         mapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    private func configurePanGestureRecognizer() {
+        let panGestureRecognizer = UIPanGestureRecognizer()
+        panGestureRecognizer.addTarget(self, action: #selector(handlePanGesture(_:)))
+        panGestureRecognizer.delegate = self
+        
+        mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
     internal func configure(withOpenAlbumClosure closure: () -> Void) {
         openPhotoAlbum = closure
         
         activityIndicator.startAnimating()
-        
-        /// clear for refresh
-//        clearAnnotations()
-        
-        animatedPinsIn = false
-        
-//        if mapRendered {
-//            placeAnnotations()
-//        }
     }
+    
+    
+    
+    
+    
     
     //MARK: - 
     internal func hangleLongPress(gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
         case .Began:
+            mapView.scrollEnabled = false
             addAnnotation(gestureRecognizer)
-            break
+        case .Ended:
+            mapView.scrollEnabled = true
+            draggableAnnotation = nil
         default:
-            ///Ended
+            ///Changed
             break
         }
     }
     
+    internal func handlePanGesture(gestureRecognizer: UIPanGestureRecognizer) {
+//        magic("")
+        if draggableAnnotation != nil {
+            let location = gestureRecognizer.locationInView(mapView)
+            let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+            draggableAnnotation!.coordinate = coordinate
+            
+        }
+    }
     
     //MARK: - Map View
+    
+    private func placeAnnotations() {
+        //TODO: Get annotations from Core Data
+        
+//        for item in studentInfoProvider.studentInformationArray! {
+//            let annotation = MapLocationAnnotation(locationName: item.mapString, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
+//            annotations.append(annotation)
+//        }
+
+        mapView.addAnnotations(annotations)
+        
+        activityIndicator.stopAnimating()
+    }
+    
+    
+    
     private func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
         let location = gestureRecognizer.locationInView(mapView)
         let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
+        draggableAnnotation = MapLocationAnnotation()
+        draggableAnnotation!.coordinate = coordinate
+//        annotations.append(draggableAnnotation!)
+        mapView.addAnnotation(draggableAnnotation!)
         
 //        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude), completionHandler: { (placemarks, error) -> Void in
 //            if error != nil {
@@ -113,17 +192,6 @@ class MapContainerView: UIView {
 //        })
     }
     
-    private func placeAnnotations() {
-        
-//        for item in studentInfoProvider.studentInformationArray! {
-//            let annotation = StudentLocationAnnotation(title: (item.firstName + " " + item.lastName), mediaURL: item.mediaURL,locationName: item.mapString, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
-//            annotations.append(annotation)
-//        }
-//        
-//        mapView.addAnnotations(annotations)
-        activityIndicator.stopAnimating()
-    }
-    
 //    internal func clearAnnotations() {
 //        if annotations.count > 0 {
 //            mapView.removeAnnotations(annotations)
@@ -131,18 +199,18 @@ class MapContainerView: UIView {
 //        }
 //    }
     
-//    private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
-//        for annotation in views {
-//            let endFrame = annotation.frame
-//            annotation.frame = CGRectOffset(endFrame, 0, -500)
-//            let duration = 0.3
-//            
-//            UIView.animateWithDuration(duration, animations: {
-//                annotation.frame = endFrame
-//            })
-//        }
-//        animatedPinsIn = true
-//    }
+    private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
+        for annotation in views {
+            let endFrame = annotation.frame
+            annotation.frame = CGRectOffset(endFrame, 0, -500)
+            let duration = 0.3
+            
+            UIView.animateWithDuration(duration, animations: {
+                annotation.frame = endFrame
+            })
+        }
+        animatedPinsIn = true
+    }
 }
 
 extension MapContainerView: MKMapViewDelegate {
@@ -155,28 +223,30 @@ extension MapContainerView: MKMapViewDelegate {
     }
 
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        
+        magic("")
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
-//        if let annotation = annotation as? StudentLocationAnnotation {
-            var pinView: MKAnnotationView
-            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKAnnotationView.reuseIdentifier) as MKAnnotationView! {
+        if let annotation = annotation as? MapLocationAnnotation {
+            var pinView: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKPinAnnotationView.reuseIdentifier) as! MKPinAnnotationView! {
                 
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKAnnotationView.reuseIdentifier)
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MKPinAnnotationView.reuseIdentifier)
                 pinView.canShowCallout = true
-                pinView.calloutOffset = CGPoint(x: -5, y: 5)
+                pinView.calloutOffset = CGPoint(x: -7, y: 5)
+                pinView.animatesDrop = true
+                
 //                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
                 pinView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
             }
-        print(pinView.annotation?.coordinate)
-        return pinView
-//        }
-//        return nil
+            print(pinView.annotation?.coordinate)
+            return pinView
+        }
+        return nil
     }
     
 //    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
@@ -192,3 +262,54 @@ extension MapContainerView: MKMapViewDelegate {
 //        
 //    }
 }
+
+extension MapContainerView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        // We only allow the (drag) gesture to continue if it is within a long press
+        if((gestureRecognizer is UIPanGestureRecognizer) && mapView.scrollEnabled) {
+            return false
+        }
+        return true
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

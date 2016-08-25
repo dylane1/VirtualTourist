@@ -9,4 +9,4 @@
 import UIKit
 import MapKit
 
-extension MKAnnotationView: ReusableView { }
+extension MKPinAnnotationView: ReusableView { }
