@@ -1,3 +1,6 @@
 [submodule "Frameworks/External/CustomPresentation"]
 	path = Frameworks/External/CustomPresentation
 	url = git@bitbucket.org:dylane1/custompresentation.git
+[submodule "Frameworks/External/Magic"]
+	path = Frameworks/External/Magic
+	url = git@github.com:dylane1/Magic.git
