@@ -37,7 +37,8 @@ class MapContainerView: UIView {
     
     private var draggableAnnotation: MapLocationAnnotation?
     private var annotations = [MapLocationAnnotation]()
-//
+    private var placemarks: [CLPlacemark]?
+    
     private var openPhotoAlbum: (() -> Void)!
 //
     private var animatedPinsIn = false
@@ -126,7 +127,7 @@ class MapContainerView: UIView {
             addAnnotation(gestureRecognizer)
         case .Ended:
             mapView.scrollEnabled = true
-            draggableAnnotation = nil
+            getAnnotationLocationName()
         default:
             ///Changed
             break
@@ -163,33 +164,13 @@ class MapContainerView: UIView {
     private func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
         let location = gestureRecognizer.locationInView(mapView)
         let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
-        draggableAnnotation = MapLocationAnnotation()
-        draggableAnnotation!.coordinate = coordinate
-//        annotations.append(draggableAnnotation!)
-        mapView.addAnnotation(draggableAnnotation!)
+        let annotation = MapLocationAnnotation()
+        annotation.coordinate = coordinate
+
+        annotations.append(annotation)
+        mapView.addAnnotation(annotation)
         
-//        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude), completionHandler: { (placemarks, error) -> Void in
-//            if error != nil {
-//                print("Reverse geocoder failed with error" + error!.localizedDescription)
-//                return
-//            }
-//            
-//            if placemarks.count > 0 {
-//                let pm = placemarks[0] as! CLPlacemark
-//                
-//                // not all places have thoroughfare & subThoroughfare so validate those values
-//                annotation.title = pm.thoroughfare + ", " + pm.subThoroughfare
-//                annotation.subtitle = pm.subLocality
-//                self.map.addAnnotation(annotation)
-//                println(pm)
-//            }
-//            else {
-//                annotation.title = "Unknown Place"
-//                self.map.addAnnotation(annotation)
-//                println("Problem with the data received from geocoder")
-//            }
-//            places.append(["name":annotation.title,"latitude":"\(newCoordinates.latitude)","longitude":"\(newCoordinates.longitude)"])
-//        })
+        draggableAnnotation = annotation
     }
     
 //    internal func clearAnnotations() {
@@ -198,6 +179,44 @@ class MapContainerView: UIView {
 //            annotations.removeAll()
 //        }
 //    }
+    
+    private func getAnnotationLocationName() {
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+            
+            if error != nil {
+                print("Reverse geocoder failed with error" + error!.localizedDescription)
+                return
+            }
+            
+            if placemarks?.count > 0 {
+                let pm = placemarks![0]
+                
+                var title = ""
+                
+                /// Go through in descending order of importance (IMO)
+                if pm.areasOfInterest != nil {
+                    /// Just go with first one, if there are multiple...
+                    title = pm.areasOfInterest![0]
+                } else if pm.name != nil {
+                    title = pm.name!
+                } else if pm.locality != nil {
+                    title = pm.locality!
+                } else if pm.administrativeArea != nil {
+                    title = pm.administrativeArea!
+                } else {
+                    title = "No info returned"
+                }
+                
+                self.draggableAnnotation!.title = title
+                
+                print(title)
+            }
+            else {
+                self.draggableAnnotation!.title = "Unknown Place"
+                print("Problem with the data received from geocoder")
+            }
+        })
+    }
     
     private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
         for annotation in views {
@@ -222,9 +241,9 @@ extension MapContainerView: MKMapViewDelegate {
         placeAnnotations()
     }
 
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        magic("")
-    }
+//    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+//        magic("")
+//    }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -249,18 +268,18 @@ extension MapContainerView: MKMapViewDelegate {
         return nil
     }
     
-//    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 //        let annotation = view.annotation// as! StudentLocationAnnotation
-////        openLinkClosure?(annotation.mediaURL)
-//        openPhotoAlbum()
-//    }
+//        openLinkClosure?(annotation.mediaURL)
+        openPhotoAlbum()
+    }
     
-//    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
-//        if !animatedPinsIn {
-//            animateAnnotationsWithAnnotationArray(views)
-//        }
-//        
-//    }
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        if !animatedPinsIn {
+            animateAnnotationsWithAnnotationArray(views)
+        }
+        
+    }
 }
 
 extension MapContainerView: UIGestureRecognizerDelegate {

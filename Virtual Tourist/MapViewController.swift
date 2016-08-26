@@ -25,6 +25,9 @@ class MapViewController: UIViewController, SegueHandlerType {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
+        mapContainerView.configure(withOpenAlbumClosure: {
+            magic("open me yo!")
+        })
         
         configureNavigationController()
     }
