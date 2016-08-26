@@ -16,7 +16,7 @@ class MapViewController: UIViewController, SegueHandlerType {
      segue presentation process for all apps using SegueHandlerType protocol
      */
     enum SegueIdentifier: String {
-        case LoginComplete
+        case OpenPhotoAlbum
     }
     
     private var mapContainerView: MapContainerView!
@@ -26,7 +26,7 @@ class MapViewController: UIViewController, SegueHandlerType {
         
         mapContainerView = view as! MapContainerView
         mapContainerView.configure(withOpenAlbumClosure: {
-            magic("open me yo!")
+            self.performSegueWithIdentifier(.OpenPhotoAlbum, sender: self)
         })
         
         configureNavigationController()
@@ -45,5 +45,19 @@ class MapViewController: UIViewController, SegueHandlerType {
         let navController = navigationController! as! NavigationController
         navController.setNavigationBarAttributes(isAppTitle: true)
     }
+    
+    
+    //MARK: - Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        /// Overkill for this situation, but would be useful for multiple seques
+        switch segueIdentifierForSegue(segue) {
+        case .OpenPhotoAlbum:
+            break
+            /// Setup
+//            mainTabBarController = segue.destinationViewController as? TabBarController
+        }
+    }
+    
 }
 
