@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 //import CustomPresentation
 
 class MapViewController: UIViewController, SegueHandlerType {
@@ -21,11 +22,16 @@ class MapViewController: UIViewController, SegueHandlerType {
     
     private var mapContainerView: MapContainerView!
     
+    private var locationTitle = ""
+    private var coordinate: CLLocationCoordinate2D!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
-        mapContainerView.configure(withOpenAlbumClosure: {
+        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (title, coordinate) in
+            self.locationTitle  = title
+            self.coordinate     = coordinate
             self.performSegueWithIdentifier(.OpenPhotoAlbum, sender: self)
         })
         
@@ -53,8 +59,10 @@ class MapViewController: UIViewController, SegueHandlerType {
         /// Overkill for this situation, but would be useful for multiple seques
         switch segueIdentifierForSegue(segue) {
         case .OpenPhotoAlbum:
-            break
             /// Setup
+            let vc = segue.destinationViewController as? PhotoAlbumViewController
+            
+            vc?.configure(withTitle: locationTitle, coordinate: coordinate)
 //            mainTabBarController = segue.destinationViewController as? TabBarController
         }
     }

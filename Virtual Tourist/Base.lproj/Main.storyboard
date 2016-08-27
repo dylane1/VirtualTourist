@@ -70,7 +70,7 @@
         <!--Photo Album-->
         <scene sceneID="hDo-Yk-ecm">
             <objects>
-                <viewController id="ldp-Sb-jfr" userLabel="Photo Album" sceneMemberID="viewController">
+                <viewController id="ldp-Sb-jfr" userLabel="Photo Album" customClass="PhotoAlbumViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kvq-2X-k3q"/>
                         <viewControllerLayoutGuide type="bottom" id="sZx-6e-Cg4"/>
@@ -172,9 +172,11 @@
                             </mask>
                         </variation>
                         <connections>
+                            <outlet property="heightConstraint" destination="Ne8-3e-hpR" id="T2e-Ga-a7z"/>
                             <outlet property="mapView" destination="mlG-4n-FG5" id="2Ew-MG-xXK"/>
                             <outlet property="photosCollectionView" destination="fhH-Mq-F2g" id="Br2-0O-9tO"/>
                             <outlet property="toolbar" destination="w7A-d0-Huz" id="PPf-fo-f6I"/>
+                            <outlet property="widthConstraint" destination="vxe-Xb-eKo" id="WPk-Cs-nXF"/>
                         </connections>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>

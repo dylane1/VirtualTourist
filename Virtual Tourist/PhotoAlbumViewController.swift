@@ -7,25 +7,34 @@
 //
 
 import UIKit
+import MapKit
 
 class PhotoAlbumViewController: UIViewController {
 
     private var photoAlbumView: PhotoAlbumView!
+    private var locationTitle = ""
+    private var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = locationTitle
+        
+        let navController = navigationController! as! NavigationController
+        navController.setNavigationBarAttributes(isAppTitle: false)
+        
         photoAlbumView = view as! PhotoAlbumView
+        
+        photoAlbumView.configure(withTitle: locationTitle, coordinate: coordinate)
     }
 
-   /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    
+    //MARK: - Configuration
+    
+    internal func configure(withTitle title: String, coordinate coord: CLLocationCoordinate2D) {
+        locationTitle   = title
+        coordinate      = coord
     }
-    */
 
 }

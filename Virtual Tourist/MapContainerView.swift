@@ -39,7 +39,7 @@ class MapContainerView: UIView {
     private var annotations = [MapLocationAnnotation]()
     private var placemarks: [CLPlacemark]?
     
-    private var openPhotoAlbum: (() -> Void)!
+    private var openPhotoAlbum: ((String, CLLocationCoordinate2D) -> Void)!
 //
     private var animatedPinsIn = false
     
@@ -108,7 +108,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    internal func configure(withOpenAlbumClosure closure: () -> Void) {
+    internal func configure(withOpenAlbumClosure closure: (String, CLLocationCoordinate2D) -> Void) {
         openPhotoAlbum = closure
         
         activityIndicator.startAnimating()
@@ -197,19 +197,18 @@ class MapContainerView: UIView {
                 if pm.areasOfInterest != nil {
                     /// Just go with first one, if there are multiple...
                     title = pm.areasOfInterest![0]
-                } else if pm.name != nil {
-                    title = pm.name!
                 } else if pm.locality != nil {
+                    /// The city
                     title = pm.locality!
                 } else if pm.administrativeArea != nil {
+                    /// The state
                     title = pm.administrativeArea!
                 } else {
-                    title = "No info returned"
+                    //TODO: localized
+                    title = "Unknown Place"
                 }
                 
                 self.draggableAnnotation!.title = title
-                
-                print(title)
             }
             else {
                 self.draggableAnnotation!.title = "Unknown Place"
@@ -269,9 +268,9 @@ extension MapContainerView: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        let annotation = view.annotation// as! StudentLocationAnnotation
+        let annotation = view.annotation as! MapLocationAnnotation
 //        openLinkClosure?(annotation.mediaURL)
-        openPhotoAlbum()
+        openPhotoAlbum(annotation.title!, annotation.coordinate)
     }
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
