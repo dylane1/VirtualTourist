@@ -12,8 +12,8 @@ class NavigationController: UINavigationController {
     
     internal func setNavigationBarAttributes(isAppTitle isTitle: Bool) {
         
-        navigationBar.barTintColor = Theme.barTintColor
-        navigationBar.tintColor    = Theme.buttonTint
+//        navigationBar.barTintColor = Theme.barTintColor
+        navigationBar.tintColor    = Theme.navBarTitleColor
         navigationBar.translucent  = true
         
         var titleLabelAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : Theme.navBarTitleColor]

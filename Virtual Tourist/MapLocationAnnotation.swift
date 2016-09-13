@@ -15,5 +15,5 @@ final class MapLocationAnnotation: NSObject, MKAnnotation {
     /// coordiante must me 'dynamic' in order to update the location on the map
     internal dynamic var coordinate = CLLocationCoordinate2D()
     
-    internal var subtitle: String?
+    
 }
