@@ -36,21 +36,57 @@ class PhotoAlbumView: UIView {
         coordinate = coord
         heightConstraint.constant = bounds.height * 0.25
         widthConstraint.constant = bounds.height * 0.33
-        magic("heightConstraint: \(heightConstraint); widthConstraint: \(widthConstraint)")
+        magic("coordinate: \(coordinate)")
+        
+        configureMapView()
+        configureCollectionView()
+        configureToolbar()
     }
     
     private func configureMapView() {
-//        mapView.frame = CGRect(x: mapView.bounds.origin.x, y: 0, width: bounds.width, height: bounds.height)
-//        let location            = placemarks?[0].location
-//        let regionRadius        = CLLocationDistance(54000)
-//        let coordinateRegion    = MKCoordinateRegionMakeWithDistance(location!.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-//        
-//        mapView.setRegion(coordinateRegion, animated: true)
-//        
-//        let annotation          = MKPointAnnotation()
-//        annotation.coordinate   = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
-//        
-//        mapView.addAnnotation(annotation)
+        let regionRadius        = CLLocationDistance(34000)
+        let coordinateRegion    = MKCoordinateRegionMakeWithDistance(coordinate, regionRadius * 2.0, regionRadius * 2.0)
+        
+        mapView.setRegion(coordinateRegion, animated: true)
+        
+        let annotation          = MKPointAnnotation()
+        annotation.coordinate   = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        mapView.addAnnotation(annotation)
     }
 
+    private func configureCollectionView() {
+        
+    }
+    
+    private func configureToolbar() {
+        var toolbarItemArray = [UIBarButtonItem]()
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        toolbarItemArray.append(flexSpace)
+        
+        let albumButton = UIBarButtonItem(
+            title: LocalizedStrings.ToolbarButtons.newCollection,
+            style: .Plain,
+            target: self,
+            action: #selector(newCollectionButtonTapped))
+        
+        toolbarItemArray.append(albumButton)
+        
+        toolbarItemArray.append(flexSpace)
+        
+        toolbar.setItems(toolbarItemArray, animated: false)
+        
+//        toolbar.barTintColor = Theme.darkBlue
+        toolbar.tintColor    = Theme.navBarTitleColor
+        toolbar.translucent  = true
+    }
+    
+    
+    internal func newCollectionButtonTapped() {
+        magic("oh yeah")
+    }
+    
+    
 }

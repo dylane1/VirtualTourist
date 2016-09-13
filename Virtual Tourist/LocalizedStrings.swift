@@ -12,5 +12,8 @@ struct LocalizedStrings {
     struct ViewControllerTitles {
         static let virtualTourist = NSLocalizedString("ViewControllerTitles.virtualTourist", value: "Virtual Tourist", comment: "")
     }
-
+    
+    struct ToolbarButtons {
+        static let newCollection = NSLocalizedString("ToolbarButtons.newCollection", value: "New Collection", comment: "")
+    }
 }
