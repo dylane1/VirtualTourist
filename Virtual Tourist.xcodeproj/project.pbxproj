@@ -17,7 +17,6 @@
 		A352EF601D6CF93A00225C50 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF5F1D6CF93A00225C50 /* SegueHandlerType.swift */; };
 		A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF611D6CFCB700225C50 /* LocalizedStrings.swift */; };
 		A352EF641D6D2F9400225C50 /* MapLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF631D6D2F9400225C50 /* MapLocationAnnotation.swift */; };
-		A352EF661D6F8F5B00225C50 /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF651D6F8F5B00225C50 /* Magic.swift */; };
 		A352EF6C1D70B9F500225C50 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF6B1D70B9F500225C50 /* PhotoAlbumViewController.swift */; };
 		A352EF6F1D70BA3200225C50 /* PhotoAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF6E1D70BA3200225C50 /* PhotoAlbumView.swift */; };
 		A36C957A1D64D69200DED8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36C95791D64D69200DED8DB /* AppDelegate.swift */; };
@@ -27,6 +26,7 @@
 		A36C95841D64D69200DED8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C95821D64D69200DED8DB /* LaunchScreen.storyboard */; };
 		A3C522C51D878937001C8F68 /* PhotoAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
+		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,6 @@
 		A352EF5F1D6CF93A00225C50 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		A352EF611D6CFCB700225C50 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		A352EF631D6D2F9400225C50 /* MapLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLocationAnnotation.swift; sourceTree = "<group>"; };
-		A352EF651D6F8F5B00225C50 /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Magic.swift; sourceTree = "<group>"; };
 		A352EF6B1D70B9F500225C50 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		A352EF6E1D70BA3200225C50 /* PhotoAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumView.swift; sourceTree = "<group>"; };
 		A36C95761D64D69200DED8DB /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +68,7 @@
 		A36C95851D64D69200DED8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewController.swift; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,7 +147,7 @@
 		A352EF671D6F8F6100225C50 /* Magic */ = {
 			isa = PBXGroup;
 			children = (
-				A352EF651D6F8F5B00225C50 /* Magic.swift */,
+				A3F69E101D89FA0300FFE37E /* Magic.swift */,
 			);
 			name = Magic;
 			sourceTree = "<group>";
@@ -319,8 +319,8 @@
 				A352EF561D6CEC8100225C50 /* ReusableView.swift in Sources */,
 				A36C957C1D64D69200DED8DB /* MapViewController.swift in Sources */,
 				A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */,
+				A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */,
 				A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */,
-				A352EF661D6F8F5B00225C50 /* Magic.swift in Sources */,
 				A352EF5B1D6CF47D00225C50 /* ColorSchemes.swift in Sources */,
 				A36C957A1D64D69200DED8DB /* AppDelegate.swift in Sources */,
 				A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */,
