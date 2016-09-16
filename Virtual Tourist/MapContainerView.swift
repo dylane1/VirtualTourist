@@ -201,7 +201,7 @@ class MapContainerView: UIView {
 //    }
     
     fileprivate func getAnnotationLocationName() {
-        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: Error?) -> Void in
             
             if error != nil {
                 print("Reverse geocoder failed with error" + error!.localizedDescription)
@@ -234,7 +234,7 @@ class MapContainerView: UIView {
                 self.draggableAnnotation!.title = "Unknown Place"
                 print("Problem with the data received from geocoder")
             }
-        } as! CLGeocodeCompletionHandler)
+        })
     }
     
     fileprivate func animateAnnotationsWithAnnotationArray(_ views: [MKAnnotationView]) {
