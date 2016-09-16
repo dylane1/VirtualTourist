@@ -20,10 +20,10 @@ class MapViewController: UIViewController, SegueHandlerType {
         case OpenPhotoAlbum
     }
     
-    private var mapContainerView: MapContainerView!
+    fileprivate var mapContainerView: MapContainerView!
     
-    private var locationTitle = ""
-    private var coordinate: CLLocationCoordinate2D!
+    fileprivate var locationTitle = ""
+    fileprivate var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class MapViewController: UIViewController, SegueHandlerType {
 
     //MARK: - Configuration
     
-    private func configureNavigationController() {
+    fileprivate func configureNavigationController() {
         navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
         
         let navController = navigationController! as! NavigationController
@@ -55,12 +55,12 @@ class MapViewController: UIViewController, SegueHandlerType {
     
     //MARK: - Segues
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /// Overkill for this situation, but would be useful for multiple seques
         switch segueIdentifierForSegue(segue) {
         case .OpenPhotoAlbum:
             /// Setup
-            let vc = segue.destinationViewController as? PhotoAlbumViewController
+            let vc = segue.destination as? PhotoAlbumViewController
             
             vc?.configure(withTitle: locationTitle, coordinate: coordinate)
 //            mainTabBarController = segue.destinationViewController as? TabBarController

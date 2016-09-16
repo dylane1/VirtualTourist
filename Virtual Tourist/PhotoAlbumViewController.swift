@@ -11,9 +11,9 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController {
 
-    private var photoAlbumView: PhotoAlbumView!
-    private var locationTitle = ""
-    private var coordinate: CLLocationCoordinate2D!
+    fileprivate var photoAlbumView: PhotoAlbumView!
+    fileprivate var locationTitle = ""
+    fileprivate var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
