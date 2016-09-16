@@ -8,6 +8,26 @@
 
 import MapKit
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MapContainerView: UIView {
 
@@ -31,17 +51,17 @@ class MapContainerView: UIView {
     @IBOutlet weak var preloadedMapImage: UIImageView!
     
     
-    private var mapRendered = false
+    fileprivate var mapRendered = false
     
 //    private lazy var studentInfoProvider = StudentInformationProvider.sharedInstance
     
-    private var draggableAnnotation: MapLocationAnnotation?
-    private var annotations = [MapLocationAnnotation]()
-    private var placemarks: [CLPlacemark]?
+    fileprivate var draggableAnnotation: MapLocationAnnotation?
+    fileprivate var annotations = [MapLocationAnnotation]()
+    fileprivate var placemarks: [CLPlacemark]?
     
-    private var openPhotoAlbum: ((String, CLLocationCoordinate2D) -> Void)!
+    fileprivate var openPhotoAlbum: ((String, CLLocationCoordinate2D) -> Void)!
 //
-    private var animatedPinsIn = false
+    fileprivate var animatedPinsIn = false
     
     //MARK: - View Lifecycle
     
@@ -54,8 +74,8 @@ class MapContainerView: UIView {
     }
     
     //MARK: - Configuration
-    private func configureActivityIndicator() {
-        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+    fileprivate func configureActivityIndicator() {
+        activityIndicator.activityIndicatorViewStyle = .whiteLarge
         activityIndicator.color = Theme.activityIndicatorCircle1
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
@@ -65,7 +85,7 @@ class MapContainerView: UIView {
      Show a map image on top of map view while it loads so the user doesn't
      see a blank map area
      */
-    private func configureMapImage() {
+    fileprivate func configureMapImage() {
         preloadedMapImage.alpha = 0.0
         
         if !mapRendered {
@@ -91,7 +111,7 @@ class MapContainerView: UIView {
 //        activityIndicator.startAnimating()
     }
     
-    private func configureLongPressGestureRecognizer() {
+    fileprivate func configureLongPressGestureRecognizer() {
         let gestureRecognizer = UILongPressGestureRecognizer()
         gestureRecognizer.addTarget(self, action: #selector(hangleLongPress(_:)))
         
@@ -100,7 +120,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(gestureRecognizer)
     }
     
-    private func configurePanGestureRecognizer() {
+    fileprivate func configurePanGestureRecognizer() {
         let panGestureRecognizer = UIPanGestureRecognizer()
         panGestureRecognizer.addTarget(self, action: #selector(handlePanGesture(_:)))
         panGestureRecognizer.delegate = self
@@ -108,7 +128,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    internal func configure(withOpenAlbumClosure closure: (String, CLLocationCoordinate2D) -> Void) {
+    internal func configure(withOpenAlbumClosure closure: @escaping (String, CLLocationCoordinate2D) -> Void) {
         openPhotoAlbum = closure
         
         activityIndicator.startAnimating()
@@ -120,13 +140,13 @@ class MapContainerView: UIView {
     
     
     //MARK: - 
-    internal func hangleLongPress(gestureRecognizer: UIGestureRecognizer) {
+    internal func hangleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
-        case .Began:
-            mapView.scrollEnabled = false
+        case .began:
+            mapView.isScrollEnabled = false
             addAnnotation(gestureRecognizer)
-        case .Ended:
-            mapView.scrollEnabled = true
+        case .ended:
+            mapView.isScrollEnabled = true
             getAnnotationLocationName()
         default:
             ///Changed
@@ -134,11 +154,11 @@ class MapContainerView: UIView {
         }
     }
     
-    internal func handlePanGesture(gestureRecognizer: UIPanGestureRecognizer) {
+    internal func handlePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
 //        magic("")
         if draggableAnnotation != nil {
-            let location = gestureRecognizer.locationInView(mapView)
-            let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+            let location = gestureRecognizer.location(in: mapView)
+            let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
             draggableAnnotation!.coordinate = coordinate
             
         }
@@ -146,7 +166,7 @@ class MapContainerView: UIView {
     
     //MARK: - Map View
     
-    private func placeAnnotations() {
+    fileprivate func placeAnnotations() {
         //TODO: Get annotations from Core Data
         
 //        for item in studentInfoProvider.studentInformationArray! {
@@ -161,9 +181,9 @@ class MapContainerView: UIView {
     
     
     
-    private func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
-        let location = gestureRecognizer.locationInView(mapView)
-        let coordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+    fileprivate func addAnnotation(_ gestureRecognizer: UIGestureRecognizer) {
+        let location = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         let annotation = MapLocationAnnotation()
         annotation.coordinate = coordinate
 
@@ -180,7 +200,7 @@ class MapContainerView: UIView {
 //        }
 //    }
     
-    private func getAnnotationLocationName() {
+    fileprivate func getAnnotationLocationName() {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
             
             if error != nil {
@@ -214,16 +234,16 @@ class MapContainerView: UIView {
                 self.draggableAnnotation!.title = "Unknown Place"
                 print("Problem with the data received from geocoder")
             }
-        })
+        } as! CLGeocodeCompletionHandler)
     }
     
-    private func animateAnnotationsWithAnnotationArray(views: [MKAnnotationView]) {
+    fileprivate func animateAnnotationsWithAnnotationArray(_ views: [MKAnnotationView]) {
         for annotation in views {
             let endFrame = annotation.frame
-            annotation.frame = CGRectOffset(endFrame, 0, -500)
+            annotation.frame = endFrame.offsetBy(dx: 0, dy: -500)
             let duration = 0.3
             
-            UIView.animateWithDuration(duration, animations: {
+            UIView.animate(withDuration: duration, animations: {
                 annotation.frame = endFrame
             })
         }
@@ -233,7 +253,7 @@ class MapContainerView: UIView {
 
 extension MapContainerView: MKMapViewDelegate {
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if mapRendered { return }
         mapRendered = true
 //        preloadedMapImage.alpha = 0.0
@@ -244,11 +264,11 @@ extension MapContainerView: MKMapViewDelegate {
 //        magic("")
 //    }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if let annotation = annotation as? MapLocationAnnotation {
             var pinView: MKPinAnnotationView
-            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(MKPinAnnotationView.reuseIdentifier) as! MKPinAnnotationView! {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: MKPinAnnotationView.reuseIdentifier) as! MKPinAnnotationView! {
                 
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
@@ -259,7 +279,7 @@ extension MapContainerView: MKMapViewDelegate {
                 pinView.animatesDrop = true
                 
 //                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
-                pinView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+                pinView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
             print(pinView.annotation?.coordinate)
             return pinView
@@ -267,13 +287,13 @@ extension MapContainerView: MKMapViewDelegate {
         return nil
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let annotation = view.annotation as! MapLocationAnnotation
 //        openLinkClosure?(annotation.mediaURL)
         openPhotoAlbum(annotation.title!, annotation.coordinate)
     }
     
-    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         if !animatedPinsIn {
             animateAnnotationsWithAnnotationArray(views)
         }
@@ -282,13 +302,13 @@ extension MapContainerView: MKMapViewDelegate {
 }
 
 extension MapContainerView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // We only allow the (drag) gesture to continue if it is within a long press
-        if((gestureRecognizer is UIPanGestureRecognizer) && mapView.scrollEnabled) {
+        if((gestureRecognizer is UIPanGestureRecognizer) && mapView.isScrollEnabled) {
             return false
         }
         return true

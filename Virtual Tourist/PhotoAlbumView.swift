@@ -15,7 +15,7 @@ class PhotoAlbumView: UIView {
     @IBOutlet weak var photosCollectionView: UICollectionView!
     @IBOutlet weak var toolbar: UIToolbar!
 
-    private var coordinate: CLLocationCoordinate2D!
+    fileprivate var coordinate: CLLocationCoordinate2D!
     
     /**
      Map View Constraints
@@ -43,7 +43,7 @@ class PhotoAlbumView: UIView {
         configureToolbar()
     }
     
-    private func configureMapView() {
+    fileprivate func configureMapView() {
         let regionRadius        = CLLocationDistance(34000)
         let coordinateRegion    = MKCoordinateRegionMakeWithDistance(coordinate, regionRadius * 2.0, regionRadius * 2.0)
         
@@ -55,20 +55,20 @@ class PhotoAlbumView: UIView {
         mapView.addAnnotation(annotation)
     }
 
-    private func configureCollectionView() {
+    fileprivate func configureCollectionView() {
         
     }
     
-    private func configureToolbar() {
+    fileprivate func configureToolbar() {
         var toolbarItemArray = [UIBarButtonItem]()
         
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         toolbarItemArray.append(flexSpace)
         
         let albumButton = UIBarButtonItem(
             title: LocalizedStrings.ToolbarButtons.newCollection,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(newCollectionButtonTapped))
         
@@ -80,7 +80,7 @@ class PhotoAlbumView: UIView {
         
 //        toolbar.barTintColor = Theme.darkBlue
         toolbar.tintColor    = Theme.navBarTitleColor
-        toolbar.translucent  = true
+        toolbar.isTranslucent  = true
     }
     
     

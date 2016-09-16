@@ -21,8 +21,8 @@ struct Constants {
     
     /// UI
     
-    static let screenHeight = UIScreen.mainScreen().bounds.height
-    static let screenWidth  = UIScreen.mainScreen().bounds.width
+    static let screenHeight = UIScreen.main.bounds.height
+    static let screenWidth  = UIScreen.main.bounds.width
     
     struct DeviceScreenHeight {
         static let iPhone4s: CGFloat    = 480
