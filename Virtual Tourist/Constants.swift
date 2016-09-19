@@ -9,6 +9,8 @@
 import UIKit
 
 struct Constants {
+    
+    
     /// Storyboard
     struct StoryBoardID {
         static let main                     = "Main"
@@ -39,11 +41,14 @@ struct Constants {
     }
     //MARK: - Network
     
-    struct Network {
-        static let udacitySignUpURL     = "https://www.udacity.com"
-        static let udacitySessionURL    = "https://www.udacity.com/api/session"
-        static let parseAppID           = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-        static let restAPIKey           = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+    struct Flickr {
+        static let key      = "446dfaa1521e824779ddb5cd32d363a4"
+        static let secret   = "53cc541820255f86"
+        
+//        static let udacitySignUpURL     = "https://www.udacity.com"
+//        static let udacitySessionURL    = "https://www.udacity.com/api/session"
+//        static let parseAppID           = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+//        static let restAPIKey           = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     }
     
     struct HTTPHeaderFieldValues {

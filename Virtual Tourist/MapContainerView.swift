@@ -234,6 +234,11 @@ class MapContainerView: UIView {
                 self.draggableAnnotation!.title = "Unknown Place"
                 print("Problem with the data received from geocoder")
             }
+            
+            let tempCompletion = { (images: [Image]?) in
+                magic("image: \(images)")
+            }
+            FlickrProvider.fetchImagesForLocation(CLLocation(latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude), withCompletion: tempCompletion)
         })
     }
     
@@ -307,7 +312,7 @@ extension MapContainerView: UIGestureRecognizerDelegate {
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        // We only allow the (drag) gesture to continue if it is within a long press
+        /// We only allow the (drag) gesture to continue if it is within a long press
         if((gestureRecognizer is UIPanGestureRecognizer) && mapView.isScrollEnabled) {
             return false
         }
