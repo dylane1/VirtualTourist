@@ -31,6 +31,10 @@
 		A3C522C51D878937001C8F68 /* PhotoAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
 		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
+		A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */; };
+		A3F71F311D91EE01004BD54E /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2D1D91EE01004BD54E /* Pin+CoreDataProperties.swift */; };
+		A3F71F321D91EE01004BD54E /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2E1D91EE01004BD54E /* Photo+CoreDataClass.swift */; };
+		A3F71F331D91EE01004BD54E /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2F1D91EE01004BD54E /* Photo+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +81,10 @@
 		A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewController.swift; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
+		A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3F71F2D1D91EE01004BD54E /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A3F71F2E1D91EE01004BD54E /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataClass.swift"; path = "../Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3F71F2F1D91EE01004BD54E /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataProperties.swift"; path = "../Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +184,10 @@
 			children = (
 				A357DF331D90C8B000FEC4D2 /* Model.xcdatamodeld */,
 				A368345B1D91C26F001D061D /* CoreDataStack.swift */,
+				A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */,
+				A3F71F2D1D91EE01004BD54E /* Pin+CoreDataProperties.swift */,
+				A3F71F2E1D91EE01004BD54E /* Photo+CoreDataClass.swift */,
+				A3F71F2F1D91EE01004BD54E /* Photo+CoreDataProperties.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -337,12 +349,16 @@
 				A352EF541D6CE9C600225C50 /* MapContainerView.swift in Sources */,
 				A357DF2E1D90A8B800FEC4D2 /* Image.swift in Sources */,
 				A352EF641D6D2F9400225C50 /* MapLocationAnnotation.swift in Sources */,
+				A3F71F311D91EE01004BD54E /* Pin+CoreDataProperties.swift in Sources */,
 				A352EF6C1D70B9F500225C50 /* PhotoAlbumViewController.swift in Sources */,
 				A352EF591D6CED4500225C50 /* Extensions.swift in Sources */,
+				A3F71F331D91EE01004BD54E /* Photo+CoreDataProperties.swift in Sources */,
+				A3F71F321D91EE01004BD54E /* Photo+CoreDataClass.swift in Sources */,
 				A352EF561D6CEC8100225C50 /* ReusableView.swift in Sources */,
 				A36C957C1D64D69200DED8DB /* MapViewController.swift in Sources */,
 				A357DF2C1D905B4500FEC4D2 /* FlickrProvider.swift in Sources */,
 				A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */,
+				A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */,
 				A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */,
 				A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */,
 				A352EF5B1D6CF47D00225C50 /* ColorSchemes.swift in Sources */,
