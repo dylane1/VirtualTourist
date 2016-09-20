@@ -63,7 +63,10 @@ struct FlickrProvider {
                     let server = photoElements["server"] as? String ?? ""
                     let title = photoElements["title"] as? String ?? ""
                     
-                    let image = Image(id: id, farm: farm, secret: secret, server: server, title: title)
+                    /// Build url
+                    let url = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_m.jpg"
+                    
+                    let image = Image(id: id, farm: farm, secret: secret, server: server, title: title, url: url)
                     return image
                 }
                 /// Get back on the main queue before returning the info

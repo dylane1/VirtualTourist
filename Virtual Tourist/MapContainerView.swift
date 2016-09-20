@@ -236,7 +236,11 @@ class MapContainerView: UIView {
             }
             
             let tempCompletion = { (images: [Image]?) in
-                magic("image: \(images)")
+                guard let images = images as [Image]! else { return }
+                
+                for image in images {
+                    magic("title: \(image.title); url: \(image.url)")
+                }
             }
             FlickrProvider.fetchImagesForLocation(CLLocation(latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude), withCompletion: tempCompletion)
         })

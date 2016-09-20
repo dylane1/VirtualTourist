@@ -14,4 +14,5 @@ struct Image {
     var secret  = ""
     var server  = ""
     var title   = ""
+    var url     = ""
 }
