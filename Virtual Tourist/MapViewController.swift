@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-//import CustomPresentation
+import CoreData
 
 class MapViewController: UIViewController, SegueHandlerType {
 //    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
@@ -24,6 +24,7 @@ class MapViewController: UIViewController, SegueHandlerType {
     
     fileprivate var locationTitle = ""
     fileprivate var coordinate: CLLocationCoordinate2D!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,33 @@ class MapViewController: UIViewController, SegueHandlerType {
         /// Overkill for this situation, but would be useful for multiple seques
         switch segueIdentifierForSegue(segue) {
         case .OpenPhotoAlbum:
+            
+//            /// Get photos for the location
+//            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+//            
+//            let indexPath = tableView.indexPathForSelectedRow!
+//            let pin = fetchedResultsController?.objectAtIndexPath(indexPath) as? Pin
+//            
+//            
+//            let pred = NSPredicate(format: "notebook = %@", argumentArray: [notebook!])
+//            
+//            fetchRequest.predicate = pred
+//            
+//            // Create FetchedResultsController
+//            let fc = NSFetchedResultsController(fetchRequest: fetchRequest,
+//                                                managedObjectContext:fetchedResultsController!.managedObjectContext,
+//                                                sectionNameKeyPath: "humanReadableAge",
+//                                                cacheName: nil)
+//            
+//            // Inject it into the notesVC
+//            notesVC.fetchedResultsController = fc
+//            
+//            // Inject the notebook too!
+//            notesVC.notebook = notebook
+            
+            
+            
+            
             /// Setup
             let vc = segue.destination as? PhotoAlbumViewController
             

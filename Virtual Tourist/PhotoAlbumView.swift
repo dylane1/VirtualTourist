@@ -56,7 +56,7 @@ class PhotoAlbumView: UIView {
     }
 
     fileprivate func configureCollectionView() {
-        
+        //TODO: Need to send the Pin & then the collection vc will perform the fetch
     }
     
     fileprivate func configureToolbar() {

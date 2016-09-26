@@ -10,4 +10,11 @@ import UIKit
 
 class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var imageView: UIImageView!
+    
+    //MARK: - Configuration
+    
+    internal func configure(withImageData data: NSData) {
+        
+    }
 }

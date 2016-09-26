@@ -60,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="930" y="453"/>
+            <point key="canvasLocation" x="930" y="452.5"/>
         </scene>
         <!--Photo Album-->
         <scene sceneID="hDo-Yk-ecm">
@@ -101,13 +101,22 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="M6r-Kd-DvR">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="M6r-Kd-DvR" customClass="PhotoAlbumCollectionViewCell" customModule="Virtual_Tourist" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="geX-0w-pTj">
+                                                            <frame key="frameInset" width="50" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                    </subviews>
                                                 </view>
+                                                <connections>
+                                                    <outlet property="imageView" destination="geX-0w-pTj" id="NTS-ou-xBK"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
@@ -153,11 +162,11 @@
                         </variation>
                         <variation key="heightClass=compact">
                             <mask key="constraints">
-                                <exclude reference="FtU-fr-D1x"/>
                                 <exclude reference="OIR-zC-2EK"/>
                                 <exclude reference="RCV-sl-JQN"/>
                                 <include reference="gTK-1i-Kxu"/>
                                 <include reference="jKf-pH-NLE"/>
+                                <exclude reference="FtU-fr-D1x"/>
                                 <include reference="hBW-Gd-sND"/>
                             </mask>
                         </variation>
@@ -172,7 +181,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uor-Nv-4AJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1633" y="453"/>
+            <point key="canvasLocation" x="1779.375" y="452.5"/>
         </scene>
     </scenes>
 </document>

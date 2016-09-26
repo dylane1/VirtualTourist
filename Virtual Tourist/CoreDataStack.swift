@@ -12,27 +12,27 @@ import CoreData
 struct CoreDataStack {
     
     // MARK:  - Properties
-    fileprivate let model : NSManagedObjectModel
-    fileprivate let coordinator : NSPersistentStoreCoordinator
-    fileprivate let modelURL : NSURL
-    fileprivate let dbURL : NSURL
-    fileprivate let persistingContext : NSManagedObjectContext
-    fileprivate let backgroundContext : NSManagedObjectContext
+    fileprivate let model: NSManagedObjectModel
+    fileprivate let coordinator: NSPersistentStoreCoordinator
+    fileprivate let modelURL: NSURL
+    fileprivate let dbURL: NSURL
+    fileprivate let persistingContext: NSManagedObjectContext
+    fileprivate let backgroundContext: NSManagedObjectContext
     
-    let context : NSManagedObjectContext
+    let context: NSManagedObjectContext
     
     
     // MARK:  - Initializers
     init?(modelName: String){
         
-        // Assumes the model is in the main bundle
+        /// Assumes the model is in the main bundle
         guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
             print("Unable to find \(modelName)in the main bundle")
             return nil}
         
         self.modelURL = modelURL as NSURL
         
-        // Try to create the model from the URL
+        /// Try to create the model from the URL
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else{
             print("unable to create a model from \(modelURL)")
             return nil
@@ -41,18 +41,18 @@ struct CoreDataStack {
         
         
         
-        // Create the store coordinator
+        /// Create the store coordinator
         coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         
-        // Create a persistingContext (private queue) and a child one (main queue)
-        // create a context and add connect it to the coordinator
+        /// Create a persistingContext (private queue) and a child one (main queue)
         persistingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         persistingContext.persistentStoreCoordinator = coordinator
         
+        /// create a context and connect it to the coordinator
         context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.parent = persistingContext
         
-        // Create a background context child of main context
+        /// Create a background context child of main context
         backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         backgroundContext.parent = context
         
@@ -67,9 +67,10 @@ struct CoreDataStack {
         
         self.dbURL = docUrl.appendingPathComponent("model.sqlite") as NSURL
         
+        let options = [NSInferMappingModelAutomaticallyOption: true, NSMigratePersistentStoresAutomaticallyOption: true]
         
         do{
-            try addStoreCoordinator(storeType: NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)
+            try addStoreCoordinator(storeType: NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject : AnyObject]?)
             
         }catch{
             print("unable to add store at \(dbURL)")
@@ -164,18 +165,21 @@ extension CoreDataStack {
     
     func autoSave(delayInSeconds : Int){
         
-//        if delayInSeconds > 0 {
-//            print("Autosaving")
-//            save()
-//            
-//            let delayInNanoSeconds = UInt64(delayInSeconds) * NSEC_PER_SEC
-//            let time = DispatchTime.now(dispatch_time_t(DispatchTime.now), Int64(delayInNanoSeconds))
-//            
-//            dispatch_after(time, dispatch_get_main_queue(), {
-//                self.autoSave(delayInSeconds)
-//            })
-//            
-//        }
+        if delayInSeconds > 0 {
+            do {
+                try self.context.save()
+                print("Autosaving")
+            } catch {
+                print("Error while autosaving")
+            }
+            
+            let delayInNanoSeconds = UInt64(delayInSeconds) * NSEC_PER_SEC
+            let time = DispatchTime.now() + Double(Int64(delayInNanoSeconds)) / Double(NSEC_PER_SEC)
+            
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                self.autoSave(delayInSeconds: delayInSeconds)
+            }
+        }
     }
 }
 

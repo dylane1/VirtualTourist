@@ -8,25 +8,7 @@
 
 import MapKit
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
+import CoreData
 
 
 class MapContainerView: UIView {
@@ -54,6 +36,17 @@ class MapContainerView: UIView {
     fileprivate var mapRendered = false
     
 //    private lazy var studentInfoProvider = StudentInformationProvider.sharedInstance
+    fileprivate var fetchedResultsController : NSFetchedResultsController<NSFetchRequestResult>? {
+        didSet {
+//            // Whenever the frc changes, we execute the search and
+//            // reload the table
+//            fetchedResultsController?.delegate = self
+//            executeSearch()
+//            tableView.reloadData()
+        }
+    }
+    
+    
     
     fileprivate var draggableAnnotation: MapLocationAnnotation?
     fileprivate var annotations = [MapLocationAnnotation]()
@@ -68,12 +61,29 @@ class MapContainerView: UIView {
     override func didMoveToWindow() {
         mapView.delegate = self
 //        configureMapImage()
+        configureCoreData()
         configureActivityIndicator()
         configureLongPressGestureRecognizer()
         configurePanGestureRecognizer()
     }
     
     //MARK: - Configuration
+    
+    fileprivate func configureCoreData() {
+        // Get the stack
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = appDelegate.stack
+        
+        // Create a fetchrequest
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
+//        fr.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true),
+//                              NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // Create the FetchedResultsController
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }
+    
     fileprivate func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
         activityIndicator.color = Theme.activityIndicatorCircle1
@@ -208,7 +218,8 @@ class MapContainerView: UIView {
                 return
             }
             
-            if placemarks?.count > 0 {
+            if placemarks != nil && placemarks!.count > 0 {
+//            if placemarks?.count > 0 {
                 let pm = placemarks![0]
                 
                 var title = ""
@@ -235,14 +246,11 @@ class MapContainerView: UIView {
                 print("Problem with the data received from geocoder")
             }
             
-            let tempCompletion = { (images: [Image]?) in
-                guard let images = images as [Image]! else { return }
-                
-                for image in images {
-                    magic("title: \(image.title); url: \(image.url)")
-                }
-            }
-            FlickrProvider.fetchImagesForLocation(CLLocation(latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude), withCompletion: tempCompletion)
+            /// Create new Pin
+            let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.fetchedResultsController!.managedObjectContext)
+            
+            magic("pin: \(pin)")
+            
         })
     }
     
@@ -324,7 +332,9 @@ extension MapContainerView: UIGestureRecognizerDelegate {
     }
 }
 
-
+//extension MapContainerView: NSFetchedResultsControllerDelegate {
+//    
+//}
 
 
 

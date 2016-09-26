@@ -7,11 +7,22 @@
 //
 
 import UIKit
-
-private let reuseIdentifier = "Cell"
+import CoreData
 
 final class PhotoAlbumCollectionViewController: UICollectionViewController {
+    var photos = [NSManagedObject]()
+    
+    var fetchedResultsController: NSFetchedResultsController<Photo>? {
+        didSet{
+            // Whenever the frc changes, we execute the search and
+            // reload the table
+            fetchedResultsController?.delegate = self
+//            executeSearch()
+//            tableView.reloadData()
+        }
+    }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,7 +30,7 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }
@@ -29,6 +40,25 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    //MARK: - Configuration
+    internal func configure(withPin pin: Pin) {
+        /// Fetch?
+        
+        
+        /// Start getting images
+    
+    //        let tempCompletion = { (images: [Image]?) in
+    //            guard let images = images as [Image]! else { return }
+    //
+    //            for image in images {
+    //                magic("title: \(image.title); url: \(image.url)")
+    //            }
+    //        }
+    //        FlickrProvider.fetchImagesForLocation(CLLocation(latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude), withCompletion: tempCompletion)
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -42,21 +72,26 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
+        if fetchedResultsController?.fetchedObjects != nil {
+            return (fetchedResultsController?.fetchedObjects!.count)!
+        }
         return 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let photo = fetchedResultsController!.object(at: indexPath) 
+        
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as PhotoAlbumCollectionViewCell
     
         // Configure the cell
-    
+        cell.configure(withImageData: photo.imageData!)
+        
         return cell
     }
 
@@ -92,3 +127,9 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     */
 
 }
+
+extension PhotoAlbumCollectionViewController: NSFetchedResultsControllerDelegate {
+    
+}
+
+
