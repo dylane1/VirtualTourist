@@ -34,27 +34,20 @@ class MapContainerView: UIView {
     
     
     fileprivate var mapRendered = false
+    fileprivate var animatedPinsIn = false
     
-//    private lazy var studentInfoProvider = StudentInformationProvider.sharedInstance
-    fileprivate var fetchedResultsController : NSFetchedResultsController<NSFetchRequestResult>? {
-        didSet {
-//            // Whenever the frc changes, we execute the search and
-//            // reload the table
-//            fetchedResultsController?.delegate = self
-//            executeSearch()
-//            tableView.reloadData()
-        }
-    }
+
     
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private var stack: CoreDataStack! // = appDelegate.stack
     
-    
-    fileprivate var draggableAnnotation: MapLocationAnnotation?
-    fileprivate var annotations = [MapLocationAnnotation]()
-    fileprivate var placemarks: [CLPlacemark]?
+    private var draggableAnnotation: MapLocationAnnotation?
+    private var annotations = [MapLocationAnnotation]()
+    private var placemarks: [CLPlacemark]?
     
     fileprivate var openPhotoAlbum: ((String, CLLocationCoordinate2D) -> Void)!
 //
-    fileprivate var animatedPinsIn = false
+    
     
     //MARK: - View Lifecycle
     
@@ -71,17 +64,15 @@ class MapContainerView: UIView {
     
     fileprivate func configureCoreData() {
         // Get the stack
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = appDelegate.stack
+        stack = appDelegate.stack
         
         // Create a fetchrequest
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
-//        fr.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true),
-//                              NSSortDescriptor(key: "creationDate", ascending: false)]
+//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        // Create the FetchedResultsController
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+//        // Create the FetchedResultsController
+//        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     fileprivate func configureActivityIndicator() {
@@ -247,10 +238,11 @@ class MapContainerView: UIView {
             }
             
             /// Create new Pin
-            let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.fetchedResultsController!.managedObjectContext)
+            let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
             
             magic("pin: \(pin)")
             
+            //TODO: Hit FlickrProvider & create Photos (don't download images until user opens the album)
         })
     }
     
@@ -270,7 +262,7 @@ class MapContainerView: UIView {
 
 extension MapContainerView: MKMapViewDelegate {
     
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+    internal func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if mapRendered { return }
         mapRendered = true
 //        preloadedMapImage.alpha = 0.0
@@ -281,7 +273,7 @@ extension MapContainerView: MKMapViewDelegate {
 //        magic("")
 //    }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if let annotation = annotation as? MapLocationAnnotation {
             var pinView: MKPinAnnotationView
@@ -304,13 +296,13 @@ extension MapContainerView: MKMapViewDelegate {
         return nil
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let annotation = view.annotation as! MapLocationAnnotation
 //        openLinkClosure?(annotation.mediaURL)
         openPhotoAlbum(annotation.title!, annotation.coordinate)
     }
     
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+    internal func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         if !animatedPinsIn {
             animateAnnotationsWithAnnotationArray(views)
         }
@@ -319,7 +311,7 @@ extension MapContainerView: MKMapViewDelegate {
 }
 
 extension MapContainerView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    internal func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
@@ -331,10 +323,6 @@ extension MapContainerView: UIGestureRecognizerDelegate {
         return true
     }
 }
-
-//extension MapContainerView: NSFetchedResultsControllerDelegate {
-//    
-//}
 
 
 

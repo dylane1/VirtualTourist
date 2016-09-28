@@ -20,10 +20,10 @@ class MapViewController: UIViewController, SegueHandlerType {
         case OpenPhotoAlbum
     }
     
-    fileprivate var mapContainerView: MapContainerView!
+    private var mapContainerView: MapContainerView!
     
-    fileprivate var locationTitle = ""
-    fileprivate var coordinate: CLLocationCoordinate2D!
+    private var locationTitle = ""
+    private var coordinate: CLLocationCoordinate2D!
     
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class MapViewController: UIViewController, SegueHandlerType {
 
     //MARK: - Configuration
     
-    fileprivate func configureNavigationController() {
+    private func configureNavigationController() {
         navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
         
         let navController = navigationController! as! NavigationController
