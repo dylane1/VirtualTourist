@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 final class PhotoAlbumCollectionViewController: UICollectionViewController {
     var photos = [NSManagedObject]()
@@ -48,14 +49,14 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         
         /// Start getting images
     
-    //        let tempCompletion = { (images: [Image]?) in
-    //            guard let images = images as [Image]! else { return }
-    //
-    //            for image in images {
-    //                magic("title: \(image.title); url: \(image.url)")
-    //            }
-    //        }
-    //        FlickrProvider.fetchImagesForLocation(CLLocation(latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude), withCompletion: tempCompletion)
+        let tempCompletion = { (photos: [Photo]?) in
+            guard let photos = photos as [Photo]! else { return }
+
+            for photo in photos {
+                magic("title: \(photo.title)")
+            }
+        }
+        FlickrProvider.fetchImagesForPin(pin, withCompletion: tempCompletion)
     }
     
     

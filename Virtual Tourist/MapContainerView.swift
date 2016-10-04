@@ -39,13 +39,14 @@ class MapContainerView: UIView {
 
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var stack: CoreDataStack! // = appDelegate.stack
+    private var stack: CoreDataStack!
     
     private var draggableAnnotation: MapLocationAnnotation?
     private var annotations = [MapLocationAnnotation]()
+    private var pins = [Pin]()
     private var placemarks: [CLPlacemark]?
     
-    fileprivate var openPhotoAlbum: ((String, CLLocationCoordinate2D) -> Void)!
+    fileprivate var openPhotoAlbum: ((Pin) -> Void)!
 //
     
     
@@ -54,26 +55,17 @@ class MapContainerView: UIView {
     override func didMoveToWindow() {
         mapView.delegate = self
 //        configureMapImage()
-        configureCoreData()
+//        configureCoreData()
         configureActivityIndicator()
         configureLongPressGestureRecognizer()
         configurePanGestureRecognizer()
+        
+        fetchFromCoreData()
     }
     
     //MARK: - Configuration
     
-    fileprivate func configureCoreData() {
-        // Get the stack
-        stack = appDelegate.stack
-        
-        // Create a fetchrequest
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-        
-//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        
-//        // Create the FetchedResultsController
-//        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-    }
+   
     
     fileprivate func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
@@ -129,7 +121,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    internal func configure(withOpenAlbumClosure closure: @escaping (String, CLLocationCoordinate2D) -> Void) {
+    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void) {
         openPhotoAlbum = closure
         
         activityIndicator.startAnimating()
@@ -141,6 +133,28 @@ class MapContainerView: UIView {
     
     
     //MARK: - 
+    
+    fileprivate func fetchFromCoreData() {
+        // Get the stack
+        stack = appDelegate.stack
+        
+        // Create a fetchrequest
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        do {
+            pins = try stack.context.fetch(request) as! [Pin]
+            magic("pins: \(pins.count)")
+            placeAnnotations()
+        } catch {
+            magic("failed to fetch pins: \(error)")
+        }
+        
+    }
+    
+    
+    
     internal func hangleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began:
@@ -168,15 +182,18 @@ class MapContainerView: UIView {
     //MARK: - Map View
     
     fileprivate func placeAnnotations() {
-        //TODO: Get annotations from Core Data
+        if animatedPinsIn { return }
         
-//        for item in studentInfoProvider.studentInformationArray! {
-//            let annotation = MapLocationAnnotation(locationName: item.mapString, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
-//            annotations.append(annotation)
-//        }
+        for pin in pins {
+            let annotation = MapLocationAnnotation()
+            annotation.title = pin.title
+            annotation.pin = pin
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            annotations.append(annotation)
+        }
 
         mapView.addAnnotations(annotations)
-        
+        animatedPinsIn = true
         activityIndicator.stopAnimating()
     }
     
@@ -240,7 +257,11 @@ class MapContainerView: UIView {
             /// Create new Pin
             let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
             
+            self.draggableAnnotation?.pin = pin
+            
             magic("pin: \(pin)")
+            
+            self.stack.save()
             
             //TODO: Hit FlickrProvider & create Photos (don't download images until user opens the album)
         })
@@ -299,7 +320,7 @@ extension MapContainerView: MKMapViewDelegate {
     internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let annotation = view.annotation as! MapLocationAnnotation
 //        openLinkClosure?(annotation.mediaURL)
-        openPhotoAlbum(annotation.title!, annotation.coordinate)
+        openPhotoAlbum(annotation.pin)
     }
     
     internal func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {

@@ -11,9 +11,9 @@ import Foundation
 
 struct FlickrProvider {
     
-    static func fetchImagesForLocation(_ loc: CLLocation, withCompletion completion: @escaping ([Image]?) -> Void) {
-        let lat = loc.coordinate.latitude
-        let lon = loc.coordinate.longitude
+    static func fetchImagesForPin(_ pin: Pin, withCompletion completion: @escaping ([Photo]?) -> Void) {
+        let lat = pin.latitude
+        let lon = pin.longitude
         
         /// Build querey
         /**
@@ -56,7 +56,7 @@ struct FlickrProvider {
                     return
                 }
                 
-                let images = photoArray.map { photoElements -> Image in
+                let images = photoArray.map { photoElements -> Photo in
                     let id = photoElements["id"] as? String ?? ""
                     let farm = photoElements["farm"] as? Int ?? 0
                     let secret = photoElements["secret"] as? String ?? ""
@@ -66,8 +66,14 @@ struct FlickrProvider {
                     /// Build url
                     let url = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_m.jpg"
                     
-                    let image = Image(id: id, farm: farm, secret: secret, server: server, title: title, url: url)
-                    return image
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let stack = appDelegate.stack
+                    
+                    let photo = Photo(withId: Int16(id)!, title: title, url: url, pin: pin, context: stack.context)
+                    
+                    stack.save()
+                    
+                    return photo
                 }
                 /// Get back on the main queue before returning the info
                 DispatchQueue.main.async {

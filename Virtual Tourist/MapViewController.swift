@@ -24,15 +24,16 @@ class MapViewController: UIViewController, SegueHandlerType {
     
     private var locationTitle = ""
     private var coordinate: CLLocationCoordinate2D!
-    
+    private var selectedPin: Pin!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
-        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (title, coordinate) in
-            self.locationTitle  = title
-            self.coordinate     = coordinate
+        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (pin) in
+//            self.locationTitle  = title
+//            self.coordinate     = coordinate
+            self.selectedPin = pin
             self.performSegueWithIdentifier(.OpenPhotoAlbum, sender: self)
         })
         
@@ -61,37 +62,12 @@ class MapViewController: UIViewController, SegueHandlerType {
         switch segueIdentifierForSegue(segue) {
         case .OpenPhotoAlbum:
             
-//            /// Get photos for the location
-//            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
-//            
-//            let indexPath = tableView.indexPathForSelectedRow!
-//            let pin = fetchedResultsController?.objectAtIndexPath(indexPath) as? Pin
-//            
-//            
-//            let pred = NSPredicate(format: "notebook = %@", argumentArray: [notebook!])
-//            
-//            fetchRequest.predicate = pred
-//            
-//            // Create FetchedResultsController
-//            let fc = NSFetchedResultsController(fetchRequest: fetchRequest,
-//                                                managedObjectContext:fetchedResultsController!.managedObjectContext,
-//                                                sectionNameKeyPath: "humanReadableAge",
-//                                                cacheName: nil)
-//            
-//            // Inject it into the notesVC
-//            notesVC.fetchedResultsController = fc
-//            
-//            // Inject the notebook too!
-//            notesVC.notebook = notebook
-            
-            
-            
-            
+
             /// Setup
-            let vc = segue.destination as? PhotoAlbumViewController
+            let photoAlbumVC = segue.destination as? PhotoAlbumViewController
             
-            vc?.configure(withTitle: locationTitle, coordinate: coordinate)
-//            mainTabBarController = segue.destinationViewController as? TabBarController
+            photoAlbumVC?.configure(withTitle: locationTitle, coordinate: coordinate)
+
         }
     }
     
