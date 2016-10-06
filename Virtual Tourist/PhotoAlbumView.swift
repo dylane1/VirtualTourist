@@ -12,10 +12,11 @@ import MapKit
 class PhotoAlbumView: UIView {
 
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var photosCollectionView: UICollectionView!
+    @IBOutlet weak var photosCollectionView: PhotoAlbumCollectionViewController!
     @IBOutlet weak var toolbar: UIToolbar!
 
-    fileprivate var coordinate: CLLocationCoordinate2D!
+    private var pin: Pin!
+//    fileprivate var coordinate: CLLocationCoordinate2D!
     
     /**
      Map View Constraints
@@ -32,34 +33,37 @@ class PhotoAlbumView: UIView {
     
     //MARK: - Configuration
     
-    internal func configure(withTitle title: String, coordinate coord: CLLocationCoordinate2D) {
-        coordinate = coord
+    internal func configure(withPin pin: Pin) {
+        magic("ok")
+//        coordinate = pin.coordinate
+        self.pin = pin
+        
         heightConstraint.constant = bounds.height * 0.25
         widthConstraint.constant = bounds.height * 0.33
-        magic("coordinate: \(coordinate)")
+//        magic("coordinate: \(coordinate)")
         
         configureMapView()
         configureCollectionView()
         configureToolbar()
     }
     
-    fileprivate func configureMapView() {
+    private func configureMapView() {
         let regionRadius        = CLLocationDistance(34000)
-        let coordinateRegion    = MKCoordinateRegionMakeWithDistance(coordinate, regionRadius * 2.0, regionRadius * 2.0)
+        let annotation          = MKPointAnnotation()
+        annotation.coordinate   = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+        
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         
         mapView.setRegion(coordinateRegion, animated: true)
-        
-        let annotation          = MKPointAnnotation()
-        annotation.coordinate   = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         
         mapView.addAnnotation(annotation)
     }
 
-    fileprivate func configureCollectionView() {
-        //TODO: Need to send the Pin & then the collection vc will perform the fetch
+    private func configureCollectionView() {
+        photosCollectionView.configure(withPin: pin)
     }
     
-    fileprivate func configureToolbar() {
+    private func configureToolbar() {
         var toolbarItemArray = [UIBarButtonItem]()
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)

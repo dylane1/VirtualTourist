@@ -30,14 +30,14 @@ struct CoreDataStack {
         
         /// Assumes the model is in the main bundle
         guard let modURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
-            print("Unable to find \(modelName)in the main bundle")
+            magic("Unable to find \(modelName)in the main bundle")
             return nil
         }
         modelURL = modURL
         
         // Try to create the model from the URL
         guard let mod = NSManagedObjectModel(contentsOf: modelURL) else {
-            print("unable to create a model from \(modelURL)")
+            magic("Unable to create a model from \(modelURL)")
             return nil
         }
         model = mod
@@ -61,26 +61,26 @@ struct CoreDataStack {
         let fileManager = FileManager.default
         
         guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Unable to reach the documents folder")
+            magic("Unable to reach the documents folder")
             return nil
         }
         
         storeURL = documentsURL.appendingPathComponent("model.sqlite")
         
-        // Options for migration
+        /// Options for migration
         let options = [NSInferMappingModelAutomaticallyOption: true,NSMigratePersistentStoresAutomaticallyOption: true]
         
         do {
             try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: storeURL, options: options as [NSObject : AnyObject]?)
         } catch {
-            print("unable to add store at \(storeURL)")
+            magic("Unable to add store at \(storeURL)")
         }
     }
     
     // MARK: Utils
     
     func addStoreCoordinator(_ storeType: String, configuration: String?, storeURL store: URL, options : [NSObject:AnyObject]?) throws {
-        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: store, options: nil)
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: store, options: options)
     }
 }
 
@@ -157,9 +157,9 @@ extension CoreDataStack {
         if seconds > 0 {
             do {
                 try self.context.save()
-                print("Autosaving")
+                magic("Autosaving")
             } catch {
-                print("Error while autosaving")
+                magic("Error while autosaving")
             }
             
             let delayInNanoSeconds = UInt64(seconds) * NSEC_PER_SEC

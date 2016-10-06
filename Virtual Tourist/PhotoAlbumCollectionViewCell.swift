@@ -14,7 +14,7 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Configuration
     
-    internal func configure(withImageData data: NSData) {
-        
+    internal func configure(withURL url: String) {
+        magic("url: \(url)")
     }
 }

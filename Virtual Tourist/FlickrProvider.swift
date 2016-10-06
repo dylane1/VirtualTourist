@@ -68,9 +68,9 @@ struct FlickrProvider {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let stack = appDelegate.stack
-                    
-                    let photo = Photo(withId: Int16(id)!, title: title, url: url, pin: pin, context: stack.context)
-                    
+                    let intID = Int16(id)!
+                    let photo = Photo(withId: intID, title: title, url: url, pin: pin, context: stack.context)
+
                     stack.save()
                     
                     return photo

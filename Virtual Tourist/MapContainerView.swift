@@ -222,7 +222,7 @@ class MapContainerView: UIView {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: Error?) -> Void in
             
             if error != nil {
-                print("Reverse geocoder failed with error" + error!.localizedDescription)
+                magic("Reverse geocoder failed with error" + error!.localizedDescription)
                 return
             }
             
@@ -251,12 +251,13 @@ class MapContainerView: UIView {
             }
             else {
                 self.draggableAnnotation!.title = "Unknown Place"
-                print("Problem with the data received from geocoder")
+                magic("Problem with the data received from geocoder")
             }
             
             /// Create new Pin
             let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
             
+            //TODO: This is weird... Should I be storing a pin? Kinda need to rethink this
             self.draggableAnnotation?.pin = pin
             
             magic("pin: \(pin)")
@@ -311,7 +312,7 @@ extension MapContainerView: MKMapViewDelegate {
 //                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
                 pinView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
-            print(pinView.annotation?.coordinate)
+            magic(pinView.annotation?.coordinate)
             return pinView
         }
         return nil

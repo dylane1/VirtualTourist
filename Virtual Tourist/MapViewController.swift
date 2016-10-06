@@ -66,7 +66,7 @@ class MapViewController: UIViewController, SegueHandlerType {
             /// Setup
             let photoAlbumVC = segue.destination as? PhotoAlbumViewController
             
-            photoAlbumVC?.configure(withTitle: locationTitle, coordinate: coordinate)
+            photoAlbumVC?.configure(withPin: selectedPin)
 
         }
     }
