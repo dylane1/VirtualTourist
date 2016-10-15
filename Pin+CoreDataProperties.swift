@@ -2,7 +2,7 @@
 //  Pin+CoreDataProperties.swift
 //  Virtual Tourist
 //
-//  Created by Dylan Edwards on 10/4/16.
+//  Created by Dylan Edwards on 10/6/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
 //
 

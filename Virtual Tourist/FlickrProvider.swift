@@ -10,7 +10,7 @@ import MapKit
 import Foundation
 
 struct FlickrProvider {
-    
+    //TODO: Need to test empty image sets returned from flickr
     static func fetchImagesForPin(_ pin: Pin, withCompletion completion: @escaping ([Photo]?) -> Void) {
         let lat = pin.latitude
         let lon = pin.longitude
@@ -68,8 +68,8 @@ struct FlickrProvider {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let stack = appDelegate.stack
-                    let intID = Int16(id)!
-                    let photo = Photo(withId: intID, title: title, url: url, pin: pin, context: stack.context)
+                    
+                    let photo = Photo(withId: Int64(id)!, title: title, url: url, pin: pin, context: stack.context)
 
                     stack.save()
                     
@@ -86,5 +86,7 @@ struct FlickrProvider {
         }
         task.resume()
     }
+    
+    
     
 }

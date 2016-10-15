@@ -15,22 +15,13 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var stack: CoreDataStack!
     
-    var photos = [Photo]()
-    
-//    var fetchedResultsController: NSFetchedResultsController<Photo>? {
-//        didSet{
-//            // Whenever the frc changes, we execute the search and
-//            // reload the table
-//            fetchedResultsController?.delegate = self
-////            executeSearch()
-////            tableView.reloadData()
-//        }
-//    }
+    private var photoArray = [Photo]()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        magic("")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -48,8 +39,12 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     
     //MARK: - Configuration
     internal func configure(withPin pin: Pin) {
-        /// Fetch?
-        magic("")
+        /**
+         First, check to see if photos exist in database. If they don't, hit flickr
+        */
+        magic("pin.photos: \(pin.photos?.count)")
+        
+        
         
         /// Start getting images
     
@@ -57,15 +52,19 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
             guard let photos = photos as [Photo]! else { return }
 
             for photo in photos {
-                magic("title: \(photo.title); url: \(photo.url)")
+//                magic("title: \(photo.title); url: \(photo.url)")
+                self.photoArray.append(photo)
             }
             //TODO: Reload data for collection view
-            self.collectionView?.reloadData()
+//            magic("self.collectionView: \(self.collectionView)")
+//            self.collectionView?.reloadData()
         }
         FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
     }
     
-    
+    private func fetchFromCoreData() {
+        
+    }
     /*
     // MARK: - Navigation
 
@@ -95,7 +94,7 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         magic("")
 //        if photos.count == 0 { return nil }
         
-        let photo = photos[indexPath.row] //fetchedResultsController!.object(at: indexPath)
+        let photo = photoArray[indexPath.row] //fetchedResultsController!.object(at: indexPath)
         
         let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as PhotoAlbumCollectionViewCell
     

@@ -11,7 +11,7 @@ import CoreData
 
 
 public class Photo: NSManagedObject {
-    convenience init(withId id: Int16, title: String = "A Photo", url: String, pin: Pin, context: NSManagedObjectContext) {
+    convenience init(withId id: Int64, title: String = "A Photo", url: String, pin: Pin, context: NSManagedObjectContext) {
         
         if let ent = NSEntityDescription.entity(forEntityName: "Photo", in: context) {
             self.init(entity: ent, insertInto: context)
@@ -19,6 +19,7 @@ public class Photo: NSManagedObject {
             self.id         = id
             self.title      = title
             self.url        = url
+            self.pin        = pin
 //            self.imageData  = imageData
             
             return

@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import CoreData
+//import CoreData
 
 class MapViewController: UIViewController, SegueHandlerType {
 //    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?

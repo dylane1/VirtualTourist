@@ -12,7 +12,7 @@ import MapKit
 class PhotoAlbumView: UIView {
 
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var photosCollectionView: PhotoAlbumCollectionViewController!
+    @IBOutlet weak var photosCollectionView: PhotoAlbumCollectionView!
     @IBOutlet weak var toolbar: UIToolbar!
 
     private var pin: Pin!
