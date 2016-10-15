@@ -28,6 +28,7 @@ class PhotoAlbumCollectionView: UICollectionView {
     
     //MARK: - Configuration
     internal func configure(withPin pin: Pin) {
+        stack = appDelegate.stack
         /**
          First, check to see if photos exist in database. If they don't, hit flickr
          */
@@ -42,7 +43,8 @@ class PhotoAlbumCollectionView: UICollectionView {
                 guard let photos = photos as [Photo]! else { return }
                 
                 for photo in photos {
-                    magic("title: \(photo.title); url: \(photo.url)")
+                    self.checkForImageData(photo)
+//                    magic("title: \(photo.title); url: \(photo.url)")
 //                    self.photoArray.append(photo)
                 }
                 //TODO: Reload data for collection view
@@ -52,13 +54,25 @@ class PhotoAlbumCollectionView: UICollectionView {
             FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
         } else {
             for photo in pin.photos! {
-                let p = photo as! Photo
-                magic("p.title: \(p.url!)")
+                checkForImageData(photo as! Photo)
+//                let p = photo as! Photo
+//                magic("p.title: \(p.url!)")
             }
         }
         
     }
     
+    private func checkForImageData(_ photo: Photo) {
+        if photo.imageData != nil {
+            /// load image into cell
+            magic("data exists... imageData.bytes: \(photo.imageData?.bytes)")
+        } else {
+            let imageDataLoadedComplete = {
+                magic("download complete... imageData.bytes: \(photo.imageData?.bytes)")
+            }
+            FlickrProvider.fetchImageDataForPhoto(photo, withCompletion: imageDataLoadedComplete)
+        }
+    }
 //    private func fetchFromCoreData() {
 //        /// Get the stack
 //        stack = appDelegate.stack

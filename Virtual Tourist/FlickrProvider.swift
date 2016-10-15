@@ -32,9 +32,6 @@ struct FlickrProvider {
                     magic("NOPE... :( \nerror: \(error)")
                     
                     //self.presentErrorAlert(alertParameters: (title: LocalizedStrings.AlertTitles.error, message: error!.localizedDescription))
-                    
-                    
-                    
                 }
                 return
             }
@@ -87,6 +84,67 @@ struct FlickrProvider {
         task.resume()
     }
     
-    
+    static func fetchImageDataForPhoto(_ photo: Photo, withCompletion completion: @escaping () -> Void) {
+        let url = URL(string: photo.url!)!
+        
+        let session = URLSession.shared
+        
+        let task = session.downloadTask(with: url, completionHandler: { (location: URL?, response: URLResponse?, error: Error?) -> Void in
+            
+            guard let location = location, error == nil else {
+                magic("image data download error: \(error)")
+                return
+            }
+            
+            let httpResponse = response as! HTTPURLResponse
+            magic("httpResponse: \(httpResponse)")
+            
+            guard let data = try? Data(contentsOf: location) else {
+                magic("couldn't get data from locatoin")
+                return
+            }
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let stack = appDelegate.stack
+            
+            photo.imageData = data as NSData?
+            
+            stack.save()
+            
+            DispatchQueue.main.async {
+                completion()
+            }
+        })
+        task.resume()
+    }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
