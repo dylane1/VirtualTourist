@@ -34,7 +34,7 @@ class PhotoAlbumView: UIView {
     //MARK: - Configuration
     
     internal func configure(withPin pin: Pin) {
-        magic("ok")
+//        magic("ok")
 //        coordinate = pin.coordinate
         self.pin = pin
         

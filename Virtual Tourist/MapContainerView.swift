@@ -145,7 +145,7 @@ class MapContainerView: UIView {
         
         do {
             pins = try stack.context.fetch(request) as! [Pin]
-            magic("pins: \(pins.count)")
+//            magic("pins: \(pins.count)")
             placeAnnotations()
         } catch {
             magic("failed to fetch pins: \(error)")
@@ -260,7 +260,7 @@ class MapContainerView: UIView {
             //TODO: This is weird... Should I be storing a pin? Kinda need to rethink this
             self.draggableAnnotation?.pin = pin
             
-            magic("pin: \(pin)")
+//            magic("pin: \(pin)")
             
             self.stack.save()
             
@@ -312,7 +312,7 @@ extension MapContainerView: MKMapViewDelegate {
 //                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
                 pinView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
-            magic(pinView.annotation?.coordinate)
+//            magic(pinView.annotation?.coordinate)
             return pinView
         }
         return nil

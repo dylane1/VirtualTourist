@@ -96,8 +96,8 @@ struct FlickrProvider {
                 return
             }
             
-            let httpResponse = response as! HTTPURLResponse
-            magic("httpResponse: \(httpResponse)")
+//            let httpResponse = response as! HTTPURLResponse
+//            magic("httpResponse: \(httpResponse)")
             
             guard let data = try? Data(contentsOf: location) else {
                 magic("couldn't get data from locatoin")

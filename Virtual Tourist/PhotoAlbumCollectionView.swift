@@ -32,9 +32,9 @@ class PhotoAlbumCollectionView: UICollectionView {
         /**
          First, check to see if photos exist in database. If they don't, hit flickr
          */
-        magic("pin: \(pin.photos)")
+//        magic("pin: \(pin.photos)")
         
-        magic("pin.photos.count: \(pin.photos!.count)")
+//        magic("pin.photos.count: \(pin.photos!.count)")
 //        fetchFromCoreData()
         
         /// Start getting images
