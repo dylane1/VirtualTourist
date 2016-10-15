@@ -10,10 +10,10 @@ import MapKit
 import Foundation
 
 struct FlickrProvider {
-    
-    static func fetchImagesForLocation(_ loc: CLLocation, withCompletion completion: @escaping ([Image]?) -> Void) {
-        let lat = loc.coordinate.latitude
-        let lon = loc.coordinate.longitude
+    //TODO: Need to test empty image sets returned from flickr
+    static func fetchImagesForPin(_ pin: Pin, withCompletion completion: @escaping ([Photo]?) -> Void) {
+        let lat = pin.latitude
+        let lon = pin.longitude
         
         /// Build querey
         /**
@@ -32,9 +32,6 @@ struct FlickrProvider {
                     magic("NOPE... :( \nerror: \(error)")
                     
                     //self.presentErrorAlert(alertParameters: (title: LocalizedStrings.AlertTitles.error, message: error!.localizedDescription))
-                    
-                    
-                    
                 }
                 return
             }
@@ -56,7 +53,7 @@ struct FlickrProvider {
                     return
                 }
                 
-                let images = photoArray.map { photoElements -> Image in
+                let images = photoArray.map { photoElements -> Photo in
                     let id = photoElements["id"] as? String ?? ""
                     let farm = photoElements["farm"] as? Int ?? 0
                     let secret = photoElements["secret"] as? String ?? ""
@@ -66,8 +63,14 @@ struct FlickrProvider {
                     /// Build url
                     let url = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_m.jpg"
                     
-                    let image = Image(id: id, farm: farm, secret: secret, server: server, title: title, url: url)
-                    return image
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let stack = appDelegate.stack
+                    
+                    let photo = Photo(withId: Int64(id)!, title: title, url: url, pin: pin, context: stack.context)
+
+                    stack.save()
+                    
+                    return photo
                 }
                 /// Get back on the main queue before returning the info
                 DispatchQueue.main.async {
@@ -81,4 +84,67 @@ struct FlickrProvider {
         task.resume()
     }
     
+    static func fetchImageDataForPhoto(_ photo: Photo, withCompletion completion: @escaping () -> Void) {
+        let url = URL(string: photo.url!)!
+        
+        let session = URLSession.shared
+        
+        let task = session.downloadTask(with: url, completionHandler: { (location: URL?, response: URLResponse?, error: Error?) -> Void in
+            
+            guard let location = location, error == nil else {
+                magic("image data download error: \(error)")
+                return
+            }
+            
+//            let httpResponse = response as! HTTPURLResponse
+//            magic("httpResponse: \(httpResponse)")
+            
+            guard let data = try? Data(contentsOf: location) else {
+                magic("couldn't get data from locatoin")
+                return
+            }
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let stack = appDelegate.stack
+            
+            photo.imageData = data as NSData?
+            
+            stack.save()
+            
+            DispatchQueue.main.async {
+                completion()
+            }
+        })
+        task.resume()
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

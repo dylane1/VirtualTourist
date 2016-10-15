@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-//import CustomPresentation
+//import CoreData
 
 class MapViewController: UIViewController, SegueHandlerType {
 //    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
@@ -20,18 +20,20 @@ class MapViewController: UIViewController, SegueHandlerType {
         case OpenPhotoAlbum
     }
     
-    fileprivate var mapContainerView: MapContainerView!
+    private var mapContainerView: MapContainerView!
     
-    fileprivate var locationTitle = ""
-    fileprivate var coordinate: CLLocationCoordinate2D!
+    private var locationTitle = ""
+    private var coordinate: CLLocationCoordinate2D!
+    private var selectedPin: Pin!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
-        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (title, coordinate) in
-            self.locationTitle  = title
-            self.coordinate     = coordinate
+        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (pin) in
+//            self.locationTitle  = title
+//            self.coordinate     = coordinate
+            self.selectedPin = pin
             self.performSegueWithIdentifier(.OpenPhotoAlbum, sender: self)
         })
         
@@ -45,7 +47,7 @@ class MapViewController: UIViewController, SegueHandlerType {
 
     //MARK: - Configuration
     
-    fileprivate func configureNavigationController() {
+    private func configureNavigationController() {
         navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
         
         let navController = navigationController! as! NavigationController
@@ -59,11 +61,13 @@ class MapViewController: UIViewController, SegueHandlerType {
         /// Overkill for this situation, but would be useful for multiple seques
         switch segueIdentifierForSegue(segue) {
         case .OpenPhotoAlbum:
-            /// Setup
-            let vc = segue.destination as? PhotoAlbumViewController
             
-            vc?.configure(withTitle: locationTitle, coordinate: coordinate)
-//            mainTabBarController = segue.destinationViewController as? TabBarController
+
+            /// Setup
+            let photoAlbumVC = segue.destination as? PhotoAlbumViewController
+            
+            photoAlbumVC?.configure(withPin: selectedPin)
+
         }
     }
     

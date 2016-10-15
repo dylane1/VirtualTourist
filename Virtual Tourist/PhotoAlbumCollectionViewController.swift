@@ -7,19 +7,26 @@
 //
 
 import UIKit
-
-private let reuseIdentifier = "Cell"
+import CoreData
+import MapKit
 
 final class PhotoAlbumCollectionViewController: UICollectionViewController {
+    
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private var stack: CoreDataStack!
+    
+    private var photoArray = [Photo]()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        magic("")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }
@@ -29,6 +36,35 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    //MARK: - Configuration
+    internal func configure(withPin pin: Pin) {
+        /**
+         First, check to see if photos exist in database. If they don't, hit flickr
+        */
+        magic("pin.photos: \(pin.photos?.count)")
+        
+        
+        
+        /// Start getting images
+    
+        let flickrFetchCompletion = { (photos: [Photo]?) in
+            guard let photos = photos as [Photo]! else { return }
+
+            for photo in photos {
+//                magic("title: \(photo.title); url: \(photo.url)")
+                self.photoArray.append(photo)
+            }
+            //TODO: Reload data for collection view
+//            magic("self.collectionView: \(self.collectionView)")
+//            self.collectionView?.reloadData()
+        }
+        FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
+    }
+    
+    private func fetchFromCoreData() {
+        
+    }
     /*
     // MARK: - Navigation
 
@@ -42,21 +78,29 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
+//        if fetchedResultsController?.fetchedObjects != nil {
+//            return (fetchedResultsController?.fetchedObjects!.count)!
+//        }
         return 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        magic("")
+//        if photos.count == 0 { return nil }
+        
+        let photo = photoArray[indexPath.row] //fetchedResultsController!.object(at: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as PhotoAlbumCollectionViewCell
     
         // Configure the cell
-    
+        cell.configure(withURL: photo.url!)
+        
         return cell
     }
 
@@ -92,3 +136,5 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
     */
 
 }
+
+

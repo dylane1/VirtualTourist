@@ -11,30 +11,32 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController {
 
-    fileprivate var photoAlbumView: PhotoAlbumView!
-    fileprivate var locationTitle = ""
-    fileprivate var coordinate: CLLocationCoordinate2D!
+    private var photoAlbumView: PhotoAlbumView!
+    private var pin: Pin!
+//    fileprivate var locationTitle = ""
+//    fileprivate var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = locationTitle
+        title = pin.title!
         
         let navController = navigationController! as! NavigationController
         navController.setNavigationBarAttributes(isAppTitle: false)
         
         photoAlbumView = view as! PhotoAlbumView
         
-        photoAlbumView.configure(withTitle: locationTitle, coordinate: coordinate)
+        photoAlbumView.configure(withPin: pin)
     }
 
     
     
     //MARK: - Configuration
     
-    internal func configure(withTitle title: String, coordinate coord: CLLocationCoordinate2D) {
-        locationTitle   = title
-        coordinate      = coord
+    internal func configure(withPin pin: Pin) {
+        self.pin = pin
+//        locationTitle   = pin.title!
+//        coordinate      = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
     }
 
 }
