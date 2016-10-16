@@ -14,7 +14,12 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Configuration
     
-    internal func configure(withURL url: String) {
-        magic("url: \(url)")
+    internal func configure(withImageData imageData: NSData?) {
+        if imageData != nil {
+            magic("data for image is here...")
+            imageView.image = UIImage(data: imageData! as Data)
+        } else {
+            magic("no image data for cell")
+        }
     }
 }

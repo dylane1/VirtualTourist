@@ -90,19 +90,19 @@ final class PhotoAlbumCollectionViewController: UICollectionViewController {
         return 0
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        magic("")
-//        if photos.count == 0 { return nil }
-        
-        let photo = photoArray[indexPath.row] //fetchedResultsController!.object(at: indexPath)
-        
-        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as PhotoAlbumCollectionViewCell
-    
-        // Configure the cell
-        cell.configure(withURL: photo.url!)
-        
-        return cell
-    }
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        magic("")
+////        if photos.count == 0 { return nil }
+//        
+//        let photo = photoArray[indexPath.row] //fetchedResultsController!.object(at: indexPath)
+//        
+//        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as PhotoAlbumCollectionViewCell
+//    
+//        // Configure the cell
+//        cell.configure(withImageData: photo.url!)
+//        
+//        return cell
+//    }
 
     // MARK: UICollectionViewDelegate
 

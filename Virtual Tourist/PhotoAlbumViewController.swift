@@ -29,7 +29,11 @@ class PhotoAlbumViewController: UIViewController {
         photoAlbumView.configure(withPin: pin)
     }
 
-    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        
+//        photoAlbumView.layoutCollectionView()
+//    }
     
     //MARK: - Configuration
     

@@ -141,6 +141,7 @@
 		A34485EE1DB192AC008442F6 /* Not Used */ = {
 			isa = PBXGroup;
 			children = (
+				A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */,
 				A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */,
 			);
 			name = "Not Used";
@@ -186,7 +187,6 @@
 			children = (
 				A352EF6B1D70B9F500225C50 /* PhotoAlbumViewController.swift */,
 				A352EF6E1D70BA3200225C50 /* PhotoAlbumView.swift */,
-				A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */,
 				A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */,
 				A34485EE1DB192AC008442F6 /* Not Used */,
 			);

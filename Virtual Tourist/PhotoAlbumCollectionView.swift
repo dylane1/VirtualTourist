@@ -29,6 +29,8 @@ class PhotoAlbumCollectionView: UICollectionView {
     //MARK: - Configuration
     internal func configure(withPin pin: Pin) {
         stack = appDelegate.stack
+//        delegate = self
+        
         /**
          First, check to see if photos exist in database. If they don't, hit flickr
          */
