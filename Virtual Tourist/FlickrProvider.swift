@@ -11,9 +11,11 @@ import Foundation
 
 struct FlickrProvider {
     //TODO: Need to test empty image sets returned from flickr
-    static func fetchImagesForPin(_ pin: Pin, withCompletion completion: @escaping ([Photo]?) -> Void) {
+    static func fetchImagesForPin(_ pin: Pin, withCompletion completion: @escaping (Bool) -> Void) {
         let lat = pin.latitude
         let lon = pin.longitude
+        
+        var hasPhotos = false
         
         /// Build querey
         /**
@@ -53,7 +55,7 @@ struct FlickrProvider {
                     return
                 }
                 
-                let images = photoArray.map { photoElements -> Photo in
+                _ = photoArray.map { photoElements -> Photo in
                     let id = photoElements["id"] as? String ?? ""
                     let farm = photoElements["farm"] as? Int ?? 0
                     let secret = photoElements["secret"] as? String ?? ""
@@ -69,13 +71,13 @@ struct FlickrProvider {
                     let photo = Photo(withId: Int64(id)!, title: title, url: url, pin: pin, context: stack.context)
 
                     stack.save()
+                    hasPhotos = true
                     
                     return photo
                 }
                 /// Get back on the main queue before returning the info
                 DispatchQueue.main.async {
-//
-                    completion(images)
+                    completion(hasPhotos)
                 }
             }catch {
                 fatalError("Not a JSON Dictionary :[")

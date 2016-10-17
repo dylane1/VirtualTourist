@@ -16,6 +16,8 @@ class PhotoAlbumView: UIView {
     @IBOutlet weak var photosCollectionView: UICollectionView!
     @IBOutlet weak var toolbar: UIToolbar!
 
+    private var toolbarButton: UIBarButtonItem!
+    
     fileprivate var pin: Pin!
     
     /**
@@ -54,9 +56,10 @@ class PhotoAlbumView: UIView {
         widthConstraint.constant = bounds.height * 0.33
         
         configureMapView()
+        configureToolbar()
         configureCollectionViewData()
         configureCollectionView()
-        configureToolbar()
+        
     }
     
     private func configureMapView() {
@@ -71,6 +74,32 @@ class PhotoAlbumView: UIView {
         mapView.addAnnotation(annotation)
     }
 
+    private func configureToolbar() {
+        var toolbarItemArray = [UIBarButtonItem]()
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbarItemArray.append(flexSpace)
+        
+        toolbarButton = UIBarButtonItem(
+            title: LocalizedStrings.ToolbarButtons.newCollection,
+            style: .plain,
+            target: self,
+            action: #selector(toolbarButtonTapped))
+        
+        toolbarButton.isEnabled = false
+        
+        toolbarItemArray.append(toolbarButton)
+        
+        toolbarItemArray.append(flexSpace)
+        
+        toolbar.setItems(toolbarItemArray, animated: false)
+        
+        //        toolbar.barTintColor = Theme.darkBlue
+        toolbar.tintColor    = Theme.navBarTitleColor
+        toolbar.isTranslucent  = true
+    }
+    
     private func configureCollectionViewData() {
         stack = appDelegate.stack
         
@@ -78,22 +107,17 @@ class PhotoAlbumView: UIView {
          First, check to see if photos exist in database. If they don't, hit flickr
          */
         if pin.photos!.count == 0 {
-            let flickrFetchCompletion = { (photos: [Photo]?) in
-                guard let photos = photos as [Photo]! else {
+            let flickrFetchCompletion = { (hasPhotos: Bool) in
+                if !hasPhotos {
                     //TODO: pop an alert that no images were found
                     magic("no images found on flickr")
                     return
                 }
-                
-                for photo in photos {
-                    self.checkForImageData(photo)
-                }
+                self.processPhotos()
             }
             FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
         } else {
-            for photo in pin.photos! {
-                checkForImageData(photo as! Photo)
-            }
+            processPhotos()
         }
         
         photosCollectionView.dataSource = self
@@ -104,29 +128,7 @@ class PhotoAlbumView: UIView {
         photosCollectionView.delegate = self
     }
     
-    private func configureToolbar() {
-        var toolbarItemArray = [UIBarButtonItem]()
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
-        toolbarItemArray.append(flexSpace)
-        
-        let albumButton = UIBarButtonItem(
-            title: LocalizedStrings.ToolbarButtons.newCollection,
-            style: .plain,
-            target: self,
-            action: #selector(toolbarButtonTapped))
-        
-        toolbarItemArray.append(albumButton)
-        
-        toolbarItemArray.append(flexSpace)
-        
-        toolbar.setItems(toolbarItemArray, animated: false)
-        
-//        toolbar.barTintColor = Theme.darkBlue
-        toolbar.tintColor    = Theme.navBarTitleColor
-        toolbar.isTranslucent  = true
-    }
+    
     
     //MARK: - 
 //    internal func layoutCollectionView() {
@@ -142,6 +144,12 @@ class PhotoAlbumView: UIView {
 //        photosCollectionView.collectionViewLayout = layout
 //    }
     
+    private func processPhotos() {
+        for photo in pin.photos! {
+            checkForImageData(photo as! Photo)
+        }
+        toolbarButton.isEnabled = true
+    }
     
     private func checkForImageData(_ photo: Photo) {
         /// Add photo to photo array

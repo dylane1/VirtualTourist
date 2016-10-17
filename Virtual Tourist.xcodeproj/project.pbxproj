@@ -28,7 +28,6 @@
 		A36C957F1D64D69200DED8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C957D1D64D69200DED8DB /* Main.storyboard */; };
 		A36C95811D64D69200DED8DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A36C95801D64D69200DED8DB /* Assets.xcassets */; };
 		A36C95841D64D69200DED8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C95821D64D69200DED8DB /* LaunchScreen.storyboard */; };
-		A3C522C51D878937001C8F68 /* PhotoAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
 		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
 		A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */; };
@@ -81,7 +80,6 @@
 		A36C95831D64D69200DED8DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A36C95851D64D69200DED8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A36FE3471DA421820074276C /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
-		A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewController.swift; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
@@ -143,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */,
-				A3C522C41D878937001C8F68 /* PhotoAlbumCollectionViewController.swift */,
 			);
 			name = "Not Used";
 			sourceTree = "<group>";
@@ -381,7 +378,6 @@
 				A352EF5B1D6CF47D00225C50 /* ColorSchemes.swift in Sources */,
 				A36C957A1D64D69200DED8DB /* AppDelegate.swift in Sources */,
 				A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */,
-				A3C522C51D878937001C8F68 /* PhotoAlbumCollectionViewController.swift in Sources */,
 				A368345C1D91C26F001D061D /* CoreDataStack.swift in Sources */,
 				A352EF6F1D70BA3200225C50 /* PhotoAlbumView.swift in Sources */,
 				A352EF601D6CF93A00225C50 /* SegueHandlerType.swift in Sources */,
