@@ -16,10 +16,11 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     internal func configure(withImageData imageData: NSData?) {
         if imageData != nil {
-            magic("data for image is here...")
+//            magic("data for image is here...")
             imageView.image = UIImage(data: imageData! as Data)
         } else {
-            magic("no image data for cell")
+            //TODO: load a placeholder
+//            magic("no image data for cell")
         }
     }
 }

@@ -19,7 +19,7 @@ struct FlickrProvider {
         /**
          * API Documentation:  https://www.flickr.com/services/api/flickr.photos.search.html
          **/
-        let queryString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(Constants.Flickr.key)&lat=\(lat)&lon=\(lon)&per_page=25&format=json&nojsoncallback=1"
+        let queryString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(Constants.Flickr.key)&lat=\(lat)&lon=\(lon)&per_page=16&format=json&nojsoncallback=1"
         
         let url = URL(string: queryString)!
         

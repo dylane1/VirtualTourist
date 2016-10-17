@@ -37,11 +37,12 @@ class PhotoAlbumView: UIView {
     
     fileprivate var selectedIndexes = [IndexPath]()
     
-    fileprivate var insertedIndexPaths: [IndexPath]!
-    fileprivate var deletedIndexPaths: [IndexPath]!
-    fileprivate var updatedIndexPaths: [IndexPath]!
+//    fileprivate var insertedIndexPaths: [IndexPath]!
+//    fileprivate var deletedIndexPaths: [IndexPath]!
+//    fileprivate var updatedIndexPaths: [IndexPath]!
     
     fileprivate var photos = [Photo]()
+//    fileprivate var photosToDelete = [Photo]()
     ///
     
     //MARK: - Configuration
@@ -110,7 +111,7 @@ class PhotoAlbumView: UIView {
             title: LocalizedStrings.ToolbarButtons.newCollection,
             style: .plain,
             target: self,
-            action: #selector(newCollectionButtonTapped))
+            action: #selector(toolbarButtonTapped))
         
         toolbarItemArray.append(albumButton)
         
@@ -145,23 +146,53 @@ class PhotoAlbumView: UIView {
         /// Check for image data
         if photo.imageData != nil {
             /// load image into cell
-            magic("data exists... imageData.bytes: \(photo.imageData?.bytes)")
+//            magic("data exists... imageData.bytes: \(photo.imageData!.length)")
         } else {
             let imageDataLoadedComplete = {
                 self.photosCollectionView.reloadData()
-                magic("download complete... imageData.bytes: \(photo.imageData?.bytes)")
+//                magic("download complete... imageData.bytes: \(photo.imageData!.length)")
             }
             FlickrProvider.fetchImageDataForPhoto(photo, withCompletion: imageDataLoadedComplete)
         }
     }
     
-    
-    internal func newCollectionButtonTapped() {
-        magic("oh yeah")
+    fileprivate func toggleCellSelection(_ cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: IndexPath) {
+        
+        cell.imageView.alpha = (selectedIndexes.index(of: indexPath) != nil) ? 0.5 : 1.0
     }
     
+    internal func toolbarButtonTapped() {
+        if selectedIndexes.count == 0 {
+            photos = [Photo]()
+            pin.photos = nil
+            //TODO: Fetch new photo set
+            photosCollectionView.reloadData()
+        } else {
+            let newSet = NSMutableSet()
+            
+            magic("selectedIndexes: \(selectedIndexes)")
+            selectedIndexes.sort() { $0.row > $1.row }
+            magic("sorted selectedIndexes: \(selectedIndexes)")
+            for index in selectedIndexes {
+                photos.remove(at: index.row)
+            }
+            newSet.addObjects(from: photos)
+            magic("pin.photos: \(pin.photos?.count)")
+            pin.photos = newSet
+            magic("new pin.photos: \(pin.photos?.count)")
+            photosCollectionView.deleteItems(at: selectedIndexes)
+            selectedIndexes = [IndexPath]()
+        }
+        stack.save()
+//        photosCollectionView.reloadData()
+    }
     
+    /// Called on rotation to reset the cell layout
+    internal func layoutCollectionView() {
+        photosCollectionView.collectionViewLayout.invalidateLayout()
+    }
 }
+
 //TODO: Move this stuff down to photoalbumcollectionview if possible
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -175,8 +206,7 @@ extension PhotoAlbumView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotoAlbumCollectionViewCell
         
         cell.configure(withImageData: photos[indexPath.row].imageData)
-//        self.configureCell(cell, atIndexPath: indexPath)
-        
+        toggleCellSelection(cell, atIndexPath: indexPath)
         return cell
     }
     
@@ -186,31 +216,41 @@ extension PhotoAlbumView: UICollectionViewDataSource {
 extension PhotoAlbumView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //        let cell = collectionView.cellForItem(at: indexPath) as! ColorCell
-        //
-        //        // Whenever a cell is tapped we will toggle its presence in the selectedIndexes array
-        //        if let index = selectedIndexes.index(of: indexPath) {
-        //            selectedIndexes.remove(at: index)
-        //        } else {
-        //            selectedIndexes.append(indexPath)
-        //        }
-        //
-        //        // Then reconfigure the cell
-        //        configureCell(cell, atIndexPath: indexPath)
-        //
-        //        // And update the buttom button
-        //        updateBottomButton()
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoAlbumCollectionViewCell
+        
+        if let index = selectedIndexes.index(of: indexPath) {
+            selectedIndexes.remove(at: index)
+        } else {
+            selectedIndexes.append(indexPath)
+        }
+        
+        toggleCellSelection(cell, atIndexPath: indexPath)
+        
+        //TODO: Update toolbar button
     }
     
     
 }
 
 extension PhotoAlbumView: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        magic("frame.width: \(frame.width)")
-        let width = (frame.width / 3) - 5
         
-        return CGSize(width: width, height: width)
+        let picDimension = floor(photosCollectionView.frame.size.width / 4.0) - 1
+        
+        return CGSize(width: picDimension, height: picDimension)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(0, 0, 0, 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
     }
 }
 //extension PhotoAlbumView: NSFetchedResultsControllerDelegate {
