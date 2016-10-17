@@ -57,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CustomPresentation.xcodeproj; path = Frameworks/External/CustomPresentation/CustomPresentation.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A3166C8D1DB57BE400788471 /* Model5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model5.xcdatamodel; sourceTree = "<group>"; };
 		A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionView.swift; sourceTree = "<group>"; };
 		A352EF501D6CE8DF00225C50 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A352EF531D6CE9C600225C50 /* MapContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
@@ -551,12 +552,13 @@
 		A3F8B89A1D99D59700E83DFE /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A3166C8D1DB57BE400788471 /* Model5.xcdatamodel */,
 				A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */,
 				A36FE3471DA421820074276C /* Model3.xcdatamodel */,
 				A3F8B89D1D99D5E400E83DFE /* Model2.xcdatamodel */,
 				A3F8B89B1D99D59700E83DFE /* Model.xcdatamodel */,
 			);
-			currentVersion = A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */;
+			currentVersion = A3166C8D1DB57BE400788471 /* Model5.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

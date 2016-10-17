@@ -2,12 +2,12 @@
 //  Photo+CoreDataProperties.swift
 //  Virtual Tourist
 //
-//  Created by Dylan Edwards on 10/6/16.
+//  Created by Dylan Edwards on 10/17/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
 //
 
 import Foundation
-import CoreData
+import CoreData 
 
 extension Photo {
 

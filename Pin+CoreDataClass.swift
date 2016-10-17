@@ -19,7 +19,7 @@ public class Pin: NSManagedObject {
             self.title      = title
             self.latitude   = latitude
             self.longitude  = longitude
-            
+            self.page       = 1
             return
         }
         fatalError("Could not initialize Pin")

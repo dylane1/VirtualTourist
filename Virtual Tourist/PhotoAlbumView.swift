@@ -79,7 +79,11 @@ class PhotoAlbumView: UIView {
          */
         if pin.photos!.count == 0 {
             let flickrFetchCompletion = { (photos: [Photo]?) in
-                guard let photos = photos as [Photo]! else { return }
+                guard let photos = photos as [Photo]! else {
+                    //TODO: pop an alert that no images were found
+                    magic("no images found on flickr")
+                    return
+                }
                 
                 for photo in photos {
                     self.checkForImageData(photo)
