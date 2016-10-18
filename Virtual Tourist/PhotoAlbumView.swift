@@ -44,6 +44,8 @@ class PhotoAlbumView: UIView {
 //    fileprivate var updatedIndexPaths: [IndexPath]!
     
     fileprivate var photos = [Photo]()
+    private var hasHitEndOfFlickrPhotos = false
+    
 //    fileprivate var photosToDelete = [Photo]()
     ///
     
@@ -107,15 +109,7 @@ class PhotoAlbumView: UIView {
          First, check to see if photos exist in database. If they don't, hit flickr
          */
         if pin.photos!.count == 0 {
-            let flickrFetchCompletion = { (hasPhotos: Bool) in
-                if !hasPhotos {
-                    //TODO: pop an alert that no images were found
-                    magic("no images found on flickr")
-                    return
-                }
-                self.processPhotos()
-            }
-            FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
+            performFlickrFetch()
         } else {
             processPhotos()
         }
@@ -143,12 +137,30 @@ class PhotoAlbumView: UIView {
 //        layout.itemSize = CGSize(width: width, height: width)
 //        photosCollectionView.collectionViewLayout = layout
 //    }
+    private func performFlickrFetch(withCompletion completion: (() -> Void)? = nil) {
+        let flickrFetchCompletion = { (hasPhotos: Bool) in
+            if !hasPhotos {
+                //TODO: pop an alert that no images were found
+                magic("no images found on flickr")
+                if self.pin.page > 1 {
+                    /// This was an unsuccessful attempt at loading a new collection
+                    self.pin.page -= 1
+                    self.hasHitEndOfFlickrPhotos = true
+                    self.toolbarButtonSetup()
+                }
+                return
+            }
+            completion?()
+            self.processPhotos()
+        }
+        FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
+    }
     
     private func processPhotos() {
         for photo in pin.photos! {
             checkForImageData(photo as! Photo)
         }
-        toolbarButton.isEnabled = true
+        toolbarButtonSetup()
     }
     
     private func checkForImageData(_ photo: Photo) {
@@ -156,13 +168,9 @@ class PhotoAlbumView: UIView {
         photos.append(photo)
         
         /// Check for image data
-        if photo.imageData != nil {
-            /// load image into cell
-//            magic("data exists... imageData.bytes: \(photo.imageData!.length)")
-        } else {
+        if photo.imageData == nil {
             let imageDataLoadedComplete = {
                 self.photosCollectionView.reloadData()
-//                magic("download complete... imageData.bytes: \(photo.imageData!.length)")
             }
             FlickrProvider.fetchImageDataForPhoto(photo, withCompletion: imageDataLoadedComplete)
         }
@@ -173,30 +181,44 @@ class PhotoAlbumView: UIView {
         cell.imageView.alpha = (selectedIndexes.index(of: indexPath) != nil) ? 0.5 : 1.0
     }
     
+    fileprivate func toolbarButtonSetup() {
+        if selectedIndexes.count == 0 {
+            toolbarButton.title     = LocalizedStrings.ToolbarButtons.newCollection
+            toolbarButton.isEnabled = (hasHitEndOfFlickrPhotos) ? false : true
+        } else {
+            toolbarButton.title     = LocalizedStrings.ToolbarButtons.removeSelected
+            toolbarButton.isEnabled = true
+        }
+
+    }
+    
     internal func toolbarButtonTapped() {
         if selectedIndexes.count == 0 {
-            photos = [Photo]()
-            pin.photos = nil
-            //TODO: Fetch new photo set
-            photosCollectionView.reloadData()
+            let successfulFetchCompletion = {
+                /// Clear out for the new photos
+                self.photos = [Photo]()
+                self.photosCollectionView.reloadData()
+            }
+            pin.page += 1
+            performFlickrFetch(withCompletion: successfulFetchCompletion)
         } else {
             let newSet = NSMutableSet()
             
-            magic("selectedIndexes: \(selectedIndexes)")
+//            magic("selectedIndexes: \(selectedIndexes)")
             selectedIndexes.sort() { $0.row > $1.row }
-            magic("sorted selectedIndexes: \(selectedIndexes)")
+//            magic("sorted selectedIndexes: \(selectedIndexes)")
             for index in selectedIndexes {
                 photos.remove(at: index.row)
             }
             newSet.addObjects(from: photos)
-            magic("pin.photos: \(pin.photos?.count)")
+//            magic("pin.photos: \(pin.photos?.count)")
             pin.photos = newSet
-            magic("new pin.photos: \(pin.photos?.count)")
+//            magic("new pin.photos: \(pin.photos?.count)")
             photosCollectionView.deleteItems(at: selectedIndexes)
             selectedIndexes = [IndexPath]()
+            toolbarButtonSetup()
         }
         stack.save()
-//        photosCollectionView.reloadData()
     }
     
     /// Called on rotation to reset the cell layout
@@ -237,8 +259,7 @@ extension PhotoAlbumView: UICollectionViewDelegate {
         }
         
         toggleCellSelection(cell, atIndexPath: indexPath)
-        
-        //TODO: Update toolbar button
+        toolbarButtonSetup()
     }
     
     

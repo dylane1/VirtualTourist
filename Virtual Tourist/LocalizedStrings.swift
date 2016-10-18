@@ -15,5 +15,7 @@ struct LocalizedStrings {
     
     struct ToolbarButtons {
         static let newCollection = NSLocalizedString("ToolbarButtons.newCollection", value: "New Collection", comment: "")
+        
+        static let removeSelected = NSLocalizedString("ToolbarButtons.removeSelected", value: "Remove Selected", comment: "")
     }
 }
