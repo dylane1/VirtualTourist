@@ -65,9 +65,7 @@ class MapContainerView: UIView {
     
     //MARK: - Configuration
     
-   
-    
-    fileprivate func configureActivityIndicator() {
+    private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
         activityIndicator.color = Theme.activityIndicatorCircle1
         activityIndicator.hidesWhenStopped = true
@@ -77,8 +75,12 @@ class MapContainerView: UIView {
     /**
      Show a map image on top of map view while it loads so the user doesn't
      see a blank map area
+     
+     This will need to be saved every time the user changes the map or goes to 
+     a photo album. Is it really worth it? I suppose it depends on the performance
+     hit.
      */
-    fileprivate func configureMapImage() {
+    private func configureMapImage() {
         preloadedMapImage.alpha = 0.0
         
         if !mapRendered {
@@ -104,7 +106,7 @@ class MapContainerView: UIView {
 //        activityIndicator.startAnimating()
     }
     
-    fileprivate func configureLongPressGestureRecognizer() {
+    private func configureLongPressGestureRecognizer() {
         let gestureRecognizer = UILongPressGestureRecognizer()
         gestureRecognizer.addTarget(self, action: #selector(hangleLongPress(_:)))
         
@@ -113,7 +115,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(gestureRecognizer)
     }
     
-    fileprivate func configurePanGestureRecognizer() {
+    private func configurePanGestureRecognizer() {
         let panGestureRecognizer = UIPanGestureRecognizer()
         panGestureRecognizer.addTarget(self, action: #selector(handlePanGesture(_:)))
         panGestureRecognizer.delegate = self
@@ -128,17 +130,11 @@ class MapContainerView: UIView {
     }
     
     
-    
-    
-    
-    
     //MARK: - 
     
-    fileprivate func fetchFromCoreData() {
-        // Get the stack
+    private func fetchFromCoreData() {
         stack = appDelegate.stack
         
-        // Create a fetchrequest
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
@@ -170,7 +166,6 @@ class MapContainerView: UIView {
     }
     
     internal func handlePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
-//        magic("")
         if draggableAnnotation != nil {
             let location = gestureRecognizer.location(in: mapView)
             let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
@@ -199,7 +194,7 @@ class MapContainerView: UIView {
     
     
     
-    fileprivate func addAnnotation(_ gestureRecognizer: UIGestureRecognizer) {
+    private func addAnnotation(_ gestureRecognizer: UIGestureRecognizer) {
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         let annotation = MapLocationAnnotation()
@@ -218,7 +213,7 @@ class MapContainerView: UIView {
 //        }
 //    }
     
-    fileprivate func getAnnotationLocationName() {
+    private func getAnnotationLocationName() {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: Error?) -> Void in
             
             if error != nil {
@@ -227,7 +222,6 @@ class MapContainerView: UIView {
             }
             
             if placemarks != nil && placemarks!.count > 0 {
-//            if placemarks?.count > 0 {
                 let pm = placemarks![0]
                 
                 var title = ""
@@ -257,14 +251,9 @@ class MapContainerView: UIView {
             /// Create new Pin
             let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
             
-            //TODO: This is weird... Should I be storing a pin? Kinda need to rethink this
             self.draggableAnnotation?.pin = pin
             
-//            magic("pin: \(pin)")
-            
             self.stack.save()
-            
-            //TODO: Hit FlickrProvider & create Photos (don't download images until user opens the album)
         })
     }
     
@@ -320,7 +309,6 @@ extension MapContainerView: MKMapViewDelegate {
     
     internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let annotation = view.annotation as! MapLocationAnnotation
-//        openLinkClosure?(annotation.mediaURL)
         openPhotoAlbum(annotation.pin)
     }
     
@@ -328,7 +316,6 @@ extension MapContainerView: MKMapViewDelegate {
         if !animatedPinsIn {
             animateAnnotationsWithAnnotationArray(views)
         }
-        
     }
 }
 

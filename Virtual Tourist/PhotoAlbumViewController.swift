@@ -13,8 +13,6 @@ class PhotoAlbumViewController: UIViewController {
 
     fileprivate var photoAlbumView: PhotoAlbumView!
     private var pin: Pin!
-//    fileprivate var locationTitle = ""
-//    fileprivate var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,19 +26,11 @@ class PhotoAlbumViewController: UIViewController {
         
         photoAlbumView.configure(withPin: pin)
     }
-
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        
-//        photoAlbumView.layoutCollectionView()
-//    }
     
     //MARK: - Configuration
     
     internal func configure(withPin pin: Pin) {
         self.pin = pin
-//        locationTitle   = pin.title!
-//        coordinate      = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
     }
 
 }

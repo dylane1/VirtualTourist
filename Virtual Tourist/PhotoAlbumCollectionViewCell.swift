@@ -19,6 +19,7 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
 //            magic("data for image is here...")
             imageView.image = UIImage(data: imageData! as Data)
         } else {
+//            imageView.backgroundColor = UIColor.purple
             //TODO: load a placeholder
 //            magic("no image data for cell")
         }

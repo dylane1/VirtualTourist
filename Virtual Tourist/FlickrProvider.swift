@@ -46,7 +46,7 @@ struct FlickrProvider {
             
             do {
                 let jsonDictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
-                // magic("jsonDictionary: \(jsonDictionary["photo"])")
+                
                 guard let photos = jsonDictionary["photos"] as? NSDictionary,
                 let photoArray = photos["photo"] as? [NSDictionary] else {
                     //TODO: present error alert...
@@ -57,7 +57,10 @@ struct FlickrProvider {
                 if photoArray.count > 0 {
                     hasPhotos = true
                     if page > 1 {
-                        /// This is a new collection fetch that was successful
+                        /**
+                         * This is a new collection fetch that was successful
+                         * so clear out the old photos before adding the new.
+                         */
                         pin.photos = nil
                     }
                 }
@@ -76,10 +79,8 @@ struct FlickrProvider {
                     let stack = appDelegate.stack
                     
                     let photo = Photo(withId: Int64(id)!, title: title, url: url, pin: pin, context: stack.context)
-
+                    
                     stack.save()
-                    
-                    
                     return photo
                 }
                 /// Get back on the main queue before returning the info
@@ -104,9 +105,6 @@ struct FlickrProvider {
                 magic("image data download error: \(error)")
                 return
             }
-            
-//            let httpResponse = response as! HTTPURLResponse
-//            magic("httpResponse: \(httpResponse)")
             
             guard let data = try? Data(contentsOf: location) else {
                 magic("couldn't get data from locatoin")

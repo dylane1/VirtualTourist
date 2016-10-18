@@ -35,19 +35,11 @@ class PhotoAlbumView: UIView {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var stack: CoreDataStack!
     
-//    fileprivate var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    
     fileprivate var selectedIndexes = [IndexPath]()
-    
-//    fileprivate var insertedIndexPaths: [IndexPath]!
-//    fileprivate var deletedIndexPaths: [IndexPath]!
-//    fileprivate var updatedIndexPaths: [IndexPath]!
     
     fileprivate var photos = [Photo]()
     private var hasHitEndOfFlickrPhotos = false
     
-//    fileprivate var photosToDelete = [Photo]()
-    ///
     
     //MARK: - Configuration
     
@@ -125,18 +117,7 @@ class PhotoAlbumView: UIView {
     
     
     //MARK: - 
-//    internal func layoutCollectionView() {
-//        // Lay out the collection view so that cells take up 1/3 of the width,
-//        // with no space in between.
-//        let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        layout.minimumLineSpacing = 0
-//        layout.minimumInteritemSpacing = 0
-//        
-//        let width = floor(photosCollectionView.frame.size.width/3)
-//        layout.itemSize = CGSize(width: width, height: width)
-//        photosCollectionView.collectionViewLayout = layout
-//    }
+    
     private func performFlickrFetch(withCompletion completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
@@ -204,16 +185,15 @@ class PhotoAlbumView: UIView {
         } else {
             let newSet = NSMutableSet()
             
-//            magic("selectedIndexes: \(selectedIndexes)")
             selectedIndexes.sort() { $0.row > $1.row }
-//            magic("sorted selectedIndexes: \(selectedIndexes)")
+            
             for index in selectedIndexes {
                 photos.remove(at: index.row)
             }
             newSet.addObjects(from: photos)
-//            magic("pin.photos: \(pin.photos?.count)")
+            
             pin.photos = newSet
-//            magic("new pin.photos: \(pin.photos?.count)")
+            
             photosCollectionView.deleteItems(at: selectedIndexes)
             selectedIndexes = [IndexPath]()
             toolbarButtonSetup()
@@ -231,8 +211,6 @@ class PhotoAlbumView: UIView {
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
-        
-//        return pin.photos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -286,9 +264,6 @@ extension PhotoAlbumView: UICollectionViewDelegateFlowLayout {
         return 1.0
     }
 }
-//extension PhotoAlbumView: NSFetchedResultsControllerDelegate {
-//    
-//}
 
 
 
