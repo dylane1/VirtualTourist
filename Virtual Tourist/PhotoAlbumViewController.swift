@@ -11,10 +11,8 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController {
 
-    private var photoAlbumView: PhotoAlbumView!
+    fileprivate var photoAlbumView: PhotoAlbumView!
     private var pin: Pin!
-//    fileprivate var locationTitle = ""
-//    fileprivate var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +26,19 @@ class PhotoAlbumViewController: UIViewController {
         
         photoAlbumView.configure(withPin: pin)
     }
-
-    
     
     //MARK: - Configuration
     
     internal func configure(withPin pin: Pin) {
         self.pin = pin
-//        locationTitle   = pin.title!
-//        coordinate      = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
     }
 
 }
+
+extension PhotoAlbumViewController {
+    /** Resize cells upon rotation */
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        photoAlbumView.layoutCollectionView()
+    }
+}
+

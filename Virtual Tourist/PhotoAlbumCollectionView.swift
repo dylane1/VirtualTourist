@@ -29,6 +29,8 @@ class PhotoAlbumCollectionView: UICollectionView {
     //MARK: - Configuration
     internal func configure(withPin pin: Pin) {
         stack = appDelegate.stack
+//        delegate = self
+        
         /**
          First, check to see if photos exist in database. If they don't, hit flickr
          */
@@ -38,27 +40,27 @@ class PhotoAlbumCollectionView: UICollectionView {
 //        fetchFromCoreData()
         
         /// Start getting images
-        if pin.photos!.count == 0 {
-            let flickrFetchCompletion = { (photos: [Photo]?) in
-                guard let photos = photos as [Photo]! else { return }
-                
-                for photo in photos {
-                    self.checkForImageData(photo)
-//                    magic("title: \(photo.title); url: \(photo.url)")
-//                    self.photoArray.append(photo)
-                }
-                //TODO: Reload data for collection view
-                //            magic("self.collectionView: \(self.collectionView)")
-                //            self.collectionView?.reloadData()
-            }
-            FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
-        } else {
-            for photo in pin.photos! {
-                checkForImageData(photo as! Photo)
-//                let p = photo as! Photo
-//                magic("p.title: \(p.url!)")
-            }
-        }
+//        if pin.photos!.count == 0 {
+//            let flickrFetchCompletion = { (photos: [Photo]?) in
+//                guard let photos = photos as [Photo]! else { return }
+//                
+//                for photo in photos {
+//                    self.checkForImageData(photo)
+////                    magic("title: \(photo.title); url: \(photo.url)")
+////                    self.photoArray.append(photo)
+//                }
+//                //TODO: Reload data for collection view
+//                //            magic("self.collectionView: \(self.collectionView)")
+//                //            self.collectionView?.reloadData()
+//            }
+//            FlickrProvider.fetchImagesForPin(pin, withCompletion: flickrFetchCompletion)
+//        } else {
+//            for photo in pin.photos! {
+//                checkForImageData(photo as! Photo)
+////                let p = photo as! Photo
+////                magic("p.title: \(p.url!)")
+//            }
+//        }
         
     }
     

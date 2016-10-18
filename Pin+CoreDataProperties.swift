@@ -2,7 +2,7 @@
 //  Pin+CoreDataProperties.swift
 //  Virtual Tourist
 //
-//  Created by Dylan Edwards on 10/6/16.
+//  Created by Dylan Edwards on 10/17/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
 //
 
@@ -18,6 +18,7 @@ extension Pin {
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var title: String?
+    @NSManaged public var page: Int16
     @NSManaged public var photos: NSSet?
 
 }

@@ -157,7 +157,6 @@ extension CoreDataStack {
         if seconds > 0 {
             do {
                 try self.context.save()
-                magic("Autosaving")
             } catch {
                 magic("Error while autosaving")
             }
