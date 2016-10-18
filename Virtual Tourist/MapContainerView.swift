@@ -16,7 +16,7 @@ class MapContainerView: UIView {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
-    //TODO: 
+    //TODO: MAYBE -- landscape poses a problem
     /**
      1. Look for previously saved screenshot & load it, if one exists.
      2. Clear set alpha to 0 when map tiles load.
@@ -30,7 +30,7 @@ class MapContainerView: UIView {
          - Can an user leave & return to an app in landscape mode if the app isn't closed?
     */
     /// Use a preloaded image until map is renedered so user doesn't see empty map area
-    @IBOutlet weak var preloadedMapImage: UIImageView!
+//    @IBOutlet weak var preloadedMapImage: UIImageView!
     
     
     fileprivate var mapRendered = false
@@ -54,9 +54,9 @@ class MapContainerView: UIView {
     
     override func didMoveToWindow() {
         mapView.delegate = self
-//        configureMapImage()
-//        configureCoreData()
+        
         configureActivityIndicator()
+        configureMap()
         configureLongPressGestureRecognizer()
         configurePanGestureRecognizer()
         
@@ -72,6 +72,20 @@ class MapContainerView: UIView {
         activityIndicator.startAnimating()
     }
     
+    private func configureMap() {
+        let lat         = Constants.userDefaults.double(forKey: Constants.StorageKeys.latitude)
+        let lon         = Constants.userDefaults.double(forKey: Constants.StorageKeys.longitude)
+        let latDelta    = Constants.userDefaults.double(forKey: Constants.StorageKeys.latitudeDelta)
+        let lonDelta    = Constants.userDefaults.double(forKey: Constants.StorageKeys.longitudeDelta)
+        
+        if lat != 0.0 && lon != 0.0 {
+            let center  = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            let span    = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+            let region  = MKCoordinateRegion(center: center, span: span)
+            
+            mapView.setRegion(region, animated: true)
+        }
+    }
     /**
      Show a map image on top of map view while it loads so the user doesn't
      see a blank map area
@@ -80,31 +94,31 @@ class MapContainerView: UIView {
      a photo album. Is it really worth it? I suppose it depends on the performance
      hit.
      */
-    private func configureMapImage() {
-        preloadedMapImage.alpha = 0.0
-        
-        if !mapRendered {
-            //TODO: Load image from core data
-            
-            
-//            /// Need to determine map size & load correct image accordingly
-//            switch Constants.screenHeight {
-//            case Constants.DeviceScreenHeight.iPhone4s:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone4s)
-//            case Constants.DeviceScreenHeight.iPhone5:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone5)
-//            case Constants.DeviceScreenHeight.iPhone6:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6)
-//            default:
-//                /// iPhone6Plus
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6Plus)
-//            }
-            preloadedMapImage.alpha = 1.0
-        }
-        
+//    private func configureMapImage() {
+//        preloadedMapImage.alpha = 0.0
+//        
+//        if !mapRendered {
+//            //TODO: Load image from core data
+//            
+//            
+////            /// Need to determine map size & load correct image accordingly
+////            switch Constants.screenHeight {
+////            case Constants.DeviceScreenHeight.iPhone4s:
+////                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone4s)
+////            case Constants.DeviceScreenHeight.iPhone5:
+////                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone5)
+////            case Constants.DeviceScreenHeight.iPhone6:
+////                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6)
+////            default:
+////                /// iPhone6Plus
+////                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6Plus)
+////            }
+//            preloadedMapImage.alpha = 1.0
+//        }
+    
 //        activityIndicator.color = UIColor.ceSoir()
 //        activityIndicator.startAnimating()
-    }
+//    }
     
     private func configureLongPressGestureRecognizer() {
         let gestureRecognizer = UILongPressGestureRecognizer()
@@ -273,13 +287,25 @@ class MapContainerView: UIView {
 
 extension MapContainerView: MKMapViewDelegate {
     
-    internal func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        if mapRendered { return }
-        mapRendered = true
-//        preloadedMapImage.alpha = 0.0
-        placeAnnotations()
-    }
+//    internal func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+//        if mapRendered { return }
+//        mapRendered = true
+////        preloadedMapImage.alpha = 0.0
+//        placeAnnotations()
+//    }
 
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        /// Save region to NSUserDefaults
+        let lat         = mapView.region.center.latitude
+        let lon         = mapView.region.center.longitude
+        let latDelta    = mapView.region.span.latitudeDelta
+        let lonDelta    = mapView.region.span.longitudeDelta
+        
+        Constants.userDefaults.set(lat, forKey: Constants.StorageKeys.latitude)
+        Constants.userDefaults.set(lon, forKey: Constants.StorageKeys.longitude)
+        Constants.userDefaults.set(latDelta, forKey: Constants.StorageKeys.latitudeDelta)
+        Constants.userDefaults.set(lonDelta, forKey: Constants.StorageKeys.longitudeDelta)
+    }
 //    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
 //        magic("")
 //    }

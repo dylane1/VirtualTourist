@@ -79,43 +79,62 @@ struct Constants {
     }
 
 
+    //MARK: - Storage
+    /// Storage
+    
+    static let userDefaults = UserDefaults.standard
+    
+    struct StorageKeys {
+        static let latitude         = "com.slingingPixels.virtualTourist.storageKeys.latitude"
+        static let longitude        = "com.slingingPixels.virtualTourist.storageKeys.longitude"
+        static let latitudeDelta    = "com.slingingPixels.virtualTourist.storageKeys.latitudeDelta"
+        static let longitudeDelta   = "com.slingingPixels.virtualTourist.storageKeys.longitudeDelta"
+    }
+    
+    
+    struct FileSystem {
+        static let applicationSupport = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
+    }
+    static let storedMapImage = FileSystem.applicationSupport + "/storedMapImage.png"
+    
+    
     //MARK: - Dictionary Keys
     
     struct Keys {
-        ///
-        static let session      = "session"
-        static let account      = "account"
-        static let id           = "id"
-        
-        ///
-        static let key          = "key"
-        static let user         = "user"
-        
-        ///
-        static let first_name   = "first_name"
-        static let last_name    = "last_name"
-        
-        ///
-        static let results      = "results"
-        static let objectId     = "objectId"
-        static let firstName    = "firstName"
-        static let lastName     = "lastName"
-        static let uniqueKey    = "uniqueKey"
-        static let latitude     = "latitude"
-        static let longitude    = "longitude"
-        static let mapString    = "mapString"
-        static let mediaURL     = "mediaURL"
-        static let updatedAt    = "updatedAt"
-        static let createdAt    = "createdAt"
-        
-        ///
-        static let status       = "status"
-        static let error        = "error"
-        static let parameter    = "parameter"
+//        ///
+//        static let session      = "session"
+//        static let account      = "account"
+//        static let id           = "id"
+//        
+//        ///
+//        static let key          = "key"
+//        static let user         = "user"
+//        
+//        ///
+//        static let first_name   = "first_name"
+//        static let last_name    = "last_name"
+//        
+//        ///
+//        static let results      = "results"
+//        static let objectId     = "objectId"
+//        static let firstName    = "firstName"
+//        static let lastName     = "lastName"
+//        static let uniqueKey    = "uniqueKey"
+//        static let latitude     = "latitude"
+//        static let longitude    = "longitude"
+//        static let mapString    = "mapString"
+//        static let mediaURL     = "mediaURL"
+//        static let updatedAt    = "updatedAt"
+//        static let createdAt    = "createdAt"
+//        
+//        ///
+//        static let status       = "status"
+//        static let error        = "error"
+//        static let parameter    = "parameter"
     }
     
-    struct LoginErrorResponses {
-        static let missingUsername = "udacity.username"
-        static let missingPassword = "udacity.password"
-    }
+//    struct LoginErrorResponses {
+//        static let missingUsername = "udacity.username"
+//        static let missingPassword = "udacity.password"
+//    }
 }
