@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A303878D1D6B8AF100018751 /* CustomPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30387881D6B893F00018751 /* CustomPresentation.framework */; };
+		A30572571DB702CF00A3866E /* MapViewStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30572561DB702CF00A3866E /* MapViewStateMachine.swift */; };
+		A305725B1DB7037500A3866E /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A305725A1DB7037500A3866E /* Dynamic.swift */; };
+		A3166C981DB6A39F00788471 /* MapViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3166C971DB6A39F00788471 /* MapViewNavigationController.swift */; };
 		A34485EB1DB19063008442F6 /* PhotoAlbumCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */; };
 		A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF501D6CE8DF00225C50 /* NavigationController.swift */; };
 		A352EF541D6CE9C600225C50 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF531D6CE9C600225C50 /* MapContainerView.swift */; };
@@ -55,7 +58,10 @@
 
 /* Begin PBXFileReference section */
 		A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CustomPresentation.xcodeproj; path = Frameworks/External/CustomPresentation/CustomPresentation.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A30572561DB702CF00A3866E /* MapViewStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewStateMachine.swift; sourceTree = "<group>"; };
+		A305725A1DB7037500A3866E /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		A3166C8D1DB57BE400788471 /* Model5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model5.xcdatamodel; sourceTree = "<group>"; };
+		A3166C971DB6A39F00788471 /* MapViewNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewNavigationController.swift; sourceTree = "<group>"; };
 		A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionView.swift; sourceTree = "<group>"; };
 		A352EF501D6CE8DF00225C50 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A352EF531D6CE9C600225C50 /* MapContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
@@ -149,6 +155,8 @@
 				A36C957B1D64D69200DED8DB /* MapViewController.swift */,
 				A352EF531D6CE9C600225C50 /* MapContainerView.swift */,
 				A352EF631D6D2F9400225C50 /* MapLocationAnnotation.swift */,
+				A3166C971DB6A39F00788471 /* MapViewNavigationController.swift */,
+				A30572561DB702CF00A3866E /* MapViewStateMachine.swift */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -225,6 +233,7 @@
 				A352EF5D1D6CF4DF00225C50 /* Constants.swift */,
 				A352EF581D6CED4500225C50 /* Extensions.swift */,
 				A352EF611D6CFCB700225C50 /* LocalizedStrings.swift */,
+				A305725A1DB7037500A3866E /* Dynamic.swift */,
 				A352EF5C1D6CF48300225C50 /* UI */,
 				A36C95791D64D69200DED8DB /* AppDelegate.swift */,
 				A352EF501D6CE8DF00225C50 /* NavigationController.swift */,
@@ -366,7 +375,9 @@
 				A36C957C1D64D69200DED8DB /* MapViewController.swift in Sources */,
 				A357DF2C1D905B4500FEC4D2 /* FlickrProvider.swift in Sources */,
 				A3F8B89C1D99D59700E83DFE /* Model.xcdatamodeld in Sources */,
+				A3166C981DB6A39F00788471 /* MapViewNavigationController.swift in Sources */,
 				A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */,
+				A305725B1DB7037500A3866E /* Dynamic.swift in Sources */,
 				A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */,
 				A34485EB1DB19063008442F6 /* PhotoAlbumCollectionView.swift in Sources */,
 				A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */,
@@ -376,6 +387,7 @@
 				A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */,
 				A368345C1D91C26F001D061D /* CoreDataStack.swift in Sources */,
 				A352EF6F1D70BA3200225C50 /* PhotoAlbumView.swift in Sources */,
+				A30572571DB702CF00A3866E /* MapViewStateMachine.swift in Sources */,
 				A352EF601D6CF93A00225C50 /* SegueHandlerType.swift in Sources */,
 				A352EF5E1D6CF4DF00225C50 /* Constants.swift in Sources */,
 			);

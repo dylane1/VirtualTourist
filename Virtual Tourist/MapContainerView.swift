@@ -32,6 +32,19 @@ class MapContainerView: UIView {
     /// Use a preloaded image until map is renedered so user doesn't see empty map area
 //    @IBOutlet weak var preloadedMapImage: UIImageView!
     
+    private var state: MapState = .normalState {
+        didSet {
+            magic("just set state to: \(state)")
+            //            updateButtonsEnabled()
+        }
+    }
+    private var stateMachine: MapViewStateMachine! {
+        didSet {
+            stateMachine.state.bind {
+                self.state = $0
+            }
+        }
+    }
     
     fileprivate var mapRendered = false
     fileprivate var animatedPinsIn = false
@@ -45,6 +58,8 @@ class MapContainerView: UIView {
     private var annotations = [MapLocationAnnotation]()
     private var pins = [Pin]()
     private var placemarks: [CLPlacemark]?
+    
+    fileprivate var pinsToDelete = [Pin]()
     
     fileprivate var openPhotoAlbum: ((Pin) -> Void)!
 //
@@ -64,6 +79,16 @@ class MapContainerView: UIView {
     }
     
     //MARK: - Configuration
+    
+    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void, mapViewStateMachine sm: MapViewStateMachine) {
+        openPhotoAlbum  = closure
+        stateMachine    = sm
+        activityIndicator.startAnimating()
+    }
+    
+    internal func configure(withStateMachine stateMachine: MapViewStateMachine) {
+        self.stateMachine = stateMachine
+    }
     
     private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
@@ -137,11 +162,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void) {
-        openPhotoAlbum = closure
-        
-        activityIndicator.startAnimating()
-    }
+    
     
     
     //MARK: - 
