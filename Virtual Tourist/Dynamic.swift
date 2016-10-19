@@ -11,26 +11,29 @@
  * http://five.agency/solving-the-binding-problem-with-swift/
  * http://rasic.info/bindings-generics-swift-and-mvvm/
  *
+ * October 19, 2016: I edited this to allow for multiple listeners
+ *
  */
-//TODO: Can this cause retain cycles?
 
 class Dynamic<T> {
     
     typealias Listener = (T) -> Void
-    var listener: Listener?
+    private var listeners = [Listener?]()
     
-    func bind(listener: Listener?) {
-        self.listener = listener
+    internal func bind(listener: Listener?) {
+        listeners.append(listener)
     }
     
-    func bindAndFire(listener: Listener?) {
-        self.listener = listener
+    internal func bindAndFire(listener: Listener?) {
+        listeners.append(listener)
         listener?(value)
     }
     
-    var value: T {
+    internal var value: T {
         didSet {
-            listener?(value)
+            for listener in listeners {
+                listener?(value)
+            }
         }
     }
     
