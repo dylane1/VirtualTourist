@@ -72,7 +72,7 @@ class PhotoAlbumCollectionView: UICollectionView {
             let imageDataLoadedComplete = {
                 magic("download complete... imageData.bytes: \(photo.imageData?.bytes)")
             }
-            FlickrProvider.fetchImageDataForPhoto(photo, withCompletion: imageDataLoadedComplete)
+            FlickrProvider.fetchImageDataForPhoto(photo, completion: imageDataLoadedComplete)
         }
     }
 //    private func fetchFromCoreData() {

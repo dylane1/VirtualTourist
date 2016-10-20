@@ -11,11 +11,7 @@ import MapKit
 //import CoreData
 
 class MapViewController: UIViewController, SegueHandlerType {
-//    internal var overlayTransitioningDelegate: OverlayTransitioningDelegate?
-    /**
-     Admittedly this is silly for a single segue, but I want to standardize the
-     segue presentation process for all apps using SegueHandlerType protocol
-     */
+    
     enum SegueIdentifier: String {
         case openPhotoAlbum
     }
@@ -42,11 +38,6 @@ class MapViewController: UIViewController, SegueHandlerType {
         configureNavigationController()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     //MARK: - Configuration
     
     private func configureNavigationController() {
@@ -55,19 +46,7 @@ class MapViewController: UIViewController, SegueHandlerType {
         let navController = navigationController! as! MapViewNavigationController
         navController.setNavigationBarAttributes(isAppTitle: true)
         
-//        let deleteSelectedClosure = { (isSelecting: Bool) in
-//            if isSelecting {
-//                /// tell mapcontainerview to change tapped pin colors & keep a list
-//            } else {
-//                /// tell mapcontainerview to delete all selected pins
-//            }
-//        }
-//        
-//        let deleteAllClosure = {
-//            magic("clear all")
-//        }
         navController.configure(withStateMachine: stateMachine)
-//        navController.configure(withDeleteSelected: deleteSelectedClosure, withDeleteAll: deleteAllClosure)
     }
     
     

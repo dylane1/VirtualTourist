@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 
 
-class MapContainerView: UIView {
+class MapContainerView: UIView /*, FlickrFetchable*/ {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
@@ -179,6 +179,8 @@ class MapContainerView: UIView {
         }
     }
     
+    
+    
     //MARK: - Map View
     
     fileprivate func placeAnnotations() {
@@ -246,9 +248,6 @@ class MapContainerView: UIView {
             /// Reset
             selectedAnnotationViews.removeAll()
         }
-        
-//        /// Reset state
-//        stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
     }
     
     private func clearAllAnnotations() {
@@ -270,9 +269,6 @@ class MapContainerView: UIView {
             selectedAnnotations.removeAll()
             annotationViews.removeAll()
             selectedAnnotationViews.removeAll()
-            
-//            /// Reset state
-//            stateMachine.state.value = .normalStateNoPins
         }
     }
     
@@ -320,11 +316,16 @@ class MapContainerView: UIView {
             }
             
             /// Create new Pin
-            let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
+            let pin = Pin(withTitle: self.draggableAnnotation!.title!,
+                          latitude: self.draggableAnnotation!.coordinate.latitude,
+                          longitude: self.draggableAnnotation!.coordinate.longitude,
+                          context: self.stack.context)
             
             self.draggableAnnotation?.pin = pin
             
             self.stack.save()
+            
+            self.performFlickrFetchForPin(pin)
         })
     }
     
@@ -341,6 +342,49 @@ class MapContainerView: UIView {
         }
         animatedPinsIn = true
     }
+    
+    //MARK: - Photo Fetching
+    
+    ///////////// MOVE TO PROTOCOL /////////////
+    private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
+        let flickrFetchCompletion = { (hasPhotos: Bool) in
+            if !hasPhotos {
+                //TODO: pop an alert that no images were found
+                magic("no images found on flickr")
+                //                if self.pin.page > 1 {
+                //                    /// This was an unsuccessful attempt at loading a new collection
+                //                    self.pin.page -= 1
+                //                    self.hasHitEndOfFlickrPhotos = true
+                //                    self.toolbarButtonSetup()
+                //                }
+                return
+            }
+            completion?()
+            self.processPhotosForPin(pin)
+        }
+        FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
+    }
+    
+    private func processPhotosForPin(_ pin: Pin) {
+        for photo in pin.photos! {
+            checkForImageData(photo as! Photo)
+        }
+        //        toolbarButtonSetup()
+    }
+    
+    private func checkForImageData(_ photo: Photo) {
+//        /// Add photo to photo array
+//        photos.append(photo)
+        
+        /// Check for image data
+        if photo.imageData == nil {
+//            let imageDataLoadedComplete = {
+//                self.photosCollectionView.reloadData()
+//            }
+            FlickrProvider.fetchImageDataForPhoto(photo)//, withCompletion: imageDataLoadedComplete)
+        }
+    }
+    ///////////// ^ MOVE TO PROTOCOL ^ /////////////
 }
 
 extension MapContainerView: MKMapViewDelegate {
