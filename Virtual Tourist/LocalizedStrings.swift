@@ -13,6 +13,13 @@ struct LocalizedStrings {
         static let virtualTourist = NSLocalizedString("ViewControllerTitles.virtualTourist", value: "Virtual Tourist", comment: "")
     }
     
+    struct NavigationControllerButtons {
+        static let editPins = NSLocalizedString("NavigationControllerButtons.editPins", value: "Edit Pins", comment: "")
+        
+        static let clearSelected = NSLocalizedString("NavigationControllerButtons.clearSelected", value: "Clear Selected", comment: "")
+        
+        static let clearAll = NSLocalizedString("NavigationControllerButtons.clearAll", value: "Clear All", comment: "")
+    }
     struct ToolbarButtons {
         static let newCollection = NSLocalizedString("ToolbarButtons.newCollection", value: "New Collection", comment: "")
         

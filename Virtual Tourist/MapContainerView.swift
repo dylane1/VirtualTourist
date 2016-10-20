@@ -16,35 +16,54 @@ class MapContainerView: UIView {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
-    //TODO: 
-    /**
-     1. Look for previously saved screenshot & load it, if one exists.
-     2. Clear set alpha to 0 when map tiles load.
-     3. Take a snapshot of map before exiting (going to photo album, or leaving app)
-     4. Save it to core data (replacing old)
-     
-     Considerations: 
-     
-     - What do do if user is in landscape mode? App will not open in landscape,
-       unless it's an iPhone 6 plus. (probably just don't save?)
-         - Can an user leave & return to an app in landscape mode if the app isn't closed?
-    */
-    /// Use a preloaded image until map is renedered so user doesn't see empty map area
-    @IBOutlet weak var preloadedMapImage: UIImageView!
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private var stack: CoreDataStack!
     
+    /// This is set by stateMachine, not directly
+    fileprivate var state: MapState = .normalStateNoPins {
+        didSet {
+            switch state {
+            case .clearingAll:
+                clearAllAnnotations()
+            case .clearingSelected:
+                clearSelectedAnnotations()
+            default:
+                toggleAnnotationSelection()
+            }
+        }
+    }
+    fileprivate var stateMachine: MapViewStateMachine! {
+        didSet {
+            stateMachine.state.bind {
+                self.state = $0
+            }
+        }
+    }
     
     fileprivate var mapRendered = false
     fileprivate var animatedPinsIn = false
     
-
-    
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var stack: CoreDataStack!
     
     private var draggableAnnotation: MapLocationAnnotation?
-    private var annotations = [MapLocationAnnotation]()
+    
+    private var annotations = [MapLocationAnnotation]() {
+        didSet {
+            stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
+        }
+    }
+    fileprivate var selectedAnnotations = [MapLocationAnnotation]()
+    
+    ///
+    fileprivate var annotationViews = [MKAnnotationView]()
+    fileprivate var selectedAnnotationViews = [MKAnnotationView]()
+    
     private var pins = [Pin]()
+    fileprivate var pinsToDelete = [Pin]()
+    
+    
     private var placemarks: [CLPlacemark]?
+    
+    
     
     fileprivate var openPhotoAlbum: ((Pin) -> Void)!
 //
@@ -54,9 +73,9 @@ class MapContainerView: UIView {
     
     override func didMoveToWindow() {
         mapView.delegate = self
-//        configureMapImage()
-//        configureCoreData()
+        
         configureActivityIndicator()
+        configureMap()
         configureLongPressGestureRecognizer()
         configurePanGestureRecognizer()
         
@@ -65,45 +84,38 @@ class MapContainerView: UIView {
     
     //MARK: - Configuration
     
+    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void, mapViewStateMachine sm: MapViewStateMachine) {
+        
+        openPhotoAlbum = closure
+        stateMachine   = sm
+    }
+    
+    
     private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
         activityIndicator.color = Theme.activityIndicatorCircle1
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
+        
+        /// Only run first time
+        if !mapRendered {
+            activityIndicator.startAnimating()
+        }
     }
     
-    /**
-     Show a map image on top of map view while it loads so the user doesn't
-     see a blank map area
-     
-     This will need to be saved every time the user changes the map or goes to 
-     a photo album. Is it really worth it? I suppose it depends on the performance
-     hit.
-     */
-    private func configureMapImage() {
-        preloadedMapImage.alpha = 0.0
+    private func configureMap() {
+        let lat         = Constants.userDefaults.double(forKey: Constants.StorageKeys.latitude)
+        let lon         = Constants.userDefaults.double(forKey: Constants.StorageKeys.longitude)
+        let latDelta    = Constants.userDefaults.double(forKey: Constants.StorageKeys.latitudeDelta)
+        let lonDelta    = Constants.userDefaults.double(forKey: Constants.StorageKeys.longitudeDelta)
         
-        if !mapRendered {
-            //TODO: Load image from core data
+        /// Only set region if the values have already been saved to NSUserDefaults
+        if lat != 0.0 && lon != 0.0 {
+            let center  = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            let span    = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+            let region  = MKCoordinateRegion(center: center, span: span)
             
-            
-//            /// Need to determine map size & load correct image accordingly
-//            switch Constants.screenHeight {
-//            case Constants.DeviceScreenHeight.iPhone4s:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone4s)
-//            case Constants.DeviceScreenHeight.iPhone5:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone5)
-//            case Constants.DeviceScreenHeight.iPhone6:
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6)
-//            default:
-//                /// iPhone6Plus
-//                preloadedMapImage.image = UIImage(assetIdentifier: .Map_iPhone6Plus)
-//            }
-            preloadedMapImage.alpha = 1.0
+            mapView.setRegion(region, animated: true)
         }
-        
-//        activityIndicator.color = UIColor.ceSoir()
-//        activityIndicator.startAnimating()
     }
     
     private func configureLongPressGestureRecognizer() {
@@ -111,7 +123,7 @@ class MapContainerView: UIView {
         gestureRecognizer.addTarget(self, action: #selector(hangleLongPress(_:)))
         
         gestureRecognizer.minimumPressDuration = 0.5
-        gestureRecognizer.allowableMovement     = 1000 // just set to huge number for now
+        gestureRecognizer.allowableMovement     = 1000 /// just set to huge number for now
         mapView.addGestureRecognizer(gestureRecognizer)
     }
     
@@ -123,11 +135,7 @@ class MapContainerView: UIView {
         mapView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void) {
-        openPhotoAlbum = closure
-        
-        activityIndicator.startAnimating()
-    }
+    
     
     
     //MARK: - 
@@ -141,12 +149,9 @@ class MapContainerView: UIView {
         
         do {
             pins = try stack.context.fetch(request) as! [Pin]
-//            magic("pins: \(pins.count)")
-            placeAnnotations()
         } catch {
             magic("failed to fetch pins: \(error)")
         }
-        
     }
     
     
@@ -167,10 +172,10 @@ class MapContainerView: UIView {
     
     internal func handlePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         if draggableAnnotation != nil {
-            let location = gestureRecognizer.location(in: mapView)
-            let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-            draggableAnnotation!.coordinate = coordinate
+            let location    = gestureRecognizer.location(in: mapView)
+            let coordinate  = mapView.convert(location, toCoordinateFrom: mapView)
             
+            draggableAnnotation!.coordinate = coordinate
         }
     }
     
@@ -178,26 +183,24 @@ class MapContainerView: UIView {
     
     fileprivate func placeAnnotations() {
         if animatedPinsIn { return }
-        
         for pin in pins {
-            let annotation = MapLocationAnnotation()
-            annotation.title = pin.title
-            annotation.pin = pin
-            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            let annotation          = MapLocationAnnotation()
+            annotation.title        = pin.title
+            annotation.pin          = pin
+            annotation.coordinate   = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            
             annotations.append(annotation)
         }
 
         mapView.addAnnotations(annotations)
-        animatedPinsIn = true
         activityIndicator.stopAnimating()
     }
     
-    
-    
     private func addAnnotation(_ gestureRecognizer: UIGestureRecognizer) {
-        let location = gestureRecognizer.location(in: mapView)
-        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-        let annotation = MapLocationAnnotation()
+        let location    = gestureRecognizer.location(in: mapView)
+        let coordinate  = mapView.convert(location, toCoordinateFrom: mapView)
+        let annotation  = MapLocationAnnotation()
+        
         annotation.coordinate = coordinate
 
         annotations.append(annotation)
@@ -206,12 +209,80 @@ class MapContainerView: UIView {
         draggableAnnotation = annotation
     }
     
-//    internal func clearAnnotations() {
-//        if annotations.count > 0 {
-//            mapView.removeAnnotations(annotations)
-//            annotations.removeAll()
-//        }
-//    }
+    private func clearSelectedAnnotations() {
+        if selectedAnnotations.count > 0 {
+            
+            /// Clear Annotations
+            for annotation in selectedAnnotations {
+                
+                /// Delete pin from Core Data
+                stack.context.delete(annotation.pin!)
+                
+                /// Remove from annotations
+                if let i = annotations.index(of: annotation) {
+                    annotations.remove(at: i)
+                }
+            }
+            stack.save()
+            
+            /// Remove from map
+            mapView.removeAnnotations(selectedAnnotations)
+            
+            /// Reset
+            selectedAnnotations.removeAll()
+        }
+        
+        /// Clear Annotation Views
+        if selectedAnnotationViews.count > 0 {
+            
+            for view in selectedAnnotationViews {
+                
+                /// Remove the view from annotationViews
+                if let i = annotationViews.index(of: view) {
+                    annotationViews.remove(at: i)
+                }
+            }
+            
+            /// Reset
+            selectedAnnotationViews.removeAll()
+        }
+        
+//        /// Reset state
+//        stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
+    }
+    
+    private func clearAllAnnotations() {
+        if annotations.count > 0 {
+            
+            /// Delete pins from Core Data
+            do {
+                try stack.dropAllData()
+                stack.save()
+            } catch {
+                print("Error dropping all objects in DB")
+            }
+            
+            /// Clear annotations from map
+            mapView.removeAnnotations(annotations)
+            
+            /// Clean up everything else
+            annotations.removeAll()
+            selectedAnnotations.removeAll()
+            annotationViews.removeAll()
+            selectedAnnotationViews.removeAll()
+            
+//            /// Reset state
+//            stateMachine.state.value = .normalStateNoPins
+        }
+    }
+    
+    private func toggleAnnotationSelection() {
+        if annotations.count > 0 {
+            for annotationView in annotationViews {
+                annotationView.canShowCallout = (state == .isSelecting) ? false : true
+            }
+        }
+    }
     
     private func getAnnotationLocationName() {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: draggableAnnotation!.coordinate.latitude, longitude: draggableAnnotation!.coordinate.longitude), completionHandler: { (placemarks: [CLPlacemark]?, error: Error?) -> Void in
@@ -259,6 +330,7 @@ class MapContainerView: UIView {
     
     fileprivate func animateAnnotationsWithAnnotationArray(_ views: [MKAnnotationView]) {
         for annotation in views {
+            
             let endFrame = annotation.frame
             annotation.frame = endFrame.offsetBy(dx: 0, dy: -500)
             let duration = 0.3
@@ -276,12 +348,53 @@ extension MapContainerView: MKMapViewDelegate {
     internal func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if mapRendered { return }
         mapRendered = true
-//        preloadedMapImage.alpha = 0.0
+        
         placeAnnotations()
     }
 
-//    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-//        magic("")
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        /// Save region to NSUserDefaults
+        let lat         = mapView.region.center.latitude
+        let lon         = mapView.region.center.longitude
+        let latDelta    = mapView.region.span.latitudeDelta
+        let lonDelta    = mapView.region.span.longitudeDelta
+        
+        Constants.userDefaults.set(lat, forKey: Constants.StorageKeys.latitude)
+        Constants.userDefaults.set(lon, forKey: Constants.StorageKeys.longitude)
+        Constants.userDefaults.set(latDelta, forKey: Constants.StorageKeys.latitudeDelta)
+        Constants.userDefaults.set(lonDelta, forKey: Constants.StorageKeys.longitudeDelta)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if state == .isSelecting {
+            let pinView = view as! MKPinAnnotationView
+            let annotation = view.annotation as! MapLocationAnnotation
+            /// can use highlighted state to determine if it's selected or not
+            if !annotation.isSelected {
+                selectedAnnotations.append(annotation)
+                selectedAnnotationViews.append(pinView)
+                annotation.isSelected   = true
+                pinView.pinTintColor = Theme.selectedPin
+            } else {
+                if let i = selectedAnnotations.index(of: annotation) {
+                    selectedAnnotations.remove(at: i)
+                }
+                if let i = selectedAnnotationViews.index(of: pinView) {
+                    selectedAnnotationViews.remove(at: i)
+                }
+                annotation.isSelected   = false
+                pinView.pinTintColor = Theme.unselectedPin
+            }
+            mapView.deselectAnnotation(annotation, animated: false)
+        }
+    }
+    
+//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+//        if state == .isSelecting {
+//            //            view.canShowCallout = false
+////            view.isHighlighted = true
+//            //            magic("add to selected list or take out")
+//        }
 //    }
     
     internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -301,7 +414,8 @@ extension MapContainerView: MKMapViewDelegate {
 //                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
                 pinView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
-//            magic(pinView.annotation?.coordinate)
+            pinView.pinTintColor = Theme.unselectedPin
+            annotationViews.append(pinView)
             return pinView
         }
         return nil

@@ -9,7 +9,7 @@
         <!--Initial Nav Controller-->
         <scene sceneID="6q0-lb-cc8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SOk-nY-An8" userLabel="Initial Nav Controller" customClass="NavigationController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SOk-nY-An8" userLabel="Initial Nav Controller" customClass="MapViewNavigationController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0PU-FE-Zo6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -55,7 +55,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="s3e-Ez-pd3"/>
                     <connections>
-                        <segue destination="ldp-Sb-jfr" kind="show" identifier="OpenPhotoAlbum" id="Xwk-9D-0bW"/>
+                        <segue destination="ldp-Sb-jfr" kind="show" identifier="openPhotoAlbum" id="Xwk-9D-0bW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

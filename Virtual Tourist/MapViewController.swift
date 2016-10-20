@@ -17,7 +17,7 @@ class MapViewController: UIViewController, SegueHandlerType {
      segue presentation process for all apps using SegueHandlerType protocol
      */
     enum SegueIdentifier: String {
-        case OpenPhotoAlbum
+        case openPhotoAlbum
     }
     
     private var mapContainerView: MapContainerView!
@@ -26,16 +26,18 @@ class MapViewController: UIViewController, SegueHandlerType {
     private var coordinate: CLLocationCoordinate2D!
     private var selectedPin: Pin!
     
+    private let stateMachine = MapViewStateMachine()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapContainerView = view as! MapContainerView
-        mapContainerView.configure(withOpenAlbumClosure: { [unowned self] (pin) in
-//            self.locationTitle  = title
-//            self.coordinate     = coordinate
+        
+        let openAlbumClosure = { [unowned self] (pin: Pin) in
             self.selectedPin = pin
-            self.performSegueWithIdentifier(.OpenPhotoAlbum, sender: self)
-        })
+            self.performSegueWithIdentifier(.openPhotoAlbum, sender: self)
+        }
+        mapContainerView.configure(withOpenAlbumClosure: openAlbumClosure, mapViewStateMachine: stateMachine)
         
         configureNavigationController()
     }
@@ -50,8 +52,22 @@ class MapViewController: UIViewController, SegueHandlerType {
     private func configureNavigationController() {
         navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
         
-        let navController = navigationController! as! NavigationController
+        let navController = navigationController! as! MapViewNavigationController
         navController.setNavigationBarAttributes(isAppTitle: true)
+        
+//        let deleteSelectedClosure = { (isSelecting: Bool) in
+//            if isSelecting {
+//                /// tell mapcontainerview to change tapped pin colors & keep a list
+//            } else {
+//                /// tell mapcontainerview to delete all selected pins
+//            }
+//        }
+//        
+//        let deleteAllClosure = {
+//            magic("clear all")
+//        }
+        navController.configure(withStateMachine: stateMachine)
+//        navController.configure(withDeleteSelected: deleteSelectedClosure, withDeleteAll: deleteAllClosure)
     }
     
     
@@ -60,7 +76,7 @@ class MapViewController: UIViewController, SegueHandlerType {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /// Overkill for this situation, but would be useful for multiple seques
         switch segueIdentifierForSegue(segue) {
-        case .OpenPhotoAlbum:
+        case .openPhotoAlbum:
             
 
             /// Setup
