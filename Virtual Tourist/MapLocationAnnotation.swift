@@ -11,9 +11,9 @@ import Foundation
 
 final class MapLocationAnnotation: NSObject, MKAnnotation {
     
-    //TODO: Do I need title & coordinate if I'm storing pin?
     internal var title: String? = ""
     internal var pin: Pin!
+    internal var isSelected = false
     
     /// coordiante must me 'dynamic' in order to update the location on the map
     internal dynamic var coordinate = CLLocationCoordinate2D()

@@ -55,7 +55,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="s3e-Ez-pd3"/>
                     <connections>
-                        <segue destination="ldp-Sb-jfr" kind="show" identifier="OpenPhotoAlbum" id="Xwk-9D-0bW"/>
+                        <segue destination="ldp-Sb-jfr" kind="show" identifier="openPhotoAlbum" id="Xwk-9D-0bW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

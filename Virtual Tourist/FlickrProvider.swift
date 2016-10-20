@@ -124,7 +124,6 @@ struct FlickrProvider {
         })
         task.resume()
     }
-    
 }
 
 

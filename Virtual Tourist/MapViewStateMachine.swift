@@ -9,15 +9,13 @@
 import Foundation
 
 enum MapState {
-    case isSelecting, clearingAll, normalState
+    case normalStateNoPins, normalStateWithPins, isSelecting, clearingSelected, clearingAll
 }
 
 final class MapViewStateMachine {
     internal var state: Dynamic<MapState>
-//    internal var isEditing: Dynamic<Bool>
     
     init() {
-        state = Dynamic(.normalState)
-//        isEditing = Dynamic(false)
+        state = Dynamic(.normalStateNoPins)
     }
 }

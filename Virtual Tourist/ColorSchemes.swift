@@ -49,6 +49,10 @@ struct Theme {
     static let annotationColor1 = UIColor.romance()
     static let annotationColor2 = UIColor.redOrange()
     
+    static let selectedPin      = UIColor.spanishGreen()
+    static let unselectedPin    = UIColor.redOrange()
+    
+    
     /// Table View
     static let tableViewBGColor             = UIColor.romance()
     static let locationMarker               = UIColor.ceSoir()
