@@ -94,7 +94,7 @@ struct FlickrProvider {
         task.resume()
     }
     
-    static func fetchImageDataForPhoto(_ photo: Photo, withCompletion completion: @escaping () -> Void) {
+    static func fetchImageDataForPhoto(_ photo: Photo, completion: (() -> Void)? = nil) {
         let url = URL(string: photo.url!)!
         
         let session = URLSession.shared
@@ -119,7 +119,7 @@ struct FlickrProvider {
             stack.save()
             
             DispatchQueue.main.async {
-                completion()
+                completion?()
             }
         })
         task.resume()

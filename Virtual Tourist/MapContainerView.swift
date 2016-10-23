@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 
 
-class MapContainerView: UIView {
+class MapContainerView: UIView /*, FlickrFetchable*/ {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
@@ -22,14 +22,16 @@ class MapContainerView: UIView {
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
         didSet {
+            magic("current state: \(state)")
             switch state {
             case .clearingAll:
                 clearAllAnnotations()
             case .clearingSelected:
                 clearSelectedAnnotations()
             default:
-                toggleAnnotationSelection()
+                break
             }
+            toggleAnnotationSelection()
         }
     }
     fileprivate var stateMachine: MapViewStateMachine! {
@@ -51,7 +53,14 @@ class MapContainerView: UIView {
             stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
         }
     }
-    fileprivate var selectedAnnotations = [MapLocationAnnotation]()
+    fileprivate var selectedAnnotations = [MapLocationAnnotation]() {
+        didSet {
+            /// If user deselects all pins, set state back to normal
+            if selectedAnnotations.count == 0 {
+                stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
+            }
+        }
+    }
     
     ///
     fileprivate var annotationViews = [MKAnnotationView]()
@@ -179,6 +188,8 @@ class MapContainerView: UIView {
         }
     }
     
+    
+    
     //MARK: - Map View
     
     fileprivate func placeAnnotations() {
@@ -246,9 +257,6 @@ class MapContainerView: UIView {
             /// Reset
             selectedAnnotationViews.removeAll()
         }
-        
-//        /// Reset state
-//        stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
     }
     
     private func clearAllAnnotations() {
@@ -270,9 +278,6 @@ class MapContainerView: UIView {
             selectedAnnotations.removeAll()
             annotationViews.removeAll()
             selectedAnnotationViews.removeAll()
-            
-//            /// Reset state
-//            stateMachine.state.value = .normalStateNoPins
         }
     }
     
@@ -320,11 +325,16 @@ class MapContainerView: UIView {
             }
             
             /// Create new Pin
-            let pin = Pin(withTitle: self.draggableAnnotation!.title!, latitude: self.draggableAnnotation!.coordinate.latitude, longitude: self.draggableAnnotation!.coordinate.longitude, context: self.stack.context)
+            let pin = Pin(withTitle: self.draggableAnnotation!.title!,
+                          latitude: self.draggableAnnotation!.coordinate.latitude,
+                          longitude: self.draggableAnnotation!.coordinate.longitude,
+                          context: self.stack.context)
             
             self.draggableAnnotation?.pin = pin
             
             self.stack.save()
+            
+            self.performFlickrFetchForPin(pin)
         })
     }
     
@@ -341,6 +351,37 @@ class MapContainerView: UIView {
         }
         animatedPinsIn = true
     }
+    
+    //MARK: - Photo Fetching
+    
+    ///////////// MOVE TO PROTOCOL /////////////
+    private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
+        let flickrFetchCompletion = { (hasPhotos: Bool) in
+            if !hasPhotos {
+                //TODO: pop an alert that no images were found
+                magic("no images found on flickr")
+                return
+            }
+            completion?()
+            self.processPhotosForPin(pin)
+        }
+        FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
+    }
+    
+    private func processPhotosForPin(_ pin: Pin) {
+        for photo in pin.photos! {
+            checkForImageData(photo as! Photo)
+        }
+    }
+    
+    private func checkForImageData(_ photo: Photo) {
+        
+        /// Check for image data
+        if photo.imageData == nil {
+            FlickrProvider.fetchImageDataForPhoto(photo)
+        }
+    }
+    ///////////// ^ MOVE TO PROTOCOL ^ /////////////
 }
 
 extension MapContainerView: MKMapViewDelegate {
@@ -384,6 +425,7 @@ extension MapContainerView: MKMapViewDelegate {
                 }
                 annotation.isSelected   = false
                 pinView.pinTintColor = Theme.unselectedPin
+                
             }
             mapView.deselectAnnotation(annotation, animated: false)
         }

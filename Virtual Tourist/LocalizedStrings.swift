@@ -14,15 +14,15 @@ struct LocalizedStrings {
     }
     
     struct NavigationControllerButtons {
-        static let editPins = NSLocalizedString("NavigationControllerButtons.editPins", value: "Edit Pins", comment: "")
-        
-        static let clearSelected = NSLocalizedString("NavigationControllerButtons.clearSelected", value: "Clear Selected", comment: "")
-        
-        static let clearAll = NSLocalizedString("NavigationControllerButtons.clearAll", value: "Clear All", comment: "")
+        static let editPins         = NSLocalizedString("NavigationControllerButtons.editPins", value: "Edit Pins", comment: "")
+        static let clearSelected    = NSLocalizedString("NavigationControllerButtons.clearSelected", value: "Clear Selected", comment: "")
+        static let clearAll         = NSLocalizedString("NavigationControllerButtons.clearAll", value: "Clear All", comment: "")
     }
     struct ToolbarButtons {
-        static let newCollection = NSLocalizedString("ToolbarButtons.newCollection", value: "New Collection", comment: "")
-        
-        static let removeSelected = NSLocalizedString("ToolbarButtons.removeSelected", value: "Remove Selected", comment: "")
+        static let newCollection    = NSLocalizedString("ToolbarButtons.newCollection", value: "New Collection", comment: "")
+        static let removeSelected   = NSLocalizedString("ToolbarButtons.removeSelected", value: "Remove Selected", comment: "")
     }
+    
+    static let noPhotosFound    = NSLocalizedString("noPhotosFound", value: "No Photos Found", comment: "")
+    static let imageLoading     = NSLocalizedString("imageLoading", value: "Loading Image", comment: "")
 }

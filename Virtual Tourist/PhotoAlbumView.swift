@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumView: UIView {
+class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var photosCollectionView: UICollectionView!
@@ -98,12 +98,21 @@ class PhotoAlbumView: UIView {
         stack = appDelegate.stack
         
         /**
-         First, check to see if photos exist in database. If they don't, hit flickr
+         * First, check to see if photos exist in database. If they don't, hit 
+         * flickr.
+         *
+         * Note (October 20, 2016): I'm moving the initial fetch into 
+         * MapContainerView. I'm not sure what will happen when I
+         * initiate the fetch in MapContainerView, and then segue here before
+         * the fetch has completed. I'll need to test by simulating a very slow
+         * connection.
          */
+        magic("about to check for photos")
         if pin.photos!.count == 0 {
-            performFlickrFetch()
+            performFlickrFetchForPin(pin)
         } else {
-            processPhotos()
+            magic("photos already in pin, check for data")
+            processPhotosForPin(pin)
         }
         
         photosCollectionView.dataSource = self
@@ -111,33 +120,39 @@ class PhotoAlbumView: UIView {
     
     
     private func configureCollectionView() {
-        photosCollectionView.delegate = self
+        photosCollectionView.delegate           = self
+        photosCollectionView.backgroundView     = nil
+        photosCollectionView.backgroundColor    = Theme.loginScreenBGColor
     }
     
     
     
     //MARK: - 
-    
-    private func performFlickrFetch(withCompletion completion: (() -> Void)? = nil) {
+    ///////////// MOVE TO PROTOCOL /////////////
+    private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
-                //TODO: pop an alert that no images were found
+                
                 magic("no images found on flickr")
-                if self.pin.page > 1 {
+                if pin.page > 1 {
                     /// This was an unsuccessful attempt at loading a new collection
-                    self.pin.page -= 1
+                    pin.page -= 1
                     self.hasHitEndOfFlickrPhotos = true
                     self.toolbarButtonSetup()
+                } else {
+                    let noImagesFoundVC = UIStoryboard(name: Constants.StoryBoardID.main, bundle: nil).instantiateViewController(withIdentifier: Constants.StoryBoardID.noPhotosFound) as! NoPhotosFoundViewController
+                    
+                    self.photosCollectionView.backgroundView = noImagesFoundVC.view
                 }
                 return
             }
             completion?()
-            self.processPhotos()
+            self.processPhotosForPin(pin)
         }
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
     
-    private func processPhotos() {
+    private func processPhotosForPin(_ pin: Pin) {
         for photo in pin.photos! {
             checkForImageData(photo as! Photo)
         }
@@ -150,12 +165,17 @@ class PhotoAlbumView: UIView {
         
         /// Check for image data
         if photo.imageData == nil {
+            /// Set placeholder while fetching
+            
+            
             let imageDataLoadedComplete = {
                 self.photosCollectionView.reloadData()
             }
-            FlickrProvider.fetchImageDataForPhoto(photo, withCompletion: imageDataLoadedComplete)
+            FlickrProvider.fetchImageDataForPhoto(photo, completion: imageDataLoadedComplete)
         }
     }
+    ///////////// ^ MOVE TO PROTOCOL ^ /////////////
+    
     
     fileprivate func toggleCellSelection(_ cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: IndexPath) {
         
@@ -181,7 +201,7 @@ class PhotoAlbumView: UIView {
                 self.photosCollectionView.reloadData()
             }
             pin.page += 1
-            performFlickrFetch(withCompletion: successfulFetchCompletion)
+            performFlickrFetchForPin(pin, completion: successfulFetchCompletion)
         } else {
             let newSet = NSMutableSet()
             
@@ -210,6 +230,7 @@ class PhotoAlbumView: UIView {
 //TODO: Move this stuff down to photoalbumcollectionview if possible
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        magic("photos.count: \(photos.count)")
         return photos.count
     }
     
