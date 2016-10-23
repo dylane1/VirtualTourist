@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -114,6 +115,11 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="geX-0w-pTj"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="535-l6-fuh">
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
@@ -121,8 +127,12 @@
                                                     <constraint firstItem="geX-0w-pTj" firstAttribute="leading" secondItem="M6r-Kd-DvR" secondAttribute="leading" id="GA7-wk-0m5"/>
                                                     <constraint firstAttribute="trailing" secondItem="geX-0w-pTj" secondAttribute="trailing" id="fxk-tw-3hB"/>
                                                     <constraint firstAttribute="bottom" secondItem="geX-0w-pTj" secondAttribute="bottom" id="hRf-e2-sj8"/>
+                                                    <constraint firstItem="535-l6-fuh" firstAttribute="leading" secondItem="M6r-Kd-DvR" secondAttribute="leading" constant="2" id="idA-El-ofP"/>
+                                                    <constraint firstItem="535-l6-fuh" firstAttribute="centerY" secondItem="M6r-Kd-DvR" secondAttribute="centerY" id="m4J-LE-vvG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="535-l6-fuh" secondAttribute="trailing" constant="2" id="ocC-oX-4DL"/>
                                                 </constraints>
                                                 <connections>
+                                                    <outlet property="imageLoadingLabel" destination="535-l6-fuh" id="hm8-CR-dqW"/>
                                                     <outlet property="imageView" destination="geX-0w-pTj" id="NTS-ou-xBK"/>
                                                 </connections>
                                             </collectionViewCell>
@@ -185,6 +195,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uor-Nv-4AJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1778.4000000000001" y="452.02398800599701"/>
+        </scene>
+        <!--No Images Found-->
+        <scene sceneID="SHT-uU-Tae">
+            <objects>
+                <viewController storyboardIdentifier="noPhotosFound" id="VAR-T2-cvc" userLabel="No Images Found" customClass="NoPhotosFoundViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AmO-Kt-QD1"/>
+                        <viewControllerLayoutGuide type="bottom" id="S9X-HJ-ZRg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pQa-mU-w8f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Images Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8Y-pm-8CT">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EhT-7b-WAq">
+                                <frame key="frameInset" minX="67" minY="187" width="240" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="h8Y-pm-8CT" firstAttribute="leading" secondItem="pQa-mU-w8f" secondAttribute="leadingMargin" id="Eee-s9-4Wd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="h8Y-pm-8CT" secondAttribute="trailing" id="b7D-tk-g6e"/>
+                            <constraint firstItem="h8Y-pm-8CT" firstAttribute="centerY" secondItem="pQa-mU-w8f" secondAttribute="centerY" id="elQ-U2-Fne"/>
+                            <constraint firstItem="EhT-7b-WAq" firstAttribute="centerX" secondItem="pQa-mU-w8f" secondAttribute="centerX" id="g4j-wv-YuA"/>
+                            <constraint firstItem="h8Y-pm-8CT" firstAttribute="top" secondItem="EhT-7b-WAq" secondAttribute="bottom" constant="8" id="vBQ-Xu-qDj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="EhT-7b-WAq" id="SNT-RQ-Y09"/>
+                        <outlet property="label0" destination="h8Y-pm-8CT" id="70b-hr-FbN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QDe-R4-nNY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2754" y="447"/>
         </scene>
     </scenes>
 </document>

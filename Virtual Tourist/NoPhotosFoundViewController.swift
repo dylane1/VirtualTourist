@@ -10,26 +10,38 @@ import UIKit
 
 class NoPhotosFoundViewController: UIViewController {
 
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var label0: UILabel!
+//    @IBOutlet weak var label1: UILabel!
+    
+    //MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        configureLabels()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    //MARK: - Configuration
+    
+    private func configureLabels() {
+        label0.adjustsFontSizeToFitWidth = true
+//        label1.adjustsFontSizeToFitWidth = true
+        
+        let labelAttributes: [String : Any] = [
+            NSStrokeColorAttributeName: Theme.textLink,
+            NSStrokeWidthAttributeName: -3.0,
+            NSForegroundColorAttributeName : Theme.textLight,
+            NSFontAttributeName: UIFont(name: Constants.FontName.markerFelt, size: 20)! //UIFont.systemFontOfSize(17, weight: UIFontWeightMedium)
+        ]
+        
+//        let Label1Attributes = [
+//            NSForegroundColorAttributeName : Theme.textLight,
+//            NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightMedium)
+//        ]
+        
+        label0.attributedText = NSAttributedString(string: LocalizedStrings.noPhotosFound, attributes: labelAttributes)
+//        label1.attributedText = NSAttributedString(string: LocalizedStrings.EmptyDataSetVCLabels.label1, attributes: Label1Attributes)
     }
-    */
 
 }

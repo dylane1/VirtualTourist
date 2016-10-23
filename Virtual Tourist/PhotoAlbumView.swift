@@ -107,6 +107,7 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
          * the fetch has completed. I'll need to test by simulating a very slow
          * connection.
          */
+        magic("about to check for photos")
         if pin.photos!.count == 0 {
             performFlickrFetchForPin(pin)
         } else {
@@ -119,7 +120,9 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
     
     
     private func configureCollectionView() {
-        photosCollectionView.delegate = self
+        photosCollectionView.delegate           = self
+        photosCollectionView.backgroundView     = nil
+        photosCollectionView.backgroundColor    = Theme.loginScreenBGColor
     }
     
     
@@ -129,13 +132,17 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
     private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
-                //TODO: pop an alert that no images were found
+                
                 magic("no images found on flickr")
                 if pin.page > 1 {
                     /// This was an unsuccessful attempt at loading a new collection
                     pin.page -= 1
                     self.hasHitEndOfFlickrPhotos = true
                     self.toolbarButtonSetup()
+                } else {
+                    let noImagesFoundVC = UIStoryboard(name: Constants.StoryBoardID.main, bundle: nil).instantiateViewController(withIdentifier: Constants.StoryBoardID.noPhotosFound) as! NoPhotosFoundViewController
+                    
+                    self.photosCollectionView.backgroundView = noImagesFoundVC.view
                 }
                 return
             }
@@ -158,6 +165,9 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
         
         /// Check for image data
         if photo.imageData == nil {
+            /// Set placeholder while fetching
+            
+            
             let imageDataLoadedComplete = {
                 self.photosCollectionView.reloadData()
             }
@@ -220,6 +230,7 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
 //TODO: Move this stuff down to photoalbumcollectionview if possible
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        magic("photos.count: \(photos.count)")
         return photos.count
     }
     

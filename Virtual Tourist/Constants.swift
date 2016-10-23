@@ -13,12 +13,13 @@ struct Constants {
     
     /// Storyboard
     struct StoryBoardID {
-        static let main                     = "Main"
-        static let loginVC                  = "loginVC"
-        static let activityIndicatorVC      = "activityIndicatorVC"
-        static let mapPresentationVC        = "mapPresentationVC"
-        static let infoPostingNavController = "infoPostingNavController"
-        static let infoPostingVC            = "infoPostingVC"
+        static let main             = "Main"
+        static let noPhotosFound    = "noPhotosFound"
+//        static let loginVC                  = "loginVC"
+//        static let activityIndicatorVC      = "activityIndicatorVC"
+//        static let mapPresentationVC        = "mapPresentationVC"
+//        static let infoPostingNavController = "infoPostingNavController"
+//        static let infoPostingVC            = "infoPostingVC"
     }
     
     /// UI

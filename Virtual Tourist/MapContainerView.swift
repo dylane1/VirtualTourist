@@ -22,14 +22,16 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
         didSet {
+            magic("current state: \(state)")
             switch state {
             case .clearingAll:
                 clearAllAnnotations()
             case .clearingSelected:
                 clearSelectedAnnotations()
             default:
-                toggleAnnotationSelection()
+                break
             }
+            toggleAnnotationSelection()
         }
     }
     fileprivate var stateMachine: MapViewStateMachine! {
@@ -51,7 +53,14 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
             stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
         }
     }
-    fileprivate var selectedAnnotations = [MapLocationAnnotation]()
+    fileprivate var selectedAnnotations = [MapLocationAnnotation]() {
+        didSet {
+            /// If user deselects all pins, set state back to normal
+            if selectedAnnotations.count == 0 {
+                stateMachine.state.value = (annotations.count > 0) ? .normalStateWithPins : .normalStateNoPins
+            }
+        }
+    }
     
     ///
     fileprivate var annotationViews = [MKAnnotationView]()
@@ -351,12 +360,6 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
             if !hasPhotos {
                 //TODO: pop an alert that no images were found
                 magic("no images found on flickr")
-                //                if self.pin.page > 1 {
-                //                    /// This was an unsuccessful attempt at loading a new collection
-                //                    self.pin.page -= 1
-                //                    self.hasHitEndOfFlickrPhotos = true
-                //                    self.toolbarButtonSetup()
-                //                }
                 return
             }
             completion?()
@@ -369,19 +372,13 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
         for photo in pin.photos! {
             checkForImageData(photo as! Photo)
         }
-        //        toolbarButtonSetup()
     }
     
     private func checkForImageData(_ photo: Photo) {
-//        /// Add photo to photo array
-//        photos.append(photo)
         
         /// Check for image data
         if photo.imageData == nil {
-//            let imageDataLoadedComplete = {
-//                self.photosCollectionView.reloadData()
-//            }
-            FlickrProvider.fetchImageDataForPhoto(photo)//, withCompletion: imageDataLoadedComplete)
+            FlickrProvider.fetchImageDataForPhoto(photo)
         }
     }
     ///////////// ^ MOVE TO PROTOCOL ^ /////////////
@@ -428,6 +425,7 @@ extension MapContainerView: MKMapViewDelegate {
                 }
                 annotation.isSelected   = false
                 pinView.pinTintColor = Theme.unselectedPin
+                
             }
             mapView.deselectAnnotation(annotation, animated: false)
         }
