@@ -33,7 +33,25 @@ class MapViewController: UIViewController, SegueHandlerType {
             self.selectedPin = pin
             self.performSegueWithIdentifier(.openPhotoAlbum, sender: self)
         }
-        mapContainerView.configure(withOpenAlbumClosure: openAlbumClosure, mapViewStateMachine: stateMachine)
+        
+        let presentAlertClosure = { [unowned self] (annotation: MapLocationAnnotation) in
+            let alert = UIAlertController(
+                title: LocalizedStrings.NoPhotosFoundAlert.title,
+                message: LocalizedStrings.NoPhotosFoundAlert.message,
+                preferredStyle: .alert)
+            
+            let deleteClosure = { [unowned self] (alert: UIAlertAction) in
+                self.mapContainerView.deletePinForAnnotation(annotation)
+            }
+            
+            alert.addAction(UIAlertAction(title: LocalizedStrings.NoPhotosFoundAlert.deleteButton, style: .destructive, handler: deleteClosure))
+            alert.addAction(UIAlertAction(title: LocalizedStrings.NoPhotosFoundAlert.keepButton, style: .default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        
+        mapContainerView.configure(withOpenAlbumClosure: openAlbumClosure, mapViewStateMachine: stateMachine, alertPresentationClosure: presentAlertClosure)
         
         configureNavigationController()
     }

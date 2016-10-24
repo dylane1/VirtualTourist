@@ -42,6 +42,8 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
         }
     }
     
+    private var presentAlert: ((MapLocationAnnotation) -> Void)!
+    
     fileprivate var mapRendered = false
     fileprivate var animatedPinsIn = false
     
@@ -67,7 +69,7 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
     fileprivate var selectedAnnotationViews = [MKAnnotationView]()
     
     private var pins = [Pin]()
-    fileprivate var pinsToDelete = [Pin]()
+//    fileprivate var pinsToDelete = [Pin]()
     
     
     private var placemarks: [CLPlacemark]?
@@ -93,10 +95,11 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
     
     //MARK: - Configuration
     
-    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void, mapViewStateMachine sm: MapViewStateMachine) {
+    internal func configure(withOpenAlbumClosure closure: @escaping (Pin) -> Void, mapViewStateMachine sm: MapViewStateMachine, alertPresentationClosure alertPresentation: @escaping (MapLocationAnnotation) -> Void) {
         
-        openPhotoAlbum = closure
-        stateMachine   = sm
+        openPhotoAlbum  = closure
+        stateMachine    = sm
+        presentAlert    = alertPresentation
     }
     
     
@@ -220,6 +223,21 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
         draggableAnnotation = annotation
     }
     
+    internal func deletePinForAnnotation(_ annotation: MapLocationAnnotation) {
+        stack.context.delete(annotation.pin!)
+        var annotationsArr = [MKAnnotation]()
+        annotationsArr.append(annotation)
+        
+        mapView.removeAnnotations(annotationsArr)
+        
+        /// Clear from annotations array
+        for _ in annotations {
+            if let i = annotations.index(of: annotation) {
+                annotations.remove(at: i)
+            }
+        }
+    }
+    
     private func clearSelectedAnnotations() {
         if selectedAnnotations.count > 0 {
             
@@ -313,14 +331,14 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
                     /// The state
                     title = pm.administrativeArea!
                 } else {
-                    //TODO: localized
-                    title = "Unknown Place"
+                    title = LocalizedStrings.unknownPlace
+                
                 }
                 
                 self.draggableAnnotation!.title = title
             }
             else {
-                self.draggableAnnotation!.title = "Unknown Place"
+                self.draggableAnnotation!.title = LocalizedStrings.unknownPlace
                 magic("Problem with the data received from geocoder")
             }
             
@@ -358,8 +376,12 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
     private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
-                //TODO: pop an alert that no images were found
-                magic("no images found on flickr")
+                for annotation in self.annotations {
+                    if pin == annotation.pin {
+                        self.presentAlert?(annotation)
+                        break
+                    }
+                }
                 return
             }
             completion?()

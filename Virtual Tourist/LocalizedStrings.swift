@@ -23,6 +23,14 @@ struct LocalizedStrings {
         static let removeSelected   = NSLocalizedString("ToolbarButtons.removeSelected", value: "Remove Selected", comment: "")
     }
     
+    struct NoPhotosFoundAlert {
+        static let title        = LocalizedStrings.noPhotosFound
+        static let message      = NSLocalizedString("AlertViewButtons.message", value: "No photos were found for this location. Would you like to keep this pin or delete?", comment: "")
+        static let deleteButton = NSLocalizedString("AlertViewButtons.delete", value: "Delete", comment: "")
+        static let keepButton   = NSLocalizedString("AlertViewButtons.keep", value: "Keep", comment: "")
+    }
+    
     static let noPhotosFound    = NSLocalizedString("noPhotosFound", value: "No Photos Found", comment: "")
     static let imageLoading     = NSLocalizedString("imageLoading", value: "Loading Image", comment: "")
+    static let unknownPlace     = NSLocalizedString("unknownPlace", value: "Unknown Place", comment: "")
 }
