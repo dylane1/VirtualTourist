@@ -11,8 +11,9 @@ import UIKit
 import CoreData
 
 
-class MapContainerView: UIView /*, FlickrFetchable*/ {
-
+class MapContainerView: UIView, FlickrFetchable {
+    internal var photos: [Photo]? = nil
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
@@ -372,7 +373,6 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
     
     //MARK: - Photo Fetching
     
-    ///////////// MOVE TO PROTOCOL /////////////
     private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
@@ -389,21 +389,6 @@ class MapContainerView: UIView /*, FlickrFetchable*/ {
         }
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
-    
-    private func processPhotosForPin(_ pin: Pin) {
-        for photo in pin.photos! {
-            checkForImageData(photo as! Photo)
-        }
-    }
-    
-    private func checkForImageData(_ photo: Photo) {
-        
-        /// Check for image data
-        if photo.imageData == nil {
-            FlickrProvider.fetchImageDataForPhoto(photo)
-        }
-    }
-    ///////////// ^ MOVE TO PROTOCOL ^ /////////////
 }
 
 extension MapContainerView: MKMapViewDelegate {

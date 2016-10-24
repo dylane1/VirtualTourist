@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
+class PhotoAlbumView: UIView, FlickrFetchable {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var photosCollectionView: UICollectionView!
@@ -37,7 +37,7 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
     
     fileprivate var selectedIndexes = [IndexPath]()
     
-    fileprivate var photos = [Photo]()
+    internal var photos: [Photo]? = [Photo]()
     private var hasHitEndOfFlickrPhotos = false
     
     
@@ -107,12 +107,13 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
          * the fetch has completed. I'll need to test by simulating a very slow
          * connection.
          */
-        magic("about to check for photos")
         if pin.photos!.count == 0 {
             performFlickrFetchForPin(pin)
         } else {
-            magic("photos already in pin, check for data")
-            processPhotosForPin(pin)
+            let photosProcessedCompletion = {
+                self.toolbarButtonSetup()
+            }
+            processPhotosForPin(pin, photosCollectionView: photosCollectionView, completion: photosProcessedCompletion)
         }
         
         photosCollectionView.dataSource = self
@@ -128,12 +129,10 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
     
     
     //MARK: - 
-    ///////////// MOVE TO PROTOCOL /////////////
+    
     private func performFlickrFetchForPin(_ pin: Pin, completion: (() -> Void)? = nil) {
         let flickrFetchCompletion = { (hasPhotos: Bool) in
             if !hasPhotos {
-                
-                magic("no images found on flickr")
                 if pin.page > 1 {
                     /// This was an unsuccessful attempt at loading a new collection
                     pin.page -= 1
@@ -147,34 +146,14 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
                 return
             }
             completion?()
-            self.processPhotosForPin(pin)
+            
+            let photosProcessedCompletion = {
+                self.toolbarButtonSetup()
+            }
+            self.processPhotosForPin(pin, photosCollectionView: self.photosCollectionView, completion: photosProcessedCompletion)
         }
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
-    
-    private func processPhotosForPin(_ pin: Pin) {
-        for photo in pin.photos! {
-            checkForImageData(photo as! Photo)
-        }
-        toolbarButtonSetup()
-    }
-    
-    private func checkForImageData(_ photo: Photo) {
-        /// Add photo to photo array
-        photos.append(photo)
-        
-        /// Check for image data
-        if photo.imageData == nil {
-            /// Set placeholder while fetching
-            
-            
-            let imageDataLoadedComplete = {
-                self.photosCollectionView.reloadData()
-            }
-            FlickrProvider.fetchImageDataForPhoto(photo, completion: imageDataLoadedComplete)
-        }
-    }
-    ///////////// ^ MOVE TO PROTOCOL ^ /////////////
     
     
     fileprivate func toggleCellSelection(_ cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: IndexPath) {
@@ -208,9 +187,9 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
             selectedIndexes.sort() { $0.row > $1.row }
             
             for index in selectedIndexes {
-                photos.remove(at: index.row)
+                photos!.remove(at: index.row)
             }
-            newSet.addObjects(from: photos)
+            newSet.addObjects(from: photos!)
             
             pin.photos = newSet
             
@@ -230,15 +209,14 @@ class PhotoAlbumView: UIView /*, FlickrFetchable*/ {
 //TODO: Move this stuff down to photoalbumcollectionview if possible
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        magic("photos.count: \(photos.count)")
-        return photos.count
+        return photos!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotoAlbumCollectionViewCell
         
-        cell.configure(withImageData: photos[indexPath.row].imageData)
+        cell.configure(withImageData: photos![indexPath.row].imageData)
         toggleCellSelection(cell, atIndexPath: indexPath)
         return cell
     }
