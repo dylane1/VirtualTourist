@@ -81,7 +81,8 @@ struct Constants {
 
 
     //MARK: - Storage
-    /// Storage
+    
+    static let coreDataStack = CoreDataStack(modelName: "Model")!
     
     static let userDefaults = UserDefaults.standard
     
@@ -93,10 +94,10 @@ struct Constants {
     }
     
     
-    struct FileSystem {
-        static let applicationSupport = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
-    }
-    static let storedMapImage = FileSystem.applicationSupport + "/storedMapImage.png"
+//    struct FileSystem {
+//        static let applicationSupport = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
+//    }
+//    static let storedMapImage = FileSystem.applicationSupport + "/storedMapImage.png"
     
     
     //MARK: - Dictionary Keys

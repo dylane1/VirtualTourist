@@ -32,8 +32,7 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
 
     /// Collection View Data
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var stack: CoreDataStack!
+    private var stack = Constants.coreDataStack
     
     fileprivate var selectedIndexes = [IndexPath]()
     
@@ -95,7 +94,6 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     }
     
     private func configureCollectionViewData() {
-        stack = appDelegate.stack
         
         /**
          * First, check to see if photos exist in database. If they don't, hit 

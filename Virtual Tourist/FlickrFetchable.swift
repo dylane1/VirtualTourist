@@ -36,7 +36,6 @@ extension FlickrFetchable {
             } else {
                 FlickrProvider.fetchImageDataForPhoto(photo)
             }
-            
         }
     }
 }

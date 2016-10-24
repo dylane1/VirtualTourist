@@ -12,22 +12,20 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let stack = CoreDataStack(modelName: "Model")!
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // Start Autosaving
-        stack.autoSave(delayInSeconds: 60)
+        Constants.coreDataStack.autoSave(delayInSeconds: 60)
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        stack.save()
+        Constants.coreDataStack.save()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        stack.save()
+        Constants.coreDataStack.save()
     }
 
 //    func applicationWillEnterForeground(_ application: UIApplication) {

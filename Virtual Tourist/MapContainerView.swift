@@ -17,8 +17,7 @@ class MapContainerView: UIView, FlickrFetchable {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var stack: CoreDataStack!
+    private var stack = Constants.coreDataStack
     
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
@@ -65,21 +64,14 @@ class MapContainerView: UIView, FlickrFetchable {
         }
     }
     
-    ///
-    fileprivate var annotationViews = [MKAnnotationView]()
+    fileprivate var annotationViews         = [MKAnnotationView]()
     fileprivate var selectedAnnotationViews = [MKAnnotationView]()
     
     private var pins = [Pin]()
-//    fileprivate var pinsToDelete = [Pin]()
-    
     
     private var placemarks: [CLPlacemark]?
-    
-    
-    
+
     fileprivate var openPhotoAlbum: ((Pin) -> Void)!
-//
-    
     
     //MARK: - View Lifecycle
     
@@ -154,8 +146,6 @@ class MapContainerView: UIView, FlickrFetchable {
     //MARK: - 
     
     private func fetchFromCoreData() {
-        stack = appDelegate.stack
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]

@@ -75,8 +75,7 @@ struct FlickrProvider {
                     /// Build url
                     let url = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_m.jpg"
                     
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let stack = appDelegate.stack
+                    let stack = Constants.coreDataStack
                     
                     let photo = Photo(withId: Int64(id)!, title: title, url: url, pin: pin, context: stack.context)
                     
@@ -111,12 +110,9 @@ struct FlickrProvider {
                 return
             }
             
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let stack = appDelegate.stack
-            
             photo.imageData = data as NSData?
             
-            stack.save()
+            Constants.coreDataStack.save()
             
             DispatchQueue.main.async {
                 completion?()

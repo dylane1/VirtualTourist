@@ -29,6 +29,8 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
         
         if imageData != nil {
             imageLoadingLabel.alpha = 0.0
+            let image = UIImage(data: imageData! as Data)
+            magic("width: \(image!.size.width); height \(image!.size.height)")
             imageView.image = UIImage(data: imageData! as Data)
         } else {
             imageLoadingLabel.alpha = 1.0

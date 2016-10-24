@@ -12,7 +12,6 @@
 		A305725B1DB7037500A3866E /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A305725A1DB7037500A3866E /* Dynamic.swift */; };
 		A30572601DB9837600A3866E /* FlickrFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A305725F1DB9837600A3866E /* FlickrFetchable.swift */; };
 		A3166C981DB6A39F00788471 /* MapViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3166C971DB6A39F00788471 /* MapViewNavigationController.swift */; };
-		A34485EB1DB19063008442F6 /* PhotoAlbumCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */; };
 		A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF501D6CE8DF00225C50 /* NavigationController.swift */; };
 		A352EF541D6CE9C600225C50 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF531D6CE9C600225C50 /* MapContainerView.swift */; };
 		A352EF561D6CEC8100225C50 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A352EF551D6CEC8100225C50 /* ReusableView.swift */; };
@@ -65,7 +64,6 @@
 		A305725F1DB9837600A3866E /* FlickrFetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrFetchable.swift; sourceTree = "<group>"; };
 		A3166C8D1DB57BE400788471 /* Model5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model5.xcdatamodel; sourceTree = "<group>"; };
 		A3166C971DB6A39F00788471 /* MapViewNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewNavigationController.swift; sourceTree = "<group>"; };
-		A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionView.swift; sourceTree = "<group>"; };
 		A352EF501D6CE8DF00225C50 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A352EF531D6CE9C600225C50 /* MapContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		A352EF551D6CEC8100225C50 /* ReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
@@ -148,7 +146,6 @@
 		A34485EE1DB192AC008442F6 /* Not Used */ = {
 			isa = PBXGroup;
 			children = (
-				A34485EA1DB19063008442F6 /* PhotoAlbumCollectionView.swift */,
 			);
 			name = "Not Used";
 			sourceTree = "<group>";
@@ -386,7 +383,6 @@
 				A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */,
 				A305725B1DB7037500A3866E /* Dynamic.swift in Sources */,
 				A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */,
-				A34485EB1DB19063008442F6 /* PhotoAlbumCollectionView.swift in Sources */,
 				A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */,
 				A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */,
 				A352EF5B1D6CF47D00225C50 /* ColorSchemes.swift in Sources */,
