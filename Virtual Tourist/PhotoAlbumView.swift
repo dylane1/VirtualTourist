@@ -20,6 +20,8 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     
     fileprivate var pin: Pin!
     
+    fileprivate var openPhotoClosure: ((Photo, IndexPath, Bool) -> Void)!
+    
     /**
      Map View Constraints
      
@@ -42,8 +44,9 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     
     //MARK: - Configuration
     
-    internal func configure(withPin pin: Pin) {
+    internal func configure(withPin pin: Pin, openPhotoHandler: @escaping (Photo, IndexPath, Bool) -> Void) {
         self.pin = pin
+        openPhotoClosure = openPhotoHandler
         
         heightConstraint.constant = bounds.height * 0.25
         widthConstraint.constant = bounds.height * 0.33
@@ -154,9 +157,17 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     }
     
     
-    fileprivate func toggleCellSelection(_ cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: IndexPath) {
-        
-        cell.imageView.alpha = (selectedIndexes.index(of: indexPath) != nil) ? 0.5 : 1.0
+    internal func toggleCellSelectionAtIndexPath(_ indexPath: IndexPath) {
+        if let index = selectedIndexes.index(of: indexPath) {
+            selectedIndexes.remove(at: index)
+        } else {
+            magic("appending: \(indexPath)")
+            selectedIndexes.append(indexPath)
+        }
+//        let cell = collectionView(photosCollectionView, cellForItemAt: indexPath) as! PhotoAlbumCollectionViewCell
+//        toggleCellSelection(cell, atIndexPath: indexPath)
+        toolbarButtonSetup()
+        photosCollectionView.reloadData()
     }
     
     fileprivate func toolbarButtonSetup() {
@@ -215,7 +226,7 @@ extension PhotoAlbumView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotoAlbumCollectionViewCell
         
         cell.configure(withImageData: photos![indexPath.row].imageData)
-        toggleCellSelection(cell, atIndexPath: indexPath)
+        cell.imageView.alpha = (selectedIndexes.index(of: indexPath) != nil) ? 0.5 : 1.0
         return cell
     }
     
@@ -225,19 +236,16 @@ extension PhotoAlbumView: UICollectionViewDataSource {
 extension PhotoAlbumView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotoAlbumCollectionViewCell
-        
-        if let index = selectedIndexes.index(of: indexPath) {
-            selectedIndexes.remove(at: index)
-        } else {
-            selectedIndexes.append(indexPath)
+        var isSelected = false
+        for index in selectedIndexes {
+            if index == indexPath {
+                isSelected = true
+                break
+            }
         }
-        
-        toggleCellSelection(cell, atIndexPath: indexPath)
-        toolbarButtonSetup()
+        /// Open the photo in PhotoContainerViewController
+        openPhotoClosure(photos![indexPath.row], indexPath, isSelected)
     }
-    
-    
 }
 
 extension PhotoAlbumView: UICollectionViewDelegateFlowLayout {

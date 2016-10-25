@@ -30,6 +30,12 @@ struct LocalizedStrings {
         static let keepButton   = NSLocalizedString("AlertViewButtons.keep", value: "Keep", comment: "")
     }
     
+    struct PhotoViewerVC {
+        static let defaultTitle = NSLocalizedString("PhotoViewerVC.defaultTitle", value: "Untitled", comment: "")
+        static let markForDeletion = NSLocalizedString("PhotoViewerVC.markForDeletion", value: "Mark For Deletion", comment: "")
+        static let unmarkForDeletion = NSLocalizedString("PhotoViewerVC.unmarkForDeletion", value: "Unmark For Deletion", comment: "")
+    }
+    
     static let noPhotosFound    = NSLocalizedString("noPhotosFound", value: "No Photos Found", comment: "")
     static let imageLoading     = NSLocalizedString("imageLoading", value: "Loading Image", comment: "")
     static let unknownPlace     = NSLocalizedString("unknownPlace", value: "Unknown Place", comment: "")
