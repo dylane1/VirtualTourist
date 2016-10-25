@@ -15,31 +15,27 @@ struct Constants {
     struct StoryBoardID {
         static let main             = "Main"
         static let noPhotosFound    = "noPhotosFound"
-//        static let loginVC                  = "loginVC"
-//        static let activityIndicatorVC      = "activityIndicatorVC"
-//        static let mapPresentationVC        = "mapPresentationVC"
-//        static let infoPostingNavController = "infoPostingNavController"
-//        static let infoPostingVC            = "infoPostingVC"
+        static let photoContainer   = "photoContainer"
     }
     
     /// UI
     
-    static let screenHeight = UIScreen.main.bounds.height
-    static let screenWidth  = UIScreen.main.bounds.width
-    
-    struct DeviceScreenHeight {
-        static let iPhone4s: CGFloat    = 480
-        static let iPhone5: CGFloat     = 568
-        static let iPhone6: CGFloat     = 667
-        static let iPhone6Plus: CGFloat = 736
-    }
-    
-    struct MapImage {
-        static let iPhone4s     = "Map_iPhone4s.png"
-        static let iPhone5      = "Map_iPhone5.png"
-        static let iPhone6      = "Map_iPhone6.png"
-        static let iPhone6Plus  = "Map_iPhone6Plus.png"
-    }
+//    static let screenHeight = UIScreen.main.bounds.height
+//    static let screenWidth  = UIScreen.main.bounds.width
+//    
+//    struct DeviceScreenHeight {
+//        static let iPhone4s: CGFloat    = 480
+//        static let iPhone5: CGFloat     = 568
+//        static let iPhone6: CGFloat     = 667
+//        static let iPhone6Plus: CGFloat = 736
+//    }
+//    
+//    struct MapImage {
+//        static let iPhone4s     = "Map_iPhone4s.png"
+//        static let iPhone5      = "Map_iPhone5.png"
+//        static let iPhone6      = "Map_iPhone6.png"
+//        static let iPhone6Plus  = "Map_iPhone6Plus.png"
+//    }
     //MARK: - Network
     
     struct Flickr {
