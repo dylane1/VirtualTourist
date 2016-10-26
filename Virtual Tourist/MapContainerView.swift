@@ -22,7 +22,6 @@ class MapContainerView: UIView, FlickrFetchable {
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
         didSet {
-            magic("current state: \(state)")
             switch state {
             case .clearingAll:
                 clearAllAnnotations()
@@ -98,7 +97,7 @@ class MapContainerView: UIView, FlickrFetchable {
     
     private func configureActivityIndicator() {
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
-        activityIndicator.color = Theme.activityIndicatorCircle1
+        activityIndicator.color = Theme.activityIndicatorColor
         activityIndicator.hidesWhenStopped = true
         
         /// Only run first time
@@ -379,6 +378,8 @@ class MapContainerView: UIView, FlickrFetchable {
         }
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
+    
+    
 }
 
 extension MapContainerView: MKMapViewDelegate {
@@ -444,14 +445,21 @@ extension MapContainerView: MKMapViewDelegate {
                 
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
+                
             } else {
                 pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MKPinAnnotationView.reuseIdentifier)
-                pinView.canShowCallout = true
-                pinView.calloutOffset = CGPoint(x: -7, y: 5)
-                pinView.animatesDrop = true
                 
-//                pinView.image = IconProvider.imageOfDrawnIcon(.Annotation, size: CGSize(width: 15, height: 15))
-                pinView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+                pinView.canShowCallout  = true
+                pinView.calloutOffset   = CGPoint(x: -7, y: 5)
+                pinView.animatesDrop    = true
+
+                let image = IconProvider.imageOfDrawnIcon(icon: .disclosureIndicator, size: CGSize(width: 30, height: 30), fillColor: Theme.buttonTint, shadowColor: UIColor.clear)
+                
+                let button      = UIButton(type: .custom)
+                button.frame    = CGRect(x: 0, y: 0, width: 30, height: 30)
+                button.setImage(image, for: .normal)
+                
+                pinView.rightCalloutAccessoryView = button
             }
             pinView.pinTintColor = Theme.unselectedPin
             annotationViews.append(pinView)

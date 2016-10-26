@@ -20,47 +20,25 @@ import UIKit
 
 struct Theme {
     /// Universal
-    static let textLight                = UIColor.romance()
+    static let textLight                = UIColor.fantasy()
+    static let textStrokeLight          = UIColor.pearlBush()
     static let textDark                 = UIColor.timberGreen()
-    static let textLink                 = UIColor.ceSoir()
-    static let textError                = UIColor.redOrange()
-    static let textFieldText            = UIColor.timberGreen()
-    static let textFieldBackground      = UIColor.romance()
-    static let buttonBackground         = UIColor.ceSoir()
-    static let buttonTint               = UIColor.romance()
+    static let destructiveButtonTint    = UIColor.redOrange()
+    static let buttonTint               = UIColor.blueBayoux()
     static let presentationDimBGColor   = UIColor.timberGreenAlpha50()
     
-    /// Activity Indicator
-    static let activityIndicatorCircle0         = UIColor.romance()
-    static let activityIndicatorCircle1         = UIColor.timberGreen()
-    
     /// Tab Bar / Navigation Bar
-    static let barTintColor             = UIColor.romance()
-    static let tabBarItemUnselected     = UIColor.timberGreen()
-    static let navBarTitleColor         = UIColor.spanishGreen()
-    
-    /// Login
-    static let loginScreenBGColor       = UIColor.spanishGreen()
-    static let loginScreenBGGradient    = UIColor.timberGreenAlpha50()
-    static let starColor                = UIColor.romance()
+    static let barTintColor             = UIColor.fantasy()
+    static let navBarTitleColor         = UIColor.blueBayoux()
     
     /// Map View
-    static let annotationColor0 = UIColor.spanishGreen()
-    static let annotationColor1 = UIColor.romance()
-    static let annotationColor2 = UIColor.redOrange()
+    static let activityIndicatorColor   = UIColor.rangoonGreen()
+    static let selectedPin              = UIColor.blueBayoux()
+    static let unselectedPin            = UIColor.redOrange()
     
-    static let selectedPin      = UIColor.spanishGreen()
-    static let unselectedPin    = UIColor.redOrange()
+    /// Photo Album View
+    static let collectionViewBackground = UIColor.rangoonGreen()
     
-    
-    /// Table View
-    static let tableViewBGColor             = UIColor.romance()
-    static let locationMarker               = UIColor.ceSoir()
-    static let disclosureIndicatorEnabled   = UIColor.ceSoir()
-    static let disclosureIndicatorDisabled  = UIColor.mistGray()
-    
-    /// Location Submit View
-    static let locationSubmitScreenBGColor  = UIColor.desertStorm()
 }
 
 /**

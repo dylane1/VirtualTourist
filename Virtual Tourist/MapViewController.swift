@@ -8,7 +8,6 @@
 
 import UIKit
 import MapKit
-//import CoreData
 
 class MapViewController: UIViewController, SegueHandlerType {
     
@@ -24,10 +23,15 @@ class MapViewController: UIViewController, SegueHandlerType {
     
     private let stateMachine = MapViewStateMachine()
     
+    private var navController: MapViewNavigationController!
+    
+    //MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapContainerView = view as! MapContainerView
+        navController       = navigationController! as! MapViewNavigationController
+        mapContainerView    = view as! MapContainerView
         
         let openAlbumClosure = { [unowned self] (pin: Pin) in
             self.selectedPin = pin
@@ -55,15 +59,17 @@ class MapViewController: UIViewController, SegueHandlerType {
         
         configureNavigationController()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureNavigationController()
+    }
 
     //MARK: - Configuration
     
     private func configureNavigationController() {
         navigationItem.title = LocalizedStrings.ViewControllerTitles.virtualTourist
         
-        let navController = navigationController! as! MapViewNavigationController
         navController.setNavigationBarAttributes(isAppTitle: true)
-        
         navController.configure(withStateMachine: stateMachine)
     }
     

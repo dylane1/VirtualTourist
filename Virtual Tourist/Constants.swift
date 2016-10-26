@@ -29,23 +29,12 @@ struct Constants {
 //        static let iPhone6: CGFloat     = 667
 //        static let iPhone6Plus: CGFloat = 736
 //    }
-//    
-//    struct MapImage {
-//        static let iPhone4s     = "Map_iPhone4s.png"
-//        static let iPhone5      = "Map_iPhone5.png"
-//        static let iPhone6      = "Map_iPhone6.png"
-//        static let iPhone6Plus  = "Map_iPhone6Plus.png"
-//    }
+//
     //MARK: - Network
     
     struct Flickr {
         static let key      = "446dfaa1521e824779ddb5cd32d363a4"
         static let secret   = "53cc541820255f86"
-        
-//        static let udacitySignUpURL     = "https://www.udacity.com"
-//        static let udacitySessionURL    = "https://www.udacity.com/api/session"
-//        static let parseAppID           = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-//        static let restAPIKey           = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     }
     
     struct HTTPHeaderFieldValues {

@@ -42,7 +42,7 @@ final class MapViewNavigationController: NavigationController {
             target: self,
             action: #selector(editPinsButtonTapped))
         
-        editPinsButton.isEnabled = false
+//        editPinsButton.isEnabled = false
         navigationBar.topItem?.rightBarButtonItem = editPinsButton
         
         clearAllPinsButton = UIBarButtonItem(
@@ -51,8 +51,9 @@ final class MapViewNavigationController: NavigationController {
             target: self,
             action: #selector(clearAllButtonTapped))
         
-        clearAllPinsButton.isEnabled = false
+//        clearAllPinsButton.isEnabled = false
         navigationBar.topItem?.leftBarButtonItem = clearAllPinsButton
+        setupButtons()
     }
     
     private func setupButtons() {

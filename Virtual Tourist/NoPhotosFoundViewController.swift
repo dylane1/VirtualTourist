@@ -27,10 +27,10 @@ class NoPhotosFoundViewController: UIViewController {
         label0.adjustsFontSizeToFitWidth = true
         
         let labelAttributes: [String : Any] = [
-            NSStrokeColorAttributeName: Theme.textLink,
+            NSStrokeColorAttributeName: Theme.textStrokeLight,
             NSStrokeWidthAttributeName: -3.0,
             NSForegroundColorAttributeName : Theme.textLight,
-            NSFontAttributeName: UIFont(name: Constants.FontName.markerFelt, size: 20)!
+            NSFontAttributeName: UIFont(name: Constants.FontName.markerFelt, size: 30)!
         ]
         
         label0.attributedText = NSAttributedString(string: LocalizedStrings.noPhotosFound, attributes: labelAttributes)

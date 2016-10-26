@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A303878D1D6B8AF100018751 /* CustomPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30387881D6B893F00018751 /* CustomPresentation.framework */; };
 		A30572571DB702CF00A3866E /* MapViewStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30572561DB702CF00A3866E /* MapViewStateMachine.swift */; };
 		A305725B1DB7037500A3866E /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A305725A1DB7037500A3866E /* Dynamic.swift */; };
 		A30572601DB9837600A3866E /* FlickrFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A305725F1DB9837600A3866E /* FlickrFetchable.swift */; };
@@ -32,6 +31,10 @@
 		A36C95811D64D69200DED8DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A36C95801D64D69200DED8DB /* Assets.xcassets */; };
 		A36C95841D64D69200DED8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36C95821D64D69200DED8DB /* LaunchScreen.storyboard */; };
 		A37238AB1DBECFEC00BE746E /* PhotoContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37238AA1DBECFEC00BE746E /* PhotoContainerViewController.swift */; };
+		A37238AF1DC1151000BE746E /* IconProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37238AD1DC1151000BE746E /* IconProvider.swift */; };
+		A37238B01DC1151000BE746E /* DisclosureIndicatorDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37238AE1DC1151000BE746E /* DisclosureIndicatorDrawable.swift */; };
+		A37238B51DC1284C00BE746E /* CustomPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30387881D6B893F00018751 /* CustomPresentation.framework */; };
+		A37238B61DC1284C00BE746E /* CustomPresentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A30387881D6B893F00018751 /* CustomPresentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
 		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
 		A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */; };
@@ -56,7 +59,35 @@
 			remoteGlobalIDString = A36C95D41D6521B100DED8DB;
 			remoteInfo = CustomPresentationTests;
 		};
+		A37238B31DC1280100BE746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A36C95C91D6521B000DED8DB;
+			remoteInfo = CustomPresentation;
+		};
+		A37238B71DC1284C00BE746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A36C95C91D6521B000DED8DB;
+			remoteInfo = CustomPresentation;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A37238B91DC1284D00BE746E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A37238B61DC1284C00BE746E /* CustomPresentation.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A30387821D6B893F00018751 /* CustomPresentation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CustomPresentation.xcodeproj; path = Frameworks/External/CustomPresentation/CustomPresentation.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -88,6 +119,8 @@
 		A36C95851D64D69200DED8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A36FE3471DA421820074276C /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
 		A37238AA1DBECFEC00BE746E /* PhotoContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContainerViewController.swift; sourceTree = "<group>"; };
+		A37238AD1DC1151000BE746E /* IconProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconProvider.swift; sourceTree = "<group>"; };
+		A37238AE1DC1151000BE746E /* DisclosureIndicatorDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclosureIndicatorDrawable.swift; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
@@ -104,7 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A303878D1D6B8AF100018751 /* CustomPresentation.framework in Frameworks */,
+				A37238B51DC1284C00BE746E /* CustomPresentation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +211,8 @@
 			isa = PBXGroup;
 			children = (
 				A352EF5A1D6CF47D00225C50 /* ColorSchemes.swift */,
+				A37238AD1DC1151000BE746E /* IconProvider.swift */,
+				A37238AE1DC1151000BE746E /* DisclosureIndicatorDrawable.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -267,10 +302,13 @@
 				A36C95731D64D69200DED8DB /* Frameworks */,
 				A36C95741D64D69200DED8DB /* Resources */,
 				A36C958B1D64D86A00DED8DB /* Build Number */,
+				A37238B91DC1284D00BE746E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A37238B41DC1280100BE746E /* PBXTargetDependency */,
+				A37238B81DC1284C00BE746E /* PBXTargetDependency */,
 			);
 			name = "Virtual Tourist";
 			productName = "Virtual Tourist";
@@ -386,6 +424,7 @@
 				A352EF621D6CFCB700225C50 /* LocalizedStrings.swift in Sources */,
 				A305725B1DB7037500A3866E /* Dynamic.swift in Sources */,
 				A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */,
+				A37238B01DC1151000BE746E /* DisclosureIndicatorDrawable.swift in Sources */,
 				A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */,
 				A352EF511D6CE8DF00225C50 /* NavigationController.swift in Sources */,
 				A352EF5B1D6CF47D00225C50 /* ColorSchemes.swift in Sources */,
@@ -397,11 +436,25 @@
 				A352EF6F1D70BA3200225C50 /* PhotoAlbumView.swift in Sources */,
 				A30572571DB702CF00A3866E /* MapViewStateMachine.swift in Sources */,
 				A352EF601D6CF93A00225C50 /* SegueHandlerType.swift in Sources */,
+				A37238AF1DC1151000BE746E /* IconProvider.swift in Sources */,
 				A352EF5E1D6CF4DF00225C50 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A37238B41DC1280100BE746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CustomPresentation;
+			targetProxy = A37238B31DC1280100BE746E /* PBXContainerItemProxy */;
+		};
+		A37238B81DC1284C00BE746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CustomPresentation;
+			targetProxy = A37238B71DC1284C00BE746E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A36C957D1D64D69200DED8DB /* Main.storyboard */ = {
@@ -514,6 +567,7 @@
 		A36C95891D64D69200DED8DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C6TW237FTY;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";
@@ -527,6 +581,7 @@
 		A36C958A1D64D69200DED8DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C6TW237FTY;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";

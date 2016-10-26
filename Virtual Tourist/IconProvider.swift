@@ -1,6 +1,6 @@
 //
 //  IconProvider.swift
-//  On The Map
+//  Virtual Tourist
 //
 //  Created by Dylan Edwards on 7/10/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
@@ -10,14 +10,12 @@
 import UIKit
 
 enum Icon: String {
-    case Pin
+    /*case Pin
     case Map
     case List
     case LocationMarker
-    case LocationMarker30Point
-    case DisclosureIndicator
-    case MapButton
-    case Annotation
+    case LocationMarker30Point*/
+    case disclosureIndicator
 }
 
 protocol IconProviderProtocol {
@@ -26,37 +24,16 @@ protocol IconProviderProtocol {
 
 struct IconProvider { }
 
-extension IconProvider: IconProviderProtocol,
-                        PinIconDrawable,
-                        MapIconDrawable,
-                        ListIconDrawable,
-                        LocationMarkerIconDrawable,
-                        DisclosureIndicatorDrawable,
-                        MapButtonDrawable,
-                        AnnotationDrawable{
+extension IconProvider: IconProviderProtocol, DisclosureIndicatorDrawable {
     
-    static func imageOfDrawnIcon(icon: Icon, size: CGSize, fillColor: UIColor = UIColor.blackColor(), shadowColor: UIColor = UIColor.blackColor()) -> UIImage {
+    static func imageOfDrawnIcon(icon: Icon, size: CGSize, fillColor: UIColor = UIColor.black, shadowColor: UIColor = UIColor.black) -> UIImage {
         var image: UIImage {
             
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), false, 0)
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: size.width, height: size.height), false, 0)
             
             switch icon {
-            case .Pin:
-                draw32PointPinWithColor(fillColor: fillColor)
-            case .Map:
-                draw30PointMapWithColor(fillColor: fillColor)
-            case .List:
-                draw30PointListWithColor(fillColor: fillColor)
-            case .LocationMarker:
-                drawLocationMarkerWithColor(fillColor: fillColor)
-            case .LocationMarker30Point:
-                draw30PointLocationMarkerWithColor(fillColor: fillColor)
-            case .DisclosureIndicator:
-                draw20PointDisclosureIndicatorWithColor(fillColor: fillColor)
-            case .MapButton:
-                draw30PointMapButtonWithColor(fillColor: fillColor)
-            case .Annotation:
-                drawAnnotationMarker()
+            case .disclosureIndicator:
+                drawDisclosureIndicatorWithColor(fillColor: fillColor)
             }
             
             let img = UIGraphicsGetImageFromCurrentImageContext()!

@@ -124,7 +124,7 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     private func configureCollectionView() {
         photosCollectionView.delegate           = self
         photosCollectionView.backgroundView     = nil
-        photosCollectionView.backgroundColor    = Theme.loginScreenBGColor
+        photosCollectionView.backgroundColor    = Theme.collectionViewBackground
     }
     
     
