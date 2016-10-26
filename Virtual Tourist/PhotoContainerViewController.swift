@@ -58,7 +58,8 @@ class PhotoContainerViewController: UIViewController {
     
     private func configureButton() {
         toggleDeleteButton.addTarget(self, action: #selector(toggleForDeletion), for: .touchUpInside)
-        toggleDeleteButton.tintColor = UIColor.red
+        
+        toggleDeleteButton.tintColor = (isSelectedForDeletion) ? Theme.buttonTint : Theme.destructiveButtonTint
         
         let buttonTitle = (isSelectedForDeletion) ? LocalizedStrings.PhotoViewerVC.unmarkForDeletion : LocalizedStrings.PhotoViewerVC.markForDeletion
         

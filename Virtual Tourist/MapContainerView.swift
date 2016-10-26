@@ -22,6 +22,7 @@ class MapContainerView: UIView, FlickrFetchable {
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
         didSet {
+            magic("state: \(state)")
             switch state {
             case .clearingAll:
                 clearAllAnnotations()
@@ -246,9 +247,6 @@ class MapContainerView: UIView, FlickrFetchable {
             
             /// Remove from map
             mapView.removeAnnotations(selectedAnnotations)
-            
-            /// Reset
-            selectedAnnotations.removeAll()
         }
         
         /// Clear Annotation Views
@@ -261,10 +259,11 @@ class MapContainerView: UIView, FlickrFetchable {
                     annotationViews.remove(at: i)
                 }
             }
-            
-            /// Reset
-            selectedAnnotationViews.removeAll()
         }
+        
+        /// Reset
+        selectedAnnotations.removeAll()
+        selectedAnnotationViews.removeAll()
     }
     
     private func clearAllAnnotations() {
