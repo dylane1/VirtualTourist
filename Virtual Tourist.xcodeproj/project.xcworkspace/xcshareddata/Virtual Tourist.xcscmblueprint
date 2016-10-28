@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BFE2FC34B09C2642411234AA0D93E0C1FB48CB6E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BFE2FC34B09C2642411234AA0D93E0C1FB48CB6E" : 0,
+    "F0166C1F2C44DF861A63A03449E7BA8BC62E17A4" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "96EE5101-60AB-4B12-A100-9960D21EF7E2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BFE2FC34B09C2642411234AA0D93E0C1FB48CB6E" : "VirtualTourist\/",
+    "F0166C1F2C44DF861A63A03449E7BA8BC62E17A4" : "VirtualTourist\/Frameworks\/External\/CustomPresentation\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Virtual Tourist",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Virtual Tourist.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:dylane1\/virtualtourist.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BFE2FC34B09C2642411234AA0D93E0C1FB48CB6E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:dylane1\/custompresentation.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F0166C1F2C44DF861A63A03449E7BA8BC62E17A4"
+    }
+  ]
+}
