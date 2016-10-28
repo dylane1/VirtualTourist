@@ -1,6 +1,6 @@
 //
 //  ColorSchemes.swift
-//  On The Map
+//  Virtual Tourist
 //
 //  Created by Dylan Edwards on 7/9/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
@@ -71,7 +71,7 @@ extension UIColor {
 }
 
 /**
- On The Map Color Palate 01
+ Virtual Tourist Color Palate 01
  **/
 
 extension UIColor {
@@ -134,7 +134,7 @@ extension UIColor {
 }
 
 /**
- On The Map 02
+ Virtual Tourist 02
  **/
 
 extension UIColor {
@@ -178,7 +178,7 @@ extension UIColor {
 }
 
 /**
- On The Map 03
+ Virtual Tourist 03
  **/
 
 extension UIColor {
@@ -234,6 +234,4 @@ extension UIColor {
     public class func timberGreenAlpha50() -> UIColor {
         return UIColor(red: 0.2039215686, green: 0.2352941176, blue: 0.2078431373, alpha: 0.5000000000);
     }
-    
 }
-

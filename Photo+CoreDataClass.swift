@@ -20,7 +20,6 @@ public class Photo: NSManagedObject {
             self.title      = title
             self.url        = url
             self.pin        = pin
-//            self.imageData  = imageData
             
             return
         }

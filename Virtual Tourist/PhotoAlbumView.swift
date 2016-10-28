@@ -86,14 +86,12 @@ class PhotoAlbumView: UIView, FlickrFetchable {
         toolbarButton.isEnabled = false
         
         toolbarItemArray.append(toolbarButton)
-        
         toolbarItemArray.append(flexSpace)
         
         toolbar.setItems(toolbarItemArray, animated: false)
         
-        //        toolbar.barTintColor = Theme.darkBlue
-        toolbar.tintColor    = Theme.navBarTitleColor
-        toolbar.isTranslucent  = true
+        toolbar.tintColor       = Theme.navBarTitleColor
+        toolbar.isTranslucent   = true
     }
     
     private func configureCollectionViewData() {
@@ -120,14 +118,11 @@ class PhotoAlbumView: UIView, FlickrFetchable {
         photosCollectionView.dataSource = self
     }
     
-    
     private func configureCollectionView() {
         photosCollectionView.delegate           = self
         photosCollectionView.backgroundView     = nil
         photosCollectionView.backgroundColor    = Theme.collectionViewBackground
     }
-    
-    
     
     //MARK: - 
     
@@ -156,7 +151,6 @@ class PhotoAlbumView: UIView, FlickrFetchable {
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
     
-    
     internal func toggleCellSelectionAtIndexPath(_ indexPath: IndexPath) {
         if let index = selectedIndexes.index(of: indexPath) {
             selectedIndexes.remove(at: index)
@@ -164,8 +158,7 @@ class PhotoAlbumView: UIView, FlickrFetchable {
             magic("appending: \(indexPath)")
             selectedIndexes.append(indexPath)
         }
-//        let cell = collectionView(photosCollectionView, cellForItemAt: indexPath) as! PhotoAlbumCollectionViewCell
-//        toggleCellSelection(cell, atIndexPath: indexPath)
+        
         toolbarButtonSetup()
         photosCollectionView.reloadData()
     }
@@ -178,7 +171,6 @@ class PhotoAlbumView: UIView, FlickrFetchable {
             toolbarButton.title     = LocalizedStrings.ToolbarButtons.removeSelected
             toolbarButton.isEnabled = true
         }
-
     }
     
     internal func toolbarButtonTapped() {
@@ -215,7 +207,8 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     }
 }
 
-//TODO: Move this stuff down to photoalbumcollectionview if possible
+//MARK: - 
+
 extension PhotoAlbumView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos!.count
@@ -233,6 +226,8 @@ extension PhotoAlbumView: UICollectionViewDataSource {
     
 }
 
+//MARK: - 
+
 extension PhotoAlbumView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -247,6 +242,8 @@ extension PhotoAlbumView: UICollectionViewDelegate {
         openPhotoClosure(photos![indexPath.row], indexPath, isSelected)
     }
 }
+
+//MARK: - 
 
 extension PhotoAlbumView: UICollectionViewDelegateFlowLayout {
     
@@ -269,36 +266,3 @@ extension PhotoAlbumView: UICollectionViewDelegateFlowLayout {
         return 1.0
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 //
 //  NavigationController.swift
-//  On The Map
+//  Virtual Tourist
 //
 //  Created by Dylan Edwards on 5/18/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
@@ -12,7 +12,6 @@ class NavigationController: UINavigationController {
     
     internal func setNavigationBarAttributes(isAppTitle isTitle: Bool) {
         
-//        navigationBar.barTintColor = Theme.barTintColor
         navigationBar.tintColor    = Theme.navBarTitleColor
         navigationBar.isTranslucent  = true
         
@@ -21,7 +20,7 @@ class NavigationController: UINavigationController {
         if isTitle {
             titleLabelAttributes[NSFontAttributeName] = UIFont(name: Constants.FontName.markerFelt, size: 18)!
         } else {
-            titleLabelAttributes[NSFontAttributeName] = UIFont(name: Constants.FontName.avenirBlack, size: 14)
+            titleLabelAttributes[NSFontAttributeName] = UIFont(name: Constants.FontName.avenirHeavy, size: 18)
         }
         
         navigationBar.titleTextAttributes = titleLabelAttributes

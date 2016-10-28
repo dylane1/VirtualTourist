@@ -10,7 +10,7 @@ import MapKit
 import Foundation
 
 struct FlickrProvider {
-    //TODO: Need to test empty image sets returned from flickr
+    
     static func fetchImagesForPin(_ pin: Pin, pageNumber page: Int16, withCompletion completion: @escaping (Bool) -> Void) {
         let lat = pin.latitude
         let lon = pin.longitude
@@ -30,10 +30,7 @@ struct FlickrProvider {
         let task = session.dataTask(with: url) { data, response, error in
             guard let data = data, let response = response, error == nil else {
                 DispatchQueue.main.async {
-                    //TODO: Implement Error Alerts!
                     magic("NOPE... :( \nerror: \(error)")
-                    
-                    //self.presentErrorAlert(alertParameters: (title: LocalizedStrings.AlertTitles.error, message: error!.localizedDescription))
                 }
                 return
             }
@@ -49,8 +46,6 @@ struct FlickrProvider {
                 
                 guard let photos = jsonDictionary["photos"] as? NSDictionary,
                 let photoArray = photos["photo"] as? [NSDictionary] else {
-                    //TODO: present error alert...
-                    
                     magic("Something went terribly wrong")
                     return
                 }
@@ -121,32 +116,3 @@ struct FlickrProvider {
         task.resume()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

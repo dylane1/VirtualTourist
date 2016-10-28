@@ -35,5 +35,4 @@ class NoPhotosFoundViewController: UIViewController {
         
         label0.attributedText = NSAttributedString(string: LocalizedStrings.noPhotosFound, attributes: labelAttributes)
     }
-
 }

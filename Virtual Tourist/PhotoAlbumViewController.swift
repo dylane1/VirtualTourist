@@ -18,6 +18,8 @@ class PhotoAlbumViewController: UIViewController {
     private var overlayTransitioningDelegate: OverlayTransitioningDelegate?
     private var photoViewController: PhotoContainerViewController?
     
+    //MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,10 +88,11 @@ class PhotoAlbumViewController: UIViewController {
 
 }
 
+//MARK: - 
+
 extension PhotoAlbumViewController {
     /** Resize cells upon rotation */
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         photoAlbumView.layoutCollectionView()
     }
 }
-

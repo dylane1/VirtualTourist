@@ -184,13 +184,6 @@
 			name = CustomPresentation;
 			sourceTree = "<group>";
 		};
-		A34485EE1DB192AC008442F6 /* Not Used */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Not Used";
-			sourceTree = "<group>";
-		};
 		A352EF521D6CE97800225C50 /* Map View */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,7 +232,6 @@
 				A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */,
 				A3693FA21DBA8DF600EC831C /* NoPhotosFoundViewController.swift */,
 				A37238AA1DBECFEC00BE746E /* PhotoContainerViewController.swift */,
-				A34485EE1DB192AC008442F6 /* Not Used */,
 			);
 			name = "Photo Album View";
 			sourceTree = "<group>";

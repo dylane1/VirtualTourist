@@ -1,6 +1,6 @@
 //
 //  StudentLocationAnnotation.swift
-//  On The Map
+//  Virtual Tourist
 //
 //  Created by Dylan Edwards on 6/16/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
@@ -15,8 +15,6 @@ final class MapLocationAnnotation: NSObject, MKAnnotation {
     internal var pin: Pin!
     internal var isSelected = false
     
-    /// coordiante must me 'dynamic' in order to update the location on the map
+    /// coordiante must me 'dynamic' in order to update the location Virtual Tourist
     internal dynamic var coordinate = CLLocationCoordinate2D()
-    
-    
 }

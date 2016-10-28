@@ -42,7 +42,6 @@ final class MapViewNavigationController: NavigationController {
             target: self,
             action: #selector(editPinsButtonTapped))
         
-//        editPinsButton.isEnabled = false
         navigationBar.topItem?.rightBarButtonItem = editPinsButton
         
         clearAllPinsButton = UIBarButtonItem(
@@ -51,7 +50,6 @@ final class MapViewNavigationController: NavigationController {
             target: self,
             action: #selector(clearAllButtonTapped))
         
-//        clearAllPinsButton.isEnabled = false
         navigationBar.topItem?.leftBarButtonItem = clearAllPinsButton
         setupButtons()
     }
@@ -72,7 +70,6 @@ final class MapViewNavigationController: NavigationController {
         default:
             break
         }
-//        editPinsButton.title = (state == .isSelecting) ? LocalizedStrings.NavigationControllerButtons.clearSelected : LocalizedStrings.NavigationControllerButtons.editPins
     }
     
     
@@ -86,7 +83,6 @@ final class MapViewNavigationController: NavigationController {
             stateMachine.state.value = .clearingSelected
         default:
             break
-//            stateMachine.state.value = .normalState
         }
     }
     
@@ -94,23 +90,3 @@ final class MapViewNavigationController: NavigationController {
         stateMachine.state.value = .clearingAll
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

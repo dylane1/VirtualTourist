@@ -89,6 +89,4 @@ class MapViewController: UIViewController, SegueHandlerType {
 
         }
     }
-    
 }
-

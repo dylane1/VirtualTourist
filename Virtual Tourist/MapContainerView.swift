@@ -1,6 +1,6 @@
 //
 //  StudentLocationMapContainerView.swift
-//  On The Map
+//  Virtual Tourist
 //
 //  Created by Dylan Edwards on 6/16/16.
 //  Copyright © 2016 Slinging Pixels Media. All rights reserved.
@@ -22,7 +22,6 @@ class MapContainerView: UIView, FlickrFetchable {
     /// This is set by stateMachine, not directly
     fileprivate var state: MapState = .normalStateNoPins {
         didSet {
-            magic("state: \(state)")
             switch state {
             case .clearingAll:
                 clearAllAnnotations()
@@ -157,8 +156,6 @@ class MapContainerView: UIView, FlickrFetchable {
         }
     }
     
-    
-    
     internal func hangleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began:
@@ -181,8 +178,6 @@ class MapContainerView: UIView, FlickrFetchable {
             draggableAnnotation!.coordinate = coordinate
         }
     }
-    
-    
     
     //MARK: - Map View
     
@@ -377,9 +372,9 @@ class MapContainerView: UIView, FlickrFetchable {
         }
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
-    
-    
 }
+
+//MARK: - 
 
 extension MapContainerView: MKMapViewDelegate {
     
@@ -428,14 +423,6 @@ extension MapContainerView: MKMapViewDelegate {
         }
     }
     
-//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-//        if state == .isSelecting {
-//            //            view.canShowCallout = false
-////            view.isHighlighted = true
-//            //            magic("add to selected list or take out")
-//        }
-//    }
-    
     internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if let annotation = annotation as? MapLocationAnnotation {
@@ -479,51 +466,18 @@ extension MapContainerView: MKMapViewDelegate {
     }
 }
 
+//MARK: - 
+
 extension MapContainerView: UIGestureRecognizerDelegate {
     internal func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        /// We only allow the (drag) gesture to continue if it is within a long press
+        /// Only allow the (drag) gesture to continue if it is within a long press
         if((gestureRecognizer is UIPanGestureRecognizer) && mapView.isScrollEnabled) {
             return false
         }
         return true
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

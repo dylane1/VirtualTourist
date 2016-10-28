@@ -67,6 +67,8 @@ class PhotoContainerViewController: UIViewController {
         
     }
     
+    //MARK: - 
+    
     private func prettyIt() {
         view.layer.cornerRadius     = 6
         view.layer.shadowColor      = UIColor.black.cgColor
@@ -75,8 +77,6 @@ class PhotoContainerViewController: UIViewController {
         view.layer.shadowOffset     = CGSize(width: 5, height: 5)
         view.layer.masksToBounds    = false
     }
-    
-    //MARK: - 
     
     internal func toggleForDeletion() {
         isSelectedForDeletion = (isSelectedForDeletion) ? false : true
