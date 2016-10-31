@@ -10,28 +10,18 @@ import UIKit
 
 class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageLoadingLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var imageView: UIImageView!
     
     //MARK: - Configuration
     
     internal func configure(withImageData imageData: NSData?) {
-        let labelAttributes: [String : Any] = [
-            NSStrokeColorAttributeName: Theme.textDark,
-            NSStrokeWidthAttributeName: -3.0,
-            NSForegroundColorAttributeName : Theme.textLight,
-            NSFontAttributeName: UIFont(name: Constants.FontName.markerFelt, size: 14)!
-        ]
-        imageLoadingLabel.attributedText = NSAttributedString(string: LocalizedStrings.imageLoading, attributes: labelAttributes)
-        
-        imageLoadingLabel.adjustsFontSizeToFitWidth = true
-        
-        
         if imageData != nil {
-            imageLoadingLabel.alpha = 0.0
+            activityIndicator.stopAnimating()
             imageView.image = UIImage(data: imageData! as Data)
         } else {
-            imageLoadingLabel.alpha = 1.0
+            activityIndicator.startAnimating()
+            imageView.image = nil
             backgroundColor = Theme.presentationDimBGColor
         }
     }
