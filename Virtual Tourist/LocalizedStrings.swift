@@ -25,11 +25,17 @@ struct LocalizedStrings {
     
     struct NoPhotosFoundAlert {
         static let title        = LocalizedStrings.noPhotosFound
-        static let message      = NSLocalizedString("AlertViewButtons.message", value: "No photos were found for this location. Would you like to keep this pin or delete?", comment: "")
-        static let deleteButton = NSLocalizedString("AlertViewButtons.delete", value: "Delete", comment: "")
-        static let keepButton   = NSLocalizedString("AlertViewButtons.keep", value: "Keep", comment: "")
+        static let message      = NSLocalizedString("NoPhotosFoundAlert.message", value: "No photos were found for this location. Would you like to keep this pin or delete?", comment: "")
+        static let deleteButton = NSLocalizedString("NoPhotosFoundAlert.delete", value: "Delete", comment: "")
+        static let keepButton   = NSLocalizedString("NoPhotosFoundAlert.keep", value: "Keep", comment: "")
     }
     
+    struct EndOfPhotosReached {
+        static let title            = NSLocalizedString("EndOfPhotosReached.title", value: "No More Photos Available", comment: "")
+        static let message          = NSLocalizedString("EndOfPhotosReached.message", value: "There are no more photos on Flickr associated with this location. Would you like to return to the beginning?", comment: "")
+        static let noThanksButton   = NSLocalizedString("EndOfPhotosReached.noThanksButton", value: "No Thanks", comment: "")
+        static let okButton         = NSLocalizedString("EndOfPhotosReached.okButton", value: "OK", comment: "")
+    }
     struct PhotoViewerVC {
         static let defaultTitle = NSLocalizedString("PhotoViewerVC.defaultTitle", value: "Untitled", comment: "")
         static let markForDeletion = NSLocalizedString("PhotoViewerVC.markForDeletion", value: "Mark For Deletion", comment: "")

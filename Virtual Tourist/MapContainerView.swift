@@ -166,6 +166,10 @@ class MapContainerView: UIView, FlickrFetchable {
             getAnnotationLocationName()
         default:
             ///Changed
+            /** 
+             * Note: "Hold & Drag" of pin to change location is handled by the
+             * handlePanGesture() func below.
+             */
             break
         }
     }
