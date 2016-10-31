@@ -131,6 +131,7 @@ class PhotoAlbumView: UIView, FlickrFetchable {
             if !hasPhotos {
                 if pin.page > 1 {
                     /// This was an unsuccessful attempt at loading a new collection
+                    //TODO: pop an alert
                     pin.page -= 1
                     self.hasHitEndOfFlickrPhotos = true
                     self.toolbarButtonSetup()
@@ -175,19 +176,30 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     
     internal func toolbarButtonTapped() {
         if selectedIndexes.count == 0 {
+            /// No images selected, so this is a request for new collection
+            
             let successfulFetchCompletion = {
-                /// Clear out for the new photos
+                /**
+                 * Clear out for the new photos. 
+                 *
+                 * Photos are removed from CoreData in FlickrProvider 
+                 * fetchImagesForPin(pageNumber:completion:) only if there has 
+                 * been a successful search for more photos
+                 */
                 self.photos = [Photo]()
                 self.photosCollectionView.reloadData()
             }
             pin.page += 1
             performFlickrFetchForPin(pin, completion: successfulFetchCompletion)
         } else {
+            /// Delete only the selected photos
+            
             let newSet = NSMutableSet()
             
             selectedIndexes.sort() { $0.row > $1.row }
             
             for index in selectedIndexes {
+                stack.context.delete(photos![index.row])
                 photos!.remove(at: index.row)
             }
             newSet.addObjects(from: photos!)
