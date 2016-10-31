@@ -21,6 +21,7 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     fileprivate var pin: Pin!
     
     fileprivate var openPhotoClosure: ((Photo, IndexPath, Bool) -> Void)!
+    private var presentAlertClosure: (() -> Void)!
     
     /**
      Map View Constraints
@@ -44,12 +45,14 @@ class PhotoAlbumView: UIView, FlickrFetchable {
     
     //MARK: - Configuration
     
-    internal func configure(withPin pin: Pin, openPhotoHandler: @escaping (Photo, IndexPath, Bool) -> Void) {
-        self.pin = pin
-        openPhotoClosure = openPhotoHandler
+    internal func configure(withPin pin: Pin, openPhotoHandler: @escaping (Photo, IndexPath, Bool) -> Void, alertPresentationHandler: @escaping () -> Void) {
         
-        heightConstraint.constant = bounds.height * 0.25
-        widthConstraint.constant = bounds.height * 0.33
+        self.pin            = pin
+        openPhotoClosure    = openPhotoHandler
+        presentAlertClosure = alertPresentationHandler
+        
+        heightConstraint.constant   = bounds.height * 0.25
+        widthConstraint.constant    = bounds.height * 0.33
         
         configureMapView()
         configureToolbar()
@@ -131,10 +134,8 @@ class PhotoAlbumView: UIView, FlickrFetchable {
             if !hasPhotos {
                 if pin.page > 1 {
                     /// This was an unsuccessful attempt at loading a new collection
-                    //TODO: pop an alert
                     pin.page -= 1
-                    self.hasHitEndOfFlickrPhotos = true
-                    self.toolbarButtonSetup()
+                    self.presentAlertClosure()
                 } else {
                     let noImagesFoundVC = UIStoryboard(name: Constants.StoryBoardID.main, bundle: nil).instantiateViewController(withIdentifier: Constants.StoryBoardID.noPhotosFound) as! NoPhotosFoundViewController
                     
@@ -152,11 +153,21 @@ class PhotoAlbumView: UIView, FlickrFetchable {
         FlickrProvider.fetchImagesForPin(pin, pageNumber: pin.page, withCompletion: flickrFetchCompletion)
     }
     
+    internal func resetCollection() {
+        for photo in pin.photos! {
+            stack.context.delete(photo as! NSManagedObject)
+        }
+        pin.photos  = NSSet()
+        pin.page    = 1
+        photos?.removeAll()
+        photosCollectionView.reloadData()
+        configureCollectionViewData()
+    }
+    
     internal func toggleCellSelectionAtIndexPath(_ indexPath: IndexPath) {
         if let index = selectedIndexes.index(of: indexPath) {
             selectedIndexes.remove(at: index)
         } else {
-            magic("appending: \(indexPath)")
             selectedIndexes.append(indexPath)
         }
         

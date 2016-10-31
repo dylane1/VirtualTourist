@@ -34,7 +34,7 @@ class PhotoAlbumViewController: UIViewController {
             self!.openPhotoContainerViewControllerForPhoto(photo, atIndexPath: indexPath, isSelectedForDeletion: isSelected)
         }
         
-        photoAlbumView.configure(withPin: pin, openPhotoHandler: openPhotoHandler)
+        photoAlbumView.configure(withPin: pin, openPhotoHandler: openPhotoHandler, alertPresentationHandler: getAlertClosure())
     }
     
     //MARK: - Configuration
@@ -86,6 +86,27 @@ class PhotoAlbumViewController: UIViewController {
         
     }
 
+    //MARK: - Alert presentation
+    
+    private func getAlertClosure() -> () -> Void {
+        let presentAlertClosure = { [weak self] in
+            let alert = UIAlertController(
+                title: LocalizedStrings.EndOfPhotosReached.title,
+                message: LocalizedStrings.EndOfPhotosReached.message,
+                preferredStyle: .alert)
+            
+            let returnToBeginningClosure = { [weak self] (alert: UIAlertAction) in
+                self!.photoAlbumView.resetCollection()
+            }
+            
+            alert.addAction(UIAlertAction(title: LocalizedStrings.EndOfPhotosReached.noThanksButton, style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: LocalizedStrings.EndOfPhotosReached.okButton, style: .default, handler: returnToBeginningClosure))
+            
+            self!.present(alert, animated: true, completion: nil)
+            
+        }
+        return presentAlertClosure
+    }
 }
 
 //MARK: - 
