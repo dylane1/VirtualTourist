@@ -38,6 +38,7 @@
 		A3BC6C781DC28847003BD382 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3BC6C741DC28847003BD382 /* Default-736h@3x.png */; };
 		A3BC6C791DC28847003BD382 /* Default-736w@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3BC6C751DC28847003BD382 /* Default-736w@3x.png */; };
 		A3BC6C7B1DC28B1F003BD382 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3BC6C7A1DC28B1F003BD382 /* Default-568h@2x.png */; };
+		A3C412CC20C6E96C004C2C08 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A3C412CB20C6E96C004C2C08 /* README.md */; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
 		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
 		A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */; };
@@ -127,6 +128,7 @@
 		A3BC6C741DC28847003BD382 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		A3BC6C751DC28847003BD382 /* Default-736w@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736w@3x.png"; sourceTree = "<group>"; };
 		A3BC6C7A1DC28B1F003BD382 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A3C412CB20C6E96C004C2C08 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
@@ -285,6 +287,7 @@
 				A36C957D1D64D69200DED8DB /* Main.storyboard */,
 				A36C95801D64D69200DED8DB /* Assets.xcassets */,
 				A36C95851D64D69200DED8DB /* Info.plist */,
+				A3C412CB20C6E96C004C2C08 /* README.md */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				A36C95811D64D69200DED8DB /* Assets.xcassets in Resources */,
 				A3BC6C771DC28847003BD382 /* Default-667h@2x.png in Resources */,
 				A3BC6C791DC28847003BD382 /* Default-736w@3x.png in Resources */,
+				A3C412CC20C6E96C004C2C08 /* README.md in Resources */,
 				A3BC6C781DC28847003BD382 /* Default-736h@3x.png in Resources */,
 				A36C957F1D64D69200DED8DB /* Main.storyboard in Resources */,
 				A3BC6C7B1DC28B1F003BD382 /* Default-568h@2x.png in Resources */,
