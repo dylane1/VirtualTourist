@@ -17,13 +17,6 @@ struct Constants {
         static let photoContainer   = "photoContainer"
     }
     
-    //MARK: - Network
-    
-    struct Flickr {
-        static let key      = "446dfaa1521e824779ddb5cd32d363a4"
-        static let secret   = "53cc541820255f86"
-    }
-    
     struct FontName {
         static let markerFelt   = "MarkerFelt-Wide"
         static let avenirHeavy  = "Avenir-Heavy"
