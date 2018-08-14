@@ -257,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				A3C746A421227E5D00A19CA8 /* Keys.plist */,
+				A3C412CB20C6E96C004C2C08 /* README.md */,
 				A36C95781D64D69200DED8DB /* Virtual Tourist */,
 				A36C95771D64D69200DED8DB /* Products */,
 			);
@@ -290,7 +291,6 @@
 				A36C957D1D64D69200DED8DB /* Main.storyboard */,
 				A36C95801D64D69200DED8DB /* Assets.xcassets */,
 				A36C95851D64D69200DED8DB /* Info.plist */,
-				A3C412CB20C6E96C004C2C08 /* README.md */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
