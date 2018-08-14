@@ -22,7 +22,18 @@ struct FlickrProvider {
         /**
          * API Documentation:  https://www.flickr.com/services/api/flickr.photos.search.html
          **/
-        let queryString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(Constants.Flickr.key)&lat=\(lat)&lon=\(lon)&per_page=16&page=\(page)&format=json&nojsoncallback=1"
+        var keys: NSDictionary?
+        
+        var flickrKey = ""
+        
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: path)
+        }
+        if let dict = keys {
+            flickrKey = dict["flickrKey"] as! String
+        }
+        
+        let queryString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(flickrKey)&lat=\(lat)&lon=\(lon)&per_page=16&page=\(page)&format=json&nojsoncallback=1"
         
         let url = URL(string: queryString)!
         

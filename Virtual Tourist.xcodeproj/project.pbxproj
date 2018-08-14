@@ -40,6 +40,7 @@
 		A3BC6C7B1DC28B1F003BD382 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3BC6C7A1DC28B1F003BD382 /* Default-568h@2x.png */; };
 		A3C412CC20C6E96C004C2C08 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A3C412CB20C6E96C004C2C08 /* README.md */; };
 		A3C522C91D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */; };
+		A3C746A521227E5D00A19CA8 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3C746A421227E5D00A19CA8 /* Keys.plist */; };
 		A3F69E111D89FA0300FFE37E /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F69E101D89FA0300FFE37E /* Magic.swift */; };
 		A3F71F301D91EE01004BD54E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */; };
 		A3F71F311D91EE01004BD54E /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F71F2D1D91EE01004BD54E /* Pin+CoreDataProperties.swift */; };
@@ -131,6 +132,7 @@
 		A3C412CB20C6E96C004C2C08 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A3C522C81D878951001C8F68 /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3C72C8D1DA6D290006A1F43 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
+		A3C746A421227E5D00A19CA8 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		A3F69E101D89FA0300FFE37E /* Magic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Magic.swift; path = Frameworks/External/Magic/Magic.swift; sourceTree = SOURCE_ROOT; };
 		A3F71F2C1D91EE01004BD54E /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3F71F2D1D91EE01004BD54E /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 		A36C956D1D64D69200DED8DB = {
 			isa = PBXGroup;
 			children = (
+				A3C746A421227E5D00A19CA8 /* Keys.plist */,
 				A36C95781D64D69200DED8DB /* Virtual Tourist */,
 				A36C95771D64D69200DED8DB /* Products */,
 			);
@@ -390,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C746A521227E5D00A19CA8 /* Keys.plist in Resources */,
 				A36C95811D64D69200DED8DB /* Assets.xcassets in Resources */,
 				A3BC6C771DC28847003BD382 /* Default-667h@2x.png in Resources */,
 				A3BC6C791DC28847003BD382 /* Default-736w@3x.png in Resources */,
@@ -579,6 +583,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C6TW237FTY;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.slingingpixels.Virtual-Tourist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -593,6 +598,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C6TW237FTY;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.slingingpixels.Virtual-Tourist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
